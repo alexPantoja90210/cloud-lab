@@ -1,0 +1,6 @@
+# Keep line endings stable across Windows and Linux; the shell script must stay LF to run in bash.
+* text=auto
+*.sh text eol=lf
+*.tf text eol=lf
+*.hcl text eol=lf
+*.md text eol=lf

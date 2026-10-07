@@ -1,0 +1,22 @@
+# Terraform working files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.plan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Per-operator values (names of backends, identifiers). Never committed.
+*.local.hcl
+*.local.tfvars
+terraform.tfvars
+*.auto.tfvars
+
+# Editor / OS
+.DS_Store
+Thumbs.db
