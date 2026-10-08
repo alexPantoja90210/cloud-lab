@@ -23,6 +23,7 @@ terraform -chdir="$dir" destroy -input=false -no-color -auto-approve 2>&1 \
       -e 's/id=Y2xpZW50[A-Za-z0-9+\/=]+/id=<redacted-client-config>/g' \
       -e 's/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F-]*/<redacted-guid>/g' \
       -e 's/\b[0-9]{12}\b/<redacted-account-id>/g' \
+      -e 's/\b[0-9a-f]{64}\b/<redacted-canonical-id>/g' \
   | tee "$out"
 
 echo

@@ -99,3 +99,11 @@ A problem that was not fixed is recorded as such.
 - **Fix:** the file was converted to UTF-8 with LF line endings and re-scanned. For new captures pipe to `Out-File -Encoding utf8`, or convert before scanning.
 - **Still open:** no. Any scan of evidence must first confirm the file is UTF-8, otherwise a "clean" result means nothing.
 - **Source:** `file` on the capture, 8 Oct 2026.
+
+### 2026-10-08: S3 canonical user ID in destroy output (caught before commit)
+
+- **Symptom:** the AWS layer 1 destroy output printed the bucket's `grant` block with a 64-character hexadecimal id, the account's S3 canonical user ID. The redaction covered 12-digit account IDs and GUIDs but not this identifier.
+- **Root cause:** each cloud prints a different kind of account-linked identifier; the filter only knew the ones already seen (Azure GUIDs, base64 client config, AWS account numbers).
+- **Fix:** `scripts/teardown.sh` also redacts any 64-character hex string; the evidence file was redacted the same way before commit and re-scanned for long hex strings.
+- **Still open:** redaction is still a filter. New resource types can print new identifiers; read every evidence file before committing, and extend the filter each time something new is found.
+- **Source:** `evidence/destroy-aws-20261008T192351Z.txt`.
