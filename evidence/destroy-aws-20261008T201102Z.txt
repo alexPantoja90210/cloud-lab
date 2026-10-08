@@ -1,0 +1,126 @@
+random_string.probe_suffix: Refreshing state... [id=cuc8g5lu]
+aws_s3_bucket.probe: Refreshing state... [id=cloud-lab-identity-probe-cuc8g5lu]
+aws_s3_bucket_public_access_block.probe: Refreshing state... [id=cloud-lab-identity-probe-cuc8g5lu]
+aws_s3_object.hello: Refreshing state... [id=cloud-lab-identity-probe-cuc8g5lu/hello.txt]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_s3_bucket.probe will be destroyed
+  - resource "aws_s3_bucket" "probe" {
+      - arn                         = "arn:aws:s3:::cloud-lab-identity-probe-cuc8g5lu" -> null
+      - bucket                      = "cloud-lab-identity-probe-cuc8g5lu" -> null
+      - bucket_domain_name          = "cloud-lab-identity-probe-cuc8g5lu.s3.amazonaws.com" -> null
+      - bucket_namespace            = "global" -> null
+      - bucket_region               = "us-east-1" -> null
+      - bucket_regional_domain_name = "cloud-lab-identity-probe-cuc8g5lu.s3.us-east-1.amazonaws.com" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "cloud-lab-identity-probe-cuc8g5lu" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "domain" = "identity"
+        } -> null
+      - tags_all                    = {
+          - "domain" = "identity"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "<redacted-canonical-id>" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket_public_access_block.probe will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "probe" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "cloud-lab-identity-probe-cuc8g5lu" -> null
+      - id                      = "cloud-lab-identity-probe-cuc8g5lu" -> null
+      - ignore_public_acls      = true -> null
+      - region                  = "us-east-1" -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # aws_s3_object.hello will be destroyed
+  - resource "aws_s3_object" "hello" {
+      - arn                           = "arn:aws:s3:::cloud-lab-identity-probe-cuc8g5lu/hello.txt" -> null
+      - bucket                        = "cloud-lab-identity-probe-cuc8g5lu" -> null
+      - bucket_key_enabled            = false -> null
+      - content                       = "hello from the cloud lab" -> null
+      - content_type                  = "text/plain" -> null
+      - etag                          = "c3d649c89a1ca93e1c91535d6e97d9de" -> null
+      - force_destroy                 = false -> null
+      - id                            = "cloud-lab-identity-probe-cuc8g5lu/hello.txt" -> null
+      - key                           = "hello.txt" -> null
+      - metadata                      = {} -> null
+      - region                        = "us-east-1" -> null
+      - server_side_encryption        = "AES256" -> null
+      - storage_class                 = "STANDARD" -> null
+      - tags                          = {} -> null
+      - tags_all                      = {
+          - "lab"   = "cloud-lab"
+          - "layer" = "1"
+        } -> null
+        # (14 unchanged attributes hidden)
+    }
+
+  # random_string.probe_suffix will be destroyed
+  - resource "random_string" "probe_suffix" {
+      - id          = "cuc8g5lu" -> null
+      - length      = 8 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = "cuc8g5lu" -> null
+      - special     = false -> null
+      - upper       = false -> null
+    }
+
+Plan: 0 to add, 0 to change, 4 to destroy.
+
+Changes to Outputs:
+  - probe_bucket = "cloud-lab-identity-probe-cuc8g5lu" -> null
+  - target_tags  = "lab=cloud-lab, layer=1" -> null
+aws_s3_bucket_public_access_block.probe: Destroying... [id=cloud-lab-identity-probe-cuc8g5lu]
+aws_s3_object.hello: Destroying... [id=cloud-lab-identity-probe-cuc8g5lu/hello.txt]
+aws_s3_object.hello: Destruction complete after 1s
+aws_s3_bucket_public_access_block.probe: Destruction complete after 1s
+aws_s3_bucket.probe: Destroying... [id=cloud-lab-identity-probe-cuc8g5lu]
+aws_s3_bucket.probe: Destruction complete after 1s
+random_string.probe_suffix: Destroying... [id=cuc8g5lu]
+random_string.probe_suffix: Destruction complete after 0s
+
+Destroy complete! Resources: 4 destroyed.
