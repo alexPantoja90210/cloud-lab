@@ -33,4 +33,6 @@ Each path must print the rule that ignores it.
 
 Dated entries, newest last. Every deviation from the steps above goes here.
 
-- _(empty)_
+
+- 2026-10-07: tools installed with winget: Terraform 1.16.5, Azure CLI 2.91.0. `terraform fmt -check` and `validate` pass in all four roots; provider lock files committed (azurerm 4.81.0, aws 6.68.0, random 3.9.1, time 0.14.2).
+- 2026-10-07: Azure layer 0 bootstrap applied (7 resources, East US 2). First Azure `destroy` against the empty layer 1: "Resources: 0 destroyed", output in `evidence/`. Bootstrap state backed up outside the repository and outside OneDrive.

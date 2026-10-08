@@ -1,0 +1,9 @@
+Acquiring state lock. This may take a few moments...
+
+No changes. No objects need to be destroyed.
+
+Either you have not created any objects yet or the existing objects were
+already deleted outside of Terraform.
+Releasing state lock. This may take a few moments...
+
+Destroy complete! Resources: 0 destroyed.

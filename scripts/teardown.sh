@@ -16,9 +16,9 @@ out="$root/evidence/destroy-$cloud-$(date -u +%Y%m%dT%H%M%SZ).txt"
 
 [ -f "$backend" ] || { echo "missing $backend (see $cloud/bootstrap/README.md)" >&2; exit 1; }
 
-terraform -chdir="$dir" init -input=false -backend-config=backend.local.hcl
+terraform -chdir="$dir" init -input=false -no-color -backend-config=backend.local.hcl
 # -auto-approve is acceptable here because layer 1 is a separate root from layer 0.
-terraform -chdir="$dir" destroy -input=false -auto-approve 2>&1 \
+terraform -chdir="$dir" destroy -input=false -no-color -auto-approve 2>&1 \
   | sed -E \
       -e 's/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/<redacted-guid>/g' \
       -e 's/\b[0-9]{12}\b/<redacted-account-id>/g' \
