@@ -25,3 +25,8 @@ On AWS these are provider `default_tags`. On Azure they are set on the resource 
 ## Azure VM states, for the cost reading
 
 Stopped (Allocated) is billed. Stopped (Deallocated) stops compute billing, but disks and networking still bill. Destroy is the only free state.
+
+## Identity roots (CLOUD-24)
+
+`azure/identity/` is a second layer 0 root with its own state key (`identity.tfstate`): the custom role, the resource group that holds the managed identity (`rg-cloud-lab-identity`), the identity itself and its role assignment. All free, all `prevent_destroy`, never in `scripts/teardown.sh`.
+The layer 1 probe only reads the identity (data source), so a teardown cannot remove it.

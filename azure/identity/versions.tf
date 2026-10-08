@@ -6,17 +6,9 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.6"
-    }
-    time = {
-      source  = "hashicorp/time"
-      version = "~> 0.12"
-    }
   }
 
-  # Partial configuration. Values come from backend.local.hcl (gitignored):
+  # Layer 0 root with its own state key. Values come from backend.local.hcl (gitignored):
   #   terraform init -backend-config=backend.local.hcl
   backend "azurerm" {}
 }

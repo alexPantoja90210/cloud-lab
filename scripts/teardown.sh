@@ -20,7 +20,8 @@ terraform -chdir="$dir" init -input=false -no-color -backend-config=backend.loca
 # -auto-approve is acceptable here because layer 1 is a separate root from layer 0.
 terraform -chdir="$dir" destroy -input=false -no-color -auto-approve 2>&1 \
   | sed -E \
-      -e 's/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/<redacted-guid>/g' \
+      -e 's/id=Y2xpZW50[A-Za-z0-9+\/=]+/id=<redacted-client-config>/g' \
+      -e 's/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F-]*/<redacted-guid>/g' \
       -e 's/\b[0-9]{12}\b/<redacted-account-id>/g' \
   | tee "$out"
 
