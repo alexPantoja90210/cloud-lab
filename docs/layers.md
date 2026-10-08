@@ -30,3 +30,5 @@ Stopped (Allocated) is billed. Stopped (Deallocated) stops compute billing, but 
 
 `azure/identity/` is a second layer 0 root with its own state key (`identity.tfstate`): the custom role, the resource group that holds the managed identity (`rg-cloud-lab-identity`), the identity itself and its role assignment. All free, all `prevent_destroy`, never in `scripts/teardown.sh`.
 The layer 1 probe only reads the identity (data source), so a teardown cannot remove it.
+
+`aws/identity/` is the AWS counterpart: the `lab-s3-reader` role, its trust policy and its permission policy, with state key `identity.tfstate`. The account ID is built at plan time from the caller's identity and the trusted user name comes from a gitignored `identity.local.tfvars`, so neither is ever written in a file.

@@ -82,3 +82,20 @@ A problem that was not fixed is recorded as such.
 - **Fix:** `scripts/teardown.sh` now also redacts `id=Y2xpZW50...` (base64 client config) and any GUID prefix, including truncated ones. The affected evidence file was redacted the same way before it was ever committed, and re-scanned, including for long base64 tokens.
 - **Still open:** redaction is a filter, not a guarantee. Rule: read every file in `evidence/` before committing, and never commit raw Terraform output.
 - **Source:** `evidence/destroy-azure-20261008T034336Z.txt`, 7 Oct 2026.
+
+### 2026-10-08: AWS CLI reuses cached role credentials across profiles, hiding the trust-policy denial
+
+- **Symptom:** the first capture ran "read as `lab-reader`", "write as `lab-reader`", then "read as `lab-intruder`" (a profile whose source is a user that is NOT in the trust policy). The intruder read succeeded, with the same object timestamp as the first read.
+- **Root cause:** the CLI caches temporary credentials per role. The cache key is built from the role ARN and assume-role parameters, not from the source profile, so `lab-intruder` reused the session `lab-reader` had just opened and never called `sts:AssumeRole` as the intruder. The trust policy was never at fault.
+- **How it was told apart from a real defect:** (1) the stored trust policy was read back and names exactly one user (not the intruder, not the account root); (2) `sts:AssumeRole` called directly as the intruder returned `AccessDenied`; (3) with the cache emptied, the same profile-based intruder test was denied with exit code 254.
+- **Fix:** denial tests on a trust policy call `aws sts assume-role` directly (or run with an empty `~/.aws/cli/cache`, intruder first). The invalid first capture was discarded, not committed.
+- **Still open:** no. Rule: a test that is expected to fail and passes is investigated as a possible defect before anything is "fixed", and the cause is proven, not assumed.
+- **Source:** capture of 8 Oct 2026, 19:22 UTC (`evidence/aws-identity-denial-…txt`), and the discarded run of 19:18 UTC.
+
+### 2026-10-08: PowerShell `Tee-Object` wrote the evidence file as UTF-16
+
+- **Symptom:** the saved evidence file looked fine in the terminal but was unreadable to `grep` and would have shown as binary in git; a scan for 12-digit numbers on it returned "clean" for the wrong reason (NUL bytes between characters).
+- **Root cause:** Windows PowerShell's `Tee-Object -FilePath` defaults to UTF-16 with a BOM.
+- **Fix:** the file was converted to UTF-8 with LF line endings and re-scanned. For new captures pipe to `Out-File -Encoding utf8`, or convert before scanning.
+- **Still open:** no. Any scan of evidence must first confirm the file is UTF-8, otherwise a "clean" result means nothing.
+- **Source:** `file` on the capture, 8 Oct 2026.

@@ -1,0 +1,17 @@
+== probe start (UTC): 2026-10-08T19:22:10Z
+== 1. ASSUME ROLE as a user outside the trust policy, via profile, empty CLI cache (not allowed):
+
+aws: [ERROR]: An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:iam::<redacted-account-id>:user/titan-embed is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::<redacted-account-id>:role/lab-s3-reader
+== exit code: 254
+== 2. Same, calling sts:AssumeRole directly (not allowed):
+
+aws: [ERROR]: An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:iam::<redacted-account-id>:user/titan-embed is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::<redacted-account-id>:role/lab-s3-reader
+== exit code: 254
+== 3. READ via assumed role (allowed):
+2026-10-08 13:17:41         24 hello.txt
+== read exit code: 0
+== 4. WRITE via assumed role (not allowed):
+Completed 23 Bytes/23 Bytes (28 Bytes/s) with 1 file(s) remaining
+upload failed: ..\..\Users\tojap\AppData\Local\Temp\denied.txt to s3://cloud-lab-identity-probe-4ttait1x/denied.txt An error occurred (AccessDenied) when calling the PutObject operation: User: arn:aws:sts::<redacted-account-id>:assumed-role/lab-s3-reader/botocore-session-1791487335 is not authorized to perform: s3:PutObject on resource: "arn:aws:s3:::cloud-lab-identity-probe-4ttait1x/denied.txt" because no identity-based policy allows the s3:PutObject action
+== write exit code: 1
+== probe end (UTC): 2026-10-08T19:22:20Z
