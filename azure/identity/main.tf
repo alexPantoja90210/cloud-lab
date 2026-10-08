@@ -7,8 +7,9 @@ data "azurerm_resource_group" "lab" {
 
 locals {
   tags = {
-    lab   = "cloud-lab"
-    layer = "0"
+    lab    = "cloud-lab"
+    layer  = "0"
+    domain = "identity"
   }
 }
 

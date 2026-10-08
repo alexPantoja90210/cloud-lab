@@ -29,7 +29,7 @@ resource "azurerm_storage_account" "probe_target" {
   default_to_oauth_authentication = true
   allow_nested_items_to_be_public = false
 
-  tags = local.tags
+  tags = merge(local.tags, { domain = "identity" })
 }
 
 # The operator needs data-plane rights to create the container and blob (keys are off).
@@ -100,7 +100,7 @@ resource "azurerm_container_group" "probe" {
     commands = ["/bin/sh", "-c", local.probe_script]
   }
 
-  tags = local.tags
+  tags = merge(local.tags, { domain = "identity" })
 
   depends_on = [azurerm_storage_blob.hello]
 }

@@ -11,6 +11,10 @@ resource "random_string" "probe_suffix" {
 resource "aws_s3_bucket" "probe" {
   bucket        = "cloud-lab-identity-probe-${random_string.probe_suffix.result}"
   force_destroy = true
+
+  tags = {
+    domain = "identity"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "probe" {

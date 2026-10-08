@@ -18,8 +18,9 @@ provider "aws" {
 
   default_tags {
     tags = {
-      lab   = "cloud-lab"
-      layer = "0"
+      lab    = "cloud-lab"
+      layer  = "0"
+      domain = "identity"
     }
   }
 }

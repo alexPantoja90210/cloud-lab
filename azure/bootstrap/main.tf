@@ -1,7 +1,8 @@
 locals {
   tags_layer0 = {
-    lab   = "cloud-lab"
-    layer = "0"
+    lab    = "cloud-lab"
+    layer  = "0"
+    domain = "foundation"
   }
 }
 
