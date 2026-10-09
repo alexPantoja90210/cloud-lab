@@ -23,7 +23,7 @@ The lab did the same thing on both clouds: define one tag scheme in Terraform (`
 
 ## What each one could not tell us here
 
-- Azure: which specific resource the cost belongs to. The reading stopped at the tag level; a by-service or by-resource grouping was not read.
+- Azure: which specific resource the cost belongs to. A by-service grouping was read on 9 Oct (see below); a by-resource grouping was not.
 - AWS: anything about cost, beyond the credit balance. Cost Explorer (unblended, by service and by tag) was not read.
 - Both: the size of the difference between container instances and storage for the probe. At under one cent, the bill cannot rank them.
 
@@ -32,3 +32,7 @@ The lab did the same thing on both clouds: define one tag scheme in Terraform (`
 - AWS: `domain` is activated (9 Oct). Read Cost Explorer by service and by tag (unblended) after the storage session, which is the first usage classified by `domain`.
 - Both: attribute one day's cost to a specific resource and record it with its read date.
 - Update this note, and tick the AWS cost bullet in `docs/study/identity-aws.md`, when those readings exist.
+
+## Azure by tag and service, read on 9 Oct 2026
+
+Actual cost for 7 to 10 Oct, grouped by `domain` and service (Cost Management query, free to call): Container Instances 0.0018 USD (0.0007 tagged `identity`, 0.0011 untagged from the earlier probe), Storage 0.0001 USD (`foundation` and untagged), Bandwidth 0. Total about 0.0019 USD. Container Instances is about 95 percent of it, so for the identity probe the container group, not the storage account, was the cost. No `storage` row exists yet because the CLOUD-26 usage had not been reported; it is read again on 10 Oct. This is attribution to a service, not to a single resource.
