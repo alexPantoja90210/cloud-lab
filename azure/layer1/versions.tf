@@ -22,6 +22,13 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    storage {
+      # CLOUD-26: the storage account is read through the management plane only. Layer 1 uses no
+      # queue_properties or static_website, and with public network access closed the data plane
+      # read would fail on refresh and on destroy.
+      data_plane_available = false
+    }
+  }
   storage_use_azuread = true
 }

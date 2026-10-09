@@ -107,3 +107,28 @@ A problem that was not fixed is recorded as such.
 - **Fix:** `scripts/teardown.sh` also redacts any 64-character hex string; the evidence file was redacted the same way before commit and re-scanned for long hex strings.
 - **Still open:** redaction is still a filter. New resource types can print new identifiers; read every evidence file before committing, and extend the filter each time something new is found.
 - **Source:** `evidence/destroy-aws-20261008T192351Z.txt`.
+
+### 2026-10-08: AWS cost allocation tags page refused an IAM admin: "IAM user access not activated"
+
+- **Symptom:** opening Billing and Cost Management, Cost allocation tags, as the IAM admin user returned "Access denied. You do not have permission to perform this action", with the text `IAM user access not activated`.
+- **Root cause:** the account setting "IAM user and role access to Billing information" is off by default, and only the account root can change it. Attached IAM policies do not override it.
+- **Fix:** the root user turned the setting on once (reported by the operator). The IAM admin could then open the page and activate `lab` and `layer`. Root was used for that one step only, with no access keys created.
+- **Still open:** no.
+- **Source:** AWS console, 8 Oct 2026.
+
+### 2026-10-08: plan showed 2 changes where 1 was expected, because a data source was read late
+
+- **Symptom:** `aws/bootstrap` planned `0 to add, 2 to change`; the code had one taggable resource (the state bucket). The extra change was `aws_s3_bucket_policy.state`.
+- **Root cause:** the policy document is a data source that uses the bucket's ARN. The bucket had a pending tag change, so Terraform deferred the data source read to apply time (`will be read during apply (depends on a resource or a module with changes pending)`) and showed the policy as changing to `(known after apply)`.
+- **How it was told apart from a real change:** the full plan block ended in `-> (known after apply)`; the apply reported `1 changed`; a plan afterwards said `No changes`. A first look at a truncated excerpt, with only the `-` lines visible, made it look like a real diff, so the whole block was read before deciding.
+- **Fix:** none needed. Read the complete block for any resource that looks unexpected; expected counts derived from the code can miss resources that depend on a changing one.
+- **Still open:** no.
+- **Source:** `terraform plan` and `apply` output, 8 Oct 2026.
+
+### 2026-10-09: AWS cost allocation tag `domain` was not listed a day after first use
+
+- **Symptom:** `lab` and `layer` appeared in Billing, Cost allocation tags (inactive) on 8 Oct and were activated. `domain`, applied on 8 Oct, was still not in the list at 08:40 local on 9 Oct.
+- **Root cause:** not confirmed. Probable: the list only offers keys already seen on billed usage, and the probe bucket lived about 6 minutes, with the state bucket carrying the tag since 8 Oct afternoon.
+- **Fix:** none needed. It was listed as inactive at about 09:00 local on 9 Oct, roughly a day after first use, and activated that morning. The state bucket (which carries it since 8 Oct) most likely made it visible, not the 6-minute probe bucket, but this was not confirmed.
+- **Still open:** no for the listing; whether the probe bucket alone would have surfaced it is untested.
+- **Source:** AWS console, 9 Oct 2026.
