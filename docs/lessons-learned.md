@@ -132,3 +132,19 @@ A problem that was not fixed is recorded as such.
 - **Fix:** none needed. It was listed as inactive at about 09:00 local on 9 Oct, roughly a day after first use, and activated that morning. The state bucket (which carries it since 8 Oct) most likely made it visible, not the 6-minute probe bucket, but this was not confirmed.
 - **Still open:** no for the listing; whether the probe bucket alone would have surfaced it is untested.
 - **Source:** AWS console, 9 Oct 2026.
+
+### 2026-10-09: Git Bash crashed (exit code -1073741819) on a native call with embedded double quotes
+
+- **Symptom:** `scripts/capture.sh aws-tag-query '... --query "ResourceTagMappingList[].ResourceARN"'` run from PowerShell 5.1 printed nothing and wrote no file. `$LASTEXITCODE` was `-1073741819` (0xC0000005, an access violation), so bash itself died before the script could print or refuse anything.
+- **Root cause:** not confirmed. The only difference from the call that worked was the embedded double quotes inside the single-quoted command, which PowerShell 5.1 strips or mangles when it builds the native command line. The retry without double quotes ran normally.
+- **Fix:** keep double quotes out of anything passed through `capture.sh`. Use `--output text` and pipe through `sed` with doubled single quotes (`''...''`), or run the command directly in PowerShell when it needs a JMESPath `--query` and capture is not required.
+- **Still open:** the exact trigger of the crash is not known.
+- **Source:** PowerShell and `$LASTEXITCODE`, 9 Oct 2026.
+
+### 2026-10-09: the first redactor left identifiers in published teardown output
+
+- **Symptom:** the `destroy-*` files from 8 Oct, and the first copies from 9 Oct, still showed ARNs, CloudFront ids, bucket and storage account names, and the random suffixes that complete those names. The redactor only covered GUIDs, 12-digit ids, hashes and endpoints, and `teardown.sh` did not run the leftover scan that `capture.sh` has.
+- **Root cause:** the rules were written for what the first outputs contained; a destroy plan prints the full state of every resource, which is a different set of identifiers.
+- **Fix:** rules added to `scripts/redact.sed` for ARNs, CloudFront ids, session-named resources and etags, and the same patterns added to the `capture.sh` scan. The random suffixes were removed with a one-off substitution that is deliberately not kept in the repo, because listing the values would publish them. Every file was read after redaction.
+- **Still open:** `teardown.sh` still has no fail-closed scan. Today it redacts but does not refuse.
+- **Source:** `scripts/redact.sed`, evidence files, 9 Oct 2026.
