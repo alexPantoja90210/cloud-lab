@@ -1,0 +1,534 @@
+random_string.probe_suffix: Refreshing state... [id=<redacted-suffix>]
+random_string.storage_suffix: Refreshing state... [id=<redacted-suffix>]
+data.aws_cloudfront_cache_policy.caching_disabled: Reading...
+aws_cloudfront_origin_access_control.storage: Refreshing state... [id=<redacted-cloudfront-id>]
+aws_s3_bucket.storage: Refreshing state... [id=cloud-lab-storage-<redacted-suffix>]
+aws_s3_bucket.probe: Refreshing state... [id=cloud-lab-identity-probe-<redacted-suffix>]
+data.aws_cloudfront_cache_policy.caching_disabled: Read complete after 0s [id=<redacted-guid>]
+aws_s3_bucket_ownership_controls.storage: Refreshing state... [id=cloud-lab-storage-<redacted-suffix>]
+aws_cloudfront_distribution.storage: Refreshing state... [id=<redacted-cloudfront-id>]
+aws_s3_bucket_public_access_block.probe: Refreshing state... [id=cloud-lab-identity-probe-<redacted-suffix>]
+aws_s3_object.hello: Refreshing state... [id=cloud-lab-identity-probe-<redacted-suffix>/hello.txt]
+aws_s3_bucket_public_access_block.storage: Refreshing state... [id=cloud-lab-storage-<redacted-suffix>]
+aws_s3_object.storage_sample: Refreshing state... [id=cloud-lab-storage-<redacted-suffix>/sample.txt]
+aws_s3_bucket_lifecycle_configuration.storage: Refreshing state... [id=cloud-lab-storage-<redacted-suffix>]
+data.aws_iam_policy_document.storage: Reading...
+data.aws_iam_policy_document.storage: Read complete after 0s [id=1574873134]
+aws_s3_bucket_policy.storage: Refreshing state... [id=cloud-lab-storage-<redacted-suffix>]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_cloudfront_distribution.storage will be destroyed
+  - resource "aws_cloudfront_distribution" "storage" {
+      - aliases                         = [] -> null
+      - arn                             = "<redacted-arn>" -> null
+      - caller_reference                = "terraform-20261009153317548200000001" -> null
+      - comment                         = "cloud-lab storage session (CLOUD-26)" -> null
+      - default_root_object             = "sample.txt" -> null
+      - domain_name                     = "<redacted-cloudfront-domain>" -> null
+      - enabled                         = true -> null
+      - etag                            = "<redacted-etag>" -> null
+      - hosted_zone_id                  = "Z2FDTNDATAQYW2" -> null
+      - http_version                    = "http2" -> null
+      - id                              = "<redacted-cloudfront-id>" -> null
+      - in_progress_validation_batches  = 0 -> null
+      - is_ipv6_enabled                 = false -> null
+      - last_modified_time              = "2026-10-09 15:33:17.389 +0000 UTC" -> null
+      - logging_v1_enabled              = false -> null
+      - price_class                     = "PriceClass_100" -> null
+      - retain_on_delete                = false -> null
+      - staging                         = false -> null
+      - status                          = "Deployed" -> null
+      - tags                            = {
+          - "domain" = "storage"
+        } -> null
+      - tags_all                        = {
+          - "domain" = "storage"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - trusted_key_groups              = [
+          - {
+              - enabled = false
+              - items   = []
+            },
+        ] -> null
+      - trusted_signers                 = [
+          - {
+              - enabled = false
+              - items   = []
+            },
+        ] -> null
+      - wait_for_deployment             = true -> null
+        # (3 unchanged attributes hidden)
+
+      - default_cache_behavior {
+          - allowed_methods            = [
+              - "GET",
+              - "HEAD",
+            ] -> null
+          - cache_policy_id            = "<redacted-guid>" -> null
+          - cached_methods             = [
+              - "GET",
+              - "HEAD",
+            ] -> null
+          - compress                   = false -> null
+          - default_ttl                = 0 -> null
+          - max_ttl                    = 0 -> null
+          - min_ttl                    = 0 -> null
+          - smooth_streaming           = false -> null
+          - target_origin_id           = "storage" -> null
+          - trusted_key_groups         = [] -> null
+          - trusted_signers            = [] -> null
+          - viewer_protocol_policy     = "redirect-to-https" -> null
+            # (4 unchanged attributes hidden)
+
+          - grpc_config {
+              - enabled = false -> null
+            }
+        }
+
+      - origin {
+          - connection_attempts         = 3 -> null
+          - connection_timeout          = 10 -> null
+          - domain_name                 = "<redacted-s3-endpoint>" -> null
+          - origin_access_control_id    = "<redacted-cloudfront-id>" -> null
+          - origin_id                   = "storage" -> null
+          - response_completion_timeout = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - restrictions {
+          - geo_restriction {
+              - locations        = [] -> null
+              - restriction_type = "none" -> null
+            }
+        }
+
+      - viewer_certificate {
+          - cloudfront_default_certificate = true -> null
+          - minimum_protocol_version       = "TLSv1" -> null
+            # (3 unchanged attributes hidden)
+        }
+    }
+
+  # aws_cloudfront_origin_access_control.storage will be destroyed
+  - resource "aws_cloudfront_origin_access_control" "storage" {
+      - arn                               = "<redacted-arn>" -> null
+      - description                       = "CLOUD-26: only this distribution may read the private bucket" -> null
+      - etag                              = "<redacted-etag>" -> null
+      - id                                = "<redacted-cloudfront-id>" -> null
+      - name                              = "cloud-lab-storage-<redacted-suffix>" -> null
+      - origin_access_control_origin_type = "s3" -> null
+      - signing_behavior                  = "always" -> null
+      - signing_protocol                  = "sigv4" -> null
+    }
+
+  # aws_s3_bucket.probe will be destroyed
+  - resource "aws_s3_bucket" "probe" {
+      - arn                         = "<redacted-arn>" -> null
+      - bucket                      = "cloud-lab-identity-probe-<redacted-suffix>" -> null
+      - bucket_domain_name          = "<redacted-s3-endpoint>" -> null
+      - bucket_namespace            = "global" -> null
+      - bucket_region               = "us-east-1" -> null
+      - bucket_regional_domain_name = "<redacted-s3-endpoint>" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "cloud-lab-identity-probe-<redacted-suffix>" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "domain" = "identity"
+        } -> null
+      - tags_all                    = {
+          - "domain" = "identity"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "<redacted-canonical-id>" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket.storage will be destroyed
+  - resource "aws_s3_bucket" "storage" {
+      - arn                         = "<redacted-arn>" -> null
+      - bucket                      = "cloud-lab-storage-<redacted-suffix>" -> null
+      - bucket_domain_name          = "<redacted-s3-endpoint>" -> null
+      - bucket_namespace            = "global" -> null
+      - bucket_region               = "us-east-1" -> null
+      - bucket_regional_domain_name = "<redacted-s3-endpoint>" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "cloud-lab-storage-<redacted-suffix>" -> null
+      - object_lock_enabled         = false -> null
+      - policy                      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "s3:GetObject"
+                      - Condition = {
+                          - StringEquals = {
+                              - "AWS:SourceArn" = "<redacted-arn>"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "cloudfront.amazonaws.com"
+                        }
+                      - Resource  = "<redacted-arn>"
+                      - Sid       = "AllowCloudFrontRead"
+                    },
+                  - {
+                      - Action    = "s3:*"
+                      - Condition = {
+                          - Bool = {
+                              - "aws:SecureTransport" = "false"
+                            }
+                        }
+                      - Effect    = "Deny"
+                      - Principal = "*"
+                      - Resource  = [
+                          - "<redacted-arn>",
+                          - "<redacted-arn>",
+                        ]
+                      - Sid       = "DenyInsecureTransport"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "domain" = "storage"
+        } -> null
+      - tags_all                    = {
+          - "domain" = "storage"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - grant {
+          - id          = "<redacted-canonical-id>" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - lifecycle_rule {
+          - abort_incomplete_multipart_upload_days = 1 -> null
+          - enabled                                = true -> null
+          - id                                     = "tier-down-then-expire" -> null
+          - tags                                   = {} -> null
+            # (1 unchanged attribute hidden)
+
+          - expiration {
+              - days                         = 365 -> null
+              - expired_object_delete_marker = false -> null
+                # (1 unchanged attribute hidden)
+            }
+
+          - transition {
+              - days          = 30 -> null
+              - storage_class = "STANDARD_IA" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - transition {
+              - days          = 90 -> null
+              - storage_class = "GLACIER" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket_lifecycle_configuration.storage will be destroyed
+  - resource "aws_s3_bucket_lifecycle_configuration" "storage" {
+      - bucket                                 = "cloud-lab-storage-<redacted-suffix>" -> null
+      - id                                     = "cloud-lab-storage-<redacted-suffix>" -> null
+      - region                                 = "us-east-1" -> null
+      - transition_default_minimum_object_size = "all_storage_classes_128K" -> null
+        # (1 unchanged attribute hidden)
+
+      - rule {
+          - id     = "tier-down-then-expire" -> null
+          - status = "Enabled" -> null
+            # (1 unchanged attribute hidden)
+
+          - abort_incomplete_multipart_upload {
+              - days_after_initiation = 1 -> null
+            }
+
+          - expiration {
+              - days                         = 365 -> null
+              - expired_object_delete_marker = false -> null
+            }
+
+          - filter {
+                # (1 unchanged attribute hidden)
+            }
+
+          - transition {
+              - days          = 30 -> null
+              - storage_class = "STANDARD_IA" -> null
+            }
+          - transition {
+              - days          = 90 -> null
+              - storage_class = "GLACIER" -> null
+            }
+        }
+    }
+
+  # aws_s3_bucket_ownership_controls.storage will be destroyed
+  - resource "aws_s3_bucket_ownership_controls" "storage" {
+      - bucket = "cloud-lab-storage-<redacted-suffix>" -> null
+      - id     = "cloud-lab-storage-<redacted-suffix>" -> null
+      - region = "us-east-1" -> null
+
+      - rule {
+          - object_ownership = "BucketOwnerEnforced" -> null
+        }
+    }
+
+  # aws_s3_bucket_policy.storage will be destroyed
+  - resource "aws_s3_bucket_policy" "storage" {
+      - bucket = "cloud-lab-storage-<redacted-suffix>" -> null
+      - id     = "cloud-lab-storage-<redacted-suffix>" -> null
+      - policy = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "s3:GetObject"
+                      - Condition = {
+                          - StringEquals = {
+                              - "AWS:SourceArn" = "<redacted-arn>"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "cloudfront.amazonaws.com"
+                        }
+                      - Resource  = "<redacted-arn>"
+                      - Sid       = "AllowCloudFrontRead"
+                    },
+                  - {
+                      - Action    = "s3:*"
+                      - Condition = {
+                          - Bool = {
+                              - "aws:SecureTransport" = "false"
+                            }
+                        }
+                      - Effect    = "Deny"
+                      - Principal = "*"
+                      - Resource  = [
+                          - "<redacted-arn>",
+                          - "<redacted-arn>",
+                        ]
+                      - Sid       = "DenyInsecureTransport"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - region = "us-east-1" -> null
+    }
+
+  # aws_s3_bucket_public_access_block.probe will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "probe" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "cloud-lab-identity-probe-<redacted-suffix>" -> null
+      - id                      = "cloud-lab-identity-probe-<redacted-suffix>" -> null
+      - ignore_public_acls      = true -> null
+      - region                  = "us-east-1" -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # aws_s3_bucket_public_access_block.storage will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "storage" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "cloud-lab-storage-<redacted-suffix>" -> null
+      - id                      = "cloud-lab-storage-<redacted-suffix>" -> null
+      - ignore_public_acls      = true -> null
+      - region                  = "us-east-1" -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # aws_s3_object.hello will be destroyed
+  - resource "aws_s3_object" "hello" {
+      - arn                           = "<redacted-arn>" -> null
+      - bucket                        = "cloud-lab-identity-probe-<redacted-suffix>" -> null
+      - bucket_key_enabled            = false -> null
+      - content                       = "hello from the cloud lab" -> null
+      - content_type                  = "text/plain" -> null
+      - etag                          = "<redacted-etag>" -> null
+      - force_destroy                 = false -> null
+      - id                            = "cloud-lab-identity-probe-<redacted-suffix>/hello.txt" -> null
+      - key                           = "hello.txt" -> null
+      - metadata                      = {} -> null
+      - region                        = "us-east-1" -> null
+      - server_side_encryption        = "AES256" -> null
+      - storage_class                 = "STANDARD" -> null
+      - tags                          = {} -> null
+      - tags_all                      = {
+          - "lab"   = "cloud-lab"
+          - "layer" = "1"
+        } -> null
+        # (14 unchanged attributes hidden)
+    }
+
+  # aws_s3_object.storage_sample will be destroyed
+  - resource "aws_s3_object" "storage_sample" {
+      - arn                           = "<redacted-arn>" -> null
+      - bucket                        = "cloud-lab-storage-<redacted-suffix>" -> null
+      - bucket_key_enabled            = false -> null
+      - content                       = "private object for the CLOUD-26 storage session" -> null
+      - content_type                  = "text/plain" -> null
+      - etag                          = "<redacted-etag>" -> null
+      - force_destroy                 = false -> null
+      - id                            = "cloud-lab-storage-<redacted-suffix>/sample.txt" -> null
+      - key                           = "sample.txt" -> null
+      - metadata                      = {} -> null
+      - region                        = "us-east-1" -> null
+      - server_side_encryption        = "AES256" -> null
+      - storage_class                 = "STANDARD" -> null
+      - tags                          = {} -> null
+      - tags_all                      = {
+          - "lab"   = "cloud-lab"
+          - "layer" = "1"
+        } -> null
+        # (14 unchanged attributes hidden)
+    }
+
+  # random_string.probe_suffix will be destroyed
+  - resource "random_string" "probe_suffix" {
+      - id          = "<redacted-suffix>" -> null
+      - length      = 8 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = "<redacted-suffix>" -> null
+      - special     = false -> null
+      - upper       = false -> null
+    }
+
+  # random_string.storage_suffix will be destroyed
+  - resource "random_string" "storage_suffix" {
+      - id          = "<redacted-suffix>" -> null
+      - length      = 8 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = "<redacted-suffix>" -> null
+      - special     = false -> null
+      - upper       = false -> null
+    }
+
+Plan: 0 to add, 0 to change, 13 to destroy.
+
+Changes to Outputs:
+  - probe_bucket              = "cloud-lab-identity-probe-<redacted-suffix>" -> null
+  - storage_bucket            = "cloud-lab-storage-<redacted-suffix>" -> null
+  - storage_cloudfront_domain = (sensitive value) -> null
+  - target_tags               = "lab=cloud-lab, layer=1" -> null
+aws_s3_bucket_policy.storage: Destroying... [id=cloud-lab-storage-<redacted-suffix>]
+aws_s3_bucket_public_access_block.probe: Destroying... [id=cloud-lab-identity-probe-<redacted-suffix>]
+aws_s3_object.hello: Destroying... [id=cloud-lab-identity-probe-<redacted-suffix>/hello.txt]
+aws_s3_object.storage_sample: Destroying... [id=cloud-lab-storage-<redacted-suffix>/sample.txt]
+aws_s3_bucket_lifecycle_configuration.storage: Destroying... [id=cloud-lab-storage-<redacted-suffix>]
+aws_s3_object.hello: Destruction complete after 0s
+aws_s3_object.storage_sample: Destruction complete after 0s
+aws_s3_bucket_lifecycle_configuration.storage: Destruction complete after 1s
+aws_s3_bucket_policy.storage: Destruction complete after 1s
+aws_s3_bucket_public_access_block.storage: Destroying... [id=cloud-lab-storage-<redacted-suffix>]
+aws_cloudfront_distribution.storage: Destroying... [id=<redacted-cloudfront-id>]
+aws_s3_bucket_public_access_block.storage: Destruction complete after 0s
+aws_s3_bucket_ownership_controls.storage: Destroying... [id=cloud-lab-storage-<redacted-suffix>]
+aws_s3_bucket_public_access_block.probe: Destruction complete after 1s
+aws_s3_bucket.probe: Destroying... [id=cloud-lab-identity-probe-<redacted-suffix>]
+aws_s3_bucket_ownership_controls.storage: Destruction complete after 0s
+aws_s3_bucket.probe: Destruction complete after 0s
+random_string.probe_suffix: Destroying... [id=<redacted-suffix>]
+random_string.probe_suffix: Destruction complete after 0s
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 00m10s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 00m20s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 00m30s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 00m40s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 00m50s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 01m00s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 01m10s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 01m20s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 01m30s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 01m40s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 01m50s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 02m00s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 02m10s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 02m20s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 02m30s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 02m40s elapsed]
+aws_cloudfront_distribution.storage: Still destroying... [id=<redacted-cloudfront-id>, 02m50s elapsed]
+aws_cloudfront_distribution.storage: Destruction complete after 2m55s
+aws_cloudfront_origin_access_control.storage: Destroying... [id=<redacted-cloudfront-id>]
+aws_s3_bucket.storage: Destroying... [id=cloud-lab-storage-<redacted-suffix>]
+aws_cloudfront_origin_access_control.storage: Destruction complete after 0s
+aws_s3_bucket.storage: Destruction complete after 0s
+random_string.storage_suffix: Destroying... [id=<redacted-suffix>]
+random_string.storage_suffix: Destruction complete after 0s
+
+Destroy complete! Resources: 13 destroyed.

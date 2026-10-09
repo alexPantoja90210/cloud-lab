@@ -33,4 +33,4 @@ Activation is not retroactive and can take up to 24 hours to show.
 |---|---|
 | `lab` | 2026-10-08 |
 | `layer` | 2026-10-08 |
-| `domain` | pending: activate after the first resource carrying it exists |
+| `domain` | 2026-10-09 (listed as inactive at about 09:00 local, activated the same morning) |

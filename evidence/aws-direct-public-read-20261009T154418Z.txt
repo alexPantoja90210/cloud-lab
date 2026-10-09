@@ -1,0 +1,10 @@
+HTTP/1.1 403 Forbidden
+Server: AmazonS3
+x-amz-request-id: <redacted>
+x-amz-id-2: <redacted>
+Content-Type: application/xml
+Transfer-Encoding: chunked
+Date: Fri, 09 Oct 2026 15:44:17 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>AccessDenied</Code><Message>Access Denied</Message><RequestId><redacted></RequestId><HostId><redacted></HostId></Error>(exit code: 0)

@@ -1,0 +1,9 @@
+RESOURCETAGMAPPINGLIST	RESOURCE service=cloudfront
+TAGS	domain	storage
+TAGS	lab	cloud-lab
+TAGS	layer	1
+RESOURCETAGMAPPINGLIST	RESOURCE service=s3
+TAGS	domain	storage
+TAGS	lab	cloud-lab
+TAGS	layer	1
+(exit code: 0)

@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+x-amz-id-2: <redacted>
+x-amz-request-id: <redacted>
+Server: AmazonS3
+Date: Fri, 09 Oct 2026 15:44:22 GMT
+Last-Modified: Fri, 09 Oct 2026 15:33:18 GMT
+x-amz-expiration: expiry-date="Sun, 10 Oct 2027 00:00:00 GMT", rule-id="tier-down-then-expire"
+ETag: "7fffab216291709fd64055090e4635ae"
+x-amz-tagging-count: 2
+x-amz-server-side-encryption: AES256
+Accept-Ranges: bytes
+Content-Type: text/plain
+Content-Length: 47
+
+private object for the CLOUD-26 storage session(exit code: 0)

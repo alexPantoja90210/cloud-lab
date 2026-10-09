@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Content-Length: 49
+Content-Type: text/plain
+Content-MD5: pVkd/AowWiidRad12/lMAg==
+Last-Modified: Fri, 09 Oct 2026 15:58:37 GMT
+Accept-Ranges: bytes
+ETag: "0x8DF261E2E37A0FF"
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+x-ms-request-id: <redacted>
+x-ms-version: 2026-04-06
+x-ms-creation-time: Fri, 09 Oct 2026 15:58:37 GMT
+x-ms-lease-status: unlocked
+x-ms-lease-state: available
+x-ms-blob-type: BlockBlob
+x-ms-server-encrypted: true
+x-ms-access-tier: Hot
+x-ms-access-tier-inferred: true
+Date: Fri, 09 Oct 2026 15:58:40 GMT
+
+private object for the CLOUD-26 storage session
+(exit code: 0)

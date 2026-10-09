@@ -1,0 +1,44 @@
+[
+  {
+    "definition": {
+      "actions": {
+        "baseBlob": {
+          "delete": {
+            "daysAfterCreationGreaterThan": null,
+            "daysAfterLastAccessTimeGreaterThan": null,
+            "daysAfterLastTierChangeGreaterThan": null,
+            "daysAfterModificationGreaterThan": 365.0
+          },
+          "enableAutoTierToHotFromCool": null,
+          "tierToArchive": {
+            "daysAfterCreationGreaterThan": null,
+            "daysAfterLastAccessTimeGreaterThan": null,
+            "daysAfterLastTierChangeGreaterThan": null,
+            "daysAfterModificationGreaterThan": 90.0
+          },
+          "tierToCold": null,
+          "tierToCool": {
+            "daysAfterCreationGreaterThan": null,
+            "daysAfterLastAccessTimeGreaterThan": null,
+            "daysAfterLastTierChangeGreaterThan": null,
+            "daysAfterModificationGreaterThan": 30.0
+          },
+          "tierToHot": null
+        },
+        "snapshot": null,
+        "version": null
+      },
+      "filters": {
+        "blobIndexMatch": null,
+        "blobTypes": [
+          "blockBlob"
+        ],
+        "prefixMatch": []
+      }
+    },
+    "enabled": true,
+    "name": "tier-down-then-delete",
+    "type": "Lifecycle"
+  }
+]
+(exit code: 0)
