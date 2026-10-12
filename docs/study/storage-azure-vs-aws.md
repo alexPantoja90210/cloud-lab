@@ -45,10 +45,9 @@ Points worth keeping:
 
 ## Cost
 
-Not read yet. The session ran about three hours on each cloud, with a private endpoint on Azure for a short part of it. The cost by `domain` is read on 10 Oct (Azure Cost analysis; AWS Cost Explorer, unblended, by tag). Until then, no figure here is a result.
+Read on 12 Oct 2026 (details in `docs/study/cost-azure-vs-aws.md`). AWS, 9 Oct, tag `domain=storage`: about 0.00006 USD. Azure, 7 to 12 Oct, tag `domain=storage`: about 0.0085 USD, of which the storage account itself is about 0.000004 USD and nearly all the rest is the Virtual Network line. That line is probably the private endpoint, which existed for about 10 minutes in the second phase and has no AWS counterpart; it was not checked at resource level. Both amounts are fractions of a cent and were covered by credits.
 
 ## Still open
 
-- Read cost by `domain` on both clouds and record it with its read date in `docs/credit-log.md` and `docs/study/cost-azure-vs-aws.md`.
 - Decide what to do with the `finops-guardian-zero-spend` budget (keep or delete) after seeing how it moved during the session.
 - If the lifecycle behavior matters, it needs data that is old enough or a test that does not wait 30 days; this session did not have one.

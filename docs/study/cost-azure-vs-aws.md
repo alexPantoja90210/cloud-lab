@@ -29,10 +29,19 @@ The lab did the same thing on both clouds: define one tag scheme in Terraform (`
 
 ## Still open
 
-- AWS: `domain` is activated (9 Oct). Read Cost Explorer by service and by tag (unblended) after the storage session, which is the first usage classified by `domain`.
-- Both: attribute one day's cost to a specific resource and record it with its read date.
-- Update this note, and tick the AWS cost bullet in `docs/study/identity-aws.md`, when those readings exist.
+- Both: attribute one day's cost to a specific resource (a by-resource grouping), and record it with its read date. Only service and tag level were read.
+- Optional: the AWS budget showed 0.72 USD on 9 Oct, accumulated before the 9 to 11 Oct window read below. A by-service reading for 1 to 8 Oct would say what it was; not done.
 
 ## Azure by tag and service, read on 9 Oct 2026
 
 Actual cost for 7 to 10 Oct, grouped by `domain` and service (Cost Management query, free to call): Container Instances 0.0018 USD (0.0007 tagged `identity`, 0.0011 untagged from the earlier probe), Storage 0.0001 USD (`foundation` and untagged), Bandwidth 0. Total about 0.0019 USD. Container Instances is about 95 percent of it, so for the identity probe the container group, not the storage account, was the cost. No `storage` row exists yet because the CLOUD-26 usage had not been reported; it is read again on 10 Oct. This is attribution to a service, not to a single resource.
+
+## Both clouds by tag, read on 12 Oct 2026
+
+**AWS** (Cost Explorer API, unblended, by `domain`, 9 to 11 Oct): on 9 Oct foundation 0.00008 USD, storage 0.00006, identity 0.00005, and an untagged line of -0.00019 that cancels them (the credit being applied). On 10 and 11 Oct only foundation remains, about 0.0000001 USD a day. The tag `domain` classifies usage from 9 Oct on, as expected for a tag activated that day.
+
+**Azure** (Cost Management query, actual cost, by `domain` and service, 7 to 12 Oct): total 0.0117 USD. By `domain`: storage 0.00854, identity 0.00189, untagged 0.00118, foundation 0.00005. By service: Virtual Network 0.0085, Container Instances 0.0030, Storage 0.0001, Bandwidth 0.
+
+**What the two readings say together.** For the CLOUD-26 storage session the AWS side cost about 0.00006 USD and the Azure side about 0.0085 USD, but they are not the same thing: almost all of the Azure figure is the Virtual Network line, and the only network resource that session created on Azure was the private endpoint, which has no counterpart on the AWS build. The Azure storage account itself cost about 0.000004 USD. Comparing the storage services themselves, both are fractions of a cent; the visible cost difference came from one optional networking resource, not from the storage. **[general]** Azure documents private endpoints as billed hourly, so a few minutes of use can be billed as a full hour; the amount here is below that, and this lab did not check the billing unit.
+
+Both sides are at a scale where the credit absorbs everything: nothing here was charged to a payment method.
