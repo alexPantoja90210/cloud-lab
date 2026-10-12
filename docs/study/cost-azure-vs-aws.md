@@ -38,7 +38,7 @@ Actual cost for 7 to 10 Oct, grouped by `domain` and service (Cost Management qu
 
 ## Both clouds by tag, read on 12 Oct 2026
 
-**AWS** (Cost Explorer API, unblended, by `domain`, 9 to 11 Oct): on 9 Oct foundation 0.00008 USD, storage 0.00006, identity 0.00005, and an untagged line of -0.00019 that cancels them (the credit being applied). On 10 and 11 Oct only foundation remains, about 0.0000001 USD a day. The tag `domain` classifies usage from 9 Oct on, as expected for a tag activated that day.
+**AWS** (Cost Explorer API, unblended, by `domain`, 9 to 11 Oct): on 9 Oct foundation 0.00008 USD, storage 0.00006, identity 0.00005, and an untagged line of -0.00019 that holds the credit lines together with any untagged charges (so it says nothing about how much untagged cost there was; the four groups sum to about zero because credits cancel all charges). On 10 and 11 Oct only foundation remains, about 0.0000001 USD a day. The tag `domain` classifies usage from 9 Oct on, as expected for a tag activated that day.
 
 **Azure** (Cost Management query, actual cost, by `domain` and service, 7 to 12 Oct): total 0.0117 USD. By `domain`: storage 0.00854, identity 0.00189, untagged 0.00118, foundation 0.00005. By service: Virtual Network 0.0085, Container Instances 0.0030, Storage 0.0001, Bandwidth 0.
 
