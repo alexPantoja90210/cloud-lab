@@ -45,7 +45,7 @@ Points worth keeping:
 
 ## Cost
 
-Read on 12 Oct 2026 (details in `docs/study/cost-azure-vs-aws.md`). AWS, 9 Oct, tag `domain=storage`: about 0.00006 USD. Azure, 7 to 12 Oct, tag `domain=storage`: about 0.0085 USD, of which the storage account itself is about 0.000004 USD and nearly all the rest is the Virtual Network line. That line is probably the private endpoint, which existed for about 10 minutes in the second phase and has no AWS counterpart; it was not checked at resource level. Both amounts are fractions of a cent and were covered by credits.
+Read on 12 Oct 2026 (details in `docs/study/cost-azure-vs-aws.md`). AWS, 9 Oct, tag `domain=storage`: about 0.00006 USD. Azure, 7 to 12 Oct, tag `domain=storage`: about 0.0085 USD, of which the storage account itself is about 0.000004 USD and nearly all the rest is the Virtual Network line. That line is the private endpoint (meter `Standard Private Endpoint`, 0.85 hours at 0.01 USD an hour, read on 12 Oct); it has no AWS counterpart. The hours billed are more than the roughly 10 minutes I believed it existed, and that difference is not explained. Both amounts are fractions of a cent and were covered by credits.
 
 ## Still open
 
