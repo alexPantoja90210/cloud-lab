@@ -55,7 +55,7 @@ The `stop` ran about 40 minutes later than planned and the `deallocate` about 18
 
 ## Configured but not observed
 
-- **The Terraform build.** CLOUD-28 asks for a VM built, resized, imaged and destroyed from Terraform. This session was console-only, by decision; the Terraform equivalent is still to be written. Resize and image capture were not done.
+- **The Terraform build.** CLOUD-28 asks for a VM built, resized, imaged and destroyed from Terraform. The 12 Oct session was console-only, by decision. The Terraform twin was written and syntax-checked on 13 Oct (`azure/layer1/compute.tf`, `aws/layer1/compute.tf`, session steps in `docs/runbooks/compute-session.md`) but has not been planned or applied, so nothing in it is observed yet. Resize and image capture are not covered.
 - **Free-hours consumption.** The 750-hour allowance was read at 0 hours of B1s before the session (12 Oct, 09:59). The 13 Oct read shows 2.983 hours of B1s priced at the full list rate, with no zero-priced meter for B1s. Whether the free-hours benefit or the credit paid for them is not visible in that gross view and is still open.
 - **Cost at zero traffic on AWS.** Function, API, role and log group are left in place overnight on purpose, so the cost of an idle serverless stack can be read. They are destroyed after the read.
 - **Disaster recovery and migration.** Planned in CLOUD-33, CLOUD-34 and CLOUD-35, not started.
