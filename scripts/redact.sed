@@ -31,3 +31,16 @@ s/[a-z0-9]{10}\.execute-api\.[a-z0-9-]+\.amazonaws\.com/<redacted-api-endpoint>/
 s/\b(id|api_id|integration_id) +(=|:) +"[a-z0-9]{10}"/\1 \2 "<redacted-api-id>"/g
 s/\[id=[a-z0-9]{7,10}\]/[id=<redacted-api-id>]/g
 s/(ssh-rsa|-----BEGIN [A-Z ]+-----)[A-Za-z0-9+\/=\\n -]*/\1 <redacted-key>/g
+
+# CLOUD-28 (second pass, from reading the first compute destroy output): short ids of API Gateway
+# children, IAM role unique id, NIC MAC address, key fingerprints, PEM body lines, disk name suffix,
+# and the sha1 ids that Terraform prints for generated keys and archives.
+s/^( *- *id) +(=) +"[a-z]*[0-9][a-z0-9]*"/\1 \2 "<redacted-id>"/
+s/(deployment_id +=) "[a-z0-9]+"/\1 "<redacted-id>"/
+s/(integrations\/)[a-z0-9]{5,10}/\1<redacted-id>/g
+s/(unique_id +=) "[A-Z0-9]{21}"/\1 "<redacted-unique-id>"/
+s/\[id=[0-9a-f]{40}\]/[id=<redacted-hash>]/
+s/(fingerprint_(md5|sha256) +=) "[^"]*"/\1 "<redacted-fingerprint>"/
+s/\b([0-9A-Fa-f]{2}[-:]){5}[0-9A-Fa-f]{2}\b/<redacted-mac>/g
+s/^ +[A-Za-z0-9+\/]{40,}={0,2}$/            <redacted-key-body>/
+s/(disk[0-9]+_)[0-9a-f]{32}/\1<redacted-suffix>/g
