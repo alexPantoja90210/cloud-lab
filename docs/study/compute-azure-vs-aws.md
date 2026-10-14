@@ -160,6 +160,18 @@ Plans, with `-target`, read before applying: Azure 7 to add, AWS 9 to add, nothi
 | AWS apply | 15:37:35 to 15:38:11 | 9 added |
 | 10 calls to the API, 0.4 s apart | about 15:39 | ten 200, no 429 |
 
+Power states (times printed by the commands, UTC; the activity log was not read before teardown, so these are command times, not platform times):
+
+| State | From | To | About |
+|---|---|---|---|
+| Running | 15:36 (apply end) | 16:36:31 | 60 min |
+| Stopped (Allocated) | 16:37:15 | 17:41:39 | 64 min |
+| Deallocated | 17:42:18 | 18:42 (teardown start) | 60 min |
+
+`stop` took 44 s, `deallocate` 39 s. Predicted B1s meter (an estimate, to compare with the next-day read): about 2.1 hours, that is Running plus Stopped, with Deallocated billing nothing, as on 12 Oct.
+
+Teardown (AWS 18:42:08, Azure 18:43:00 UTC): AWS 9 destroyed, Azure 7 destroyed (VM 24 s, each network piece about 12 s). Checked afterwards, not from the destroy output: Azure resource group empty, AWS tag query for `lab=cloud-lab, layer=1` returned 0, no `cloud-lab-hello` log group, no `cloud-lab-hello` role. Unlike the console build, nothing was left behind.
+
 Differences from the console build, all observed:
 
 - Azure OS disk: tagged `domain=compute`, `layer=1` (the VM's tags reach it). The console disk was not tagged.
