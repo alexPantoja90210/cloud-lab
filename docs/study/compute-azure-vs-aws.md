@@ -57,7 +57,7 @@ The `stop` ran about 40 minutes later than planned and the `deallocate` about 18
 
 - **The Terraform build.** CLOUD-28 asks for a VM built, resized, imaged and destroyed from Terraform. The 12 Oct session was console-only, by decision. The Terraform twin was written and syntax-checked on 13 Oct (`azure/layer1/compute.tf`, `aws/layer1/compute.tf`, session steps in `docs/runbooks/compute-session.md`) but has not been planned or applied, so nothing in it is observed yet. Resize and image capture are not covered.
 - **Free-hours consumption.** The 750-hour allowance was read at 0 hours of B1s before the session (12 Oct, 09:59). The 13 Oct read shows 2.983 hours of B1s priced at the full list rate, with no zero-priced meter for B1s. Whether the free-hours benefit or the credit paid for them is not visible in that gross view and is still open.
-- **Cost at zero traffic on AWS.** Function, API, role and log group are left in place overnight on purpose, so the cost of an idle serverless stack can be read. They are destroyed after the read.
+- **Cost at zero traffic on AWS** is observed on the 14 Oct read (section below): a full day with the stack in place and no calls produced no Lambda or API Gateway line.
 - **Disaster recovery and migration.** Planned in CLOUD-33, CLOUD-34 and CLOUD-35, not started.
 
 ## Cost
@@ -112,13 +112,51 @@ The rows above add up to about 0.053 USD.
 7. **The only Foundry line is usage, not idle cost.** `text-embedding-3-large-regional Tokens`, 300.801 units, 0.043 USD, already present in the 12 Oct baseline. The account was deleted on 12 Oct.
 8. **The private endpoint meter is unchanged** at 0.8539 hours, as in the 12 Oct read.
 
+## AWS read, 14 Oct 2026 (observed)
+
+Read about 09:04 local with Cost Explorer: unblended cost, credits excluded, 12 and 13 Oct, services Lambda, API Gateway and CloudWatch, grouped by tag `domain` and usage type. One call, about 0.01 USD.
+
+| Day | Tag `domain` | Usage type | Quantity | Cost (USD) |
+|---|---|---|---|---|
+| 12 Oct | none | `USE1-ApiGatewayHttpRequest` | 11 | 0.000011 |
+| 12 Oct | compute | `Request-ARM` | 12 | 0 |
+| 12 Oct | compute | `Lambda-GB-Second-ARM` | 0.04225 | 0 |
+| 12 Oct | compute | `USE1-VendedLog-Bytes` | 0.0000044 | 0 |
+| 12 Oct | none | `DataTransfer-Out-Bytes` | 0.0000018 | 0 |
+| 13 Oct | compute | `USE1-TimedStorage-ByteHrs` | 0.00000008 | 0 |
+
+1. **Cost at zero traffic was 0 USD.** On 13 Oct the function, API, role and log group existed all day and nobody called them. The only line is log storage, at 0 USD, and there is no Lambda or API Gateway line. The 13 Oct data may not have been complete at read time (the day had closed about 15 hours earlier and Cost Explorer can lag up to 24).
+2. **API Gateway was the only line that cost anything, and its price is confirmed.** 11 requests cost 0.000011 USD, exactly 1.00 USD per million, as assumed. Lambda's 12 requests and 0.04225 GB-seconds fell inside the always-free allowance. At recalled list prices they would have cost about 0.000003 USD, so the gateway charge was about 4 times the function's.
+3. **The API Gateway usage is untagged.** The API got its tags at 13:05; the ten calls and the check call ran at 12:50 and 13:02. A tag does not reclassify usage that happened before it. Lambda was tagged from creation and is classified. Terraform tags the API when it creates it.
+4. **The 100 ms per request assumed in the crossover table was higher than what this function did.** 0.04225 GB-seconds at 128 MB is 338 ms billed over 12 invocations, about 28 ms each, of which 98 ms was the first (cold) one. A trivial function, so Lambda compute is cheaper than assumed; the crossover barely moves because API Gateway dominates the per-request cost.
+5. **Log lines cost 0 at these sizes** (vended log bytes and timed storage).
+
+The paid AWS cost of the whole 12 Oct session was 0.000011 USD; about 0.000014 USD at list prices with the allowance removed.
+
+## Azure re-read, 14 Oct 2026 (observed)
+
+Same Cost Management query as 13 Oct (12-14 Oct, gross cost, grouped by service and meter), read at about 09:18 local.
+
+- Virtual Machines B1s: 2.983 hours, 0.0358 USD. Identical to the 13 Oct read.
+- Standard IPv4 Static Public IP: 0.787 hours, 0.0039 USD. Identical to the 13 Oct read.
+- E4 LRS Disk: 0.004755 month, 0.0114 USD; disk operations 0.0022 USD. Unchanged.
+- Still no Azure Bastion row, two days after the 11:19-11:39 deployment on 12 Oct.
+
+So the numbers are stable, not lagging, and the Bastion is missing from this query. Not explained. Hypothesis (not verified): the Bastion was billed under a different service name or date, or the line has not been posted yet.
+
+Public IP hours: 0.787 h is close to the VM's own IP living from deployment (10:54) to its deletion (11:41), about 0.78 h. If so, the Bastion's IP is not in this meter either. This fits the two `Delete Public Ip Address` events (11:41 and 11:51) but does not prove it.
+
+## AWS console stack teardown, 14 Oct 2026 (observed)
+
+HTTP API, Lambda function, log group and execution role are gone (list and get calls return empty). One customer-managed policy named like the Lambda basic execution policy remains: created 28 Sep, 0 attachments, so it predates this lab and was left alone. The service-linked role for API Gateway is account-level and stays.
+
 ## Still to read
 
 | Reading | Status |
 |---|---|
-| Azure Bastion row and the public IP discrepancy | reread 14 Oct |
+| Azure Bastion row and the public IP discrepancy | reread 14 Oct: row still absent, IP hours unchanged; open |
 | Where the free hours show up (charge type) | open |
-| AWS cost at zero traffic, tag `domain=compute`, days 12 and 13 Oct | 14 Oct, one call |
-| Lambda and API Gateway per-request cost, measured | 14 Oct, same call |
+| Lambda and API Gateway per-request cost, measured | done: see the AWS read |
+| AWS cost at zero traffic | done: 0 USD |
 
-After the AWS read: delete the API, the function, the execution role and the log group, and verify with a tag query that nothing with `layer=1` is left.
+The console-built AWS stack was deleted by hand on 14 Oct (see above).
