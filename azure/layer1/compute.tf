@@ -11,9 +11,9 @@
 #   - The SSH key is generated here (tls provider) because Azure requires one. It lives in layer 1
 #     state and disappears with the VM. Nobody uses it.
 #
-# Not verified until the first apply: the OS disk is created by the VM resource, whose os_disk block
-# has no tags argument [general], so the disk may carry no tags and its cost would fall in the
-# untagged group. docs/runbooks/compute-session.md checks it right after apply.
+# Verified on 14 Oct 2026 after the first apply: the OS disk carries domain=compute and layer=1 even
+# though the os_disk block has no tags argument (the VM's tags reach the disk it creates). The console
+# build of 12 Oct did not tag its disk. docs/runbooks/compute-session.md repeats the check.
 
 variable "compute_location" {
   description = "Region for the compute exercise. Not the layer 0 group's region: B1s was refused in East US 2 for this subscription (NotAvailableForSubscription) and was accepted in Denmark East."

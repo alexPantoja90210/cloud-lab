@@ -150,6 +150,23 @@ Public IP hours: 0.787 h is close to the VM's own IP living from deployment (10:
 
 HTTP API, Lambda function, log group and execution role are gone (list and get calls return empty). One customer-managed policy named like the Lambda basic execution policy remains: created 28 Sep, 0 attachments, so it predates this lab and was left alone. The service-linked role for API Gateway is account-level and stays.
 
+## Terraform session, 14 Oct 2026 (observed)
+
+Plans, with `-target`, read before applying: Azure 7 to add, AWS 9 to add, nothing changed or destroyed. Azure plan showed `Standard_B1s`, zone 1, `denmarkeast`, priority Regular.
+
+| Step | Time (UTC) | Result |
+|---|---|---|
+| Azure apply | 15:34:25 to 15:36:12 | 7 added, `VM running` |
+| AWS apply | 15:37:35 to 15:38:11 | 9 added |
+| 10 calls to the API, 0.4 s apart | about 15:39 | ten 200, no 429 |
+
+Differences from the console build, all observed:
+
+- Azure OS disk: tagged `domain=compute`, `layer=1` (the VM's tags reach it). The console disk was not tagged.
+- AWS API tags: `lab`, `layer`, `domain=compute` present from creation. In the console they had to be added with the CLI after the first calls, so that usage was untagged. Here the calls came after the tags, so the API Gateway usage should be tagged: to confirm in Cost Explorer tomorrow.
+- Log group retention: 7 days. The console log group never expired.
+- Time to build: Azure 1 min 47 s and AWS 36 s by Terraform, against about an hour of console steps (not a like-for-like timing: the console time included reading screens and choosing options).
+
 ## Still to read
 
 | Reading | Status |
