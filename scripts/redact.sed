@@ -24,3 +24,10 @@ s/\bE[0-9A-Z]{12,13}\b/<redacted-cloudfront-id>/g
 s/cloud-lab-(storage|identity-probe)-[a-z0-9]{8}/cloud-lab-\1-<redacted-suffix>/g
 s/stlab(probe|store)[a-z0-9]{6}/stlab\1<redacted-suffix>/g
 s/^( *[-+~]? *etag +=) "[^"]*"/\1 "<redacted-etag>"/
+
+# CLOUD-28: API Gateway HTTP API. The API id is a 10-character lowercase id that appears in the
+# invoke URL, in id= and api_id= attributes, and inside route and integration ids.
+s/[a-z0-9]{10}\.execute-api\.[a-z0-9-]+\.amazonaws\.com/<redacted-api-endpoint>/g
+s/\b(id|api_id|integration_id) +(=|:) +"[a-z0-9]{10}"/\1 \2 "<redacted-api-id>"/g
+s/\[id=[a-z0-9]{7,10}\]/[id=<redacted-api-id>]/g
+s/(ssh-rsa|-----BEGIN [A-Z ]+-----)[A-Za-z0-9+\/=\\n -]*/\1 <redacted-key>/g
