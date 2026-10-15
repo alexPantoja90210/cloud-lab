@@ -23,9 +23,6 @@ _Paste the agreed sprint goal here (taken from the Jira sprint)._
 
 _Written at the end of the sprint: what went as planned, what did not, what changes._
 
-## Extra practice (decided by the operator, not in any acceptance criteria)
+## Working model change (15 Oct 2026)
 
-- **15 Oct 2026, CLOUD-27:** after the Azure networking exercise, build the same shape on AWS in the console (VPC, two subnets, a security group and a NACL that deny, a VPC endpoint to S3, a client inside the network), then the Terraform twin. CLOUD-27 itself keeps AWS as a written comparison; this practice does not change its criteria.
-- Guard rails that stay: no NAT Gateway, bastion or VPN gateway on AWS. Layer 1 destroyed and checked empty at the end of each session.
-- Open design point, to settle before building: how to run a command inside the VPC without a bastion or a NAT. Systems Manager needs three interface endpoints that bill by the hour; the cost is to be stated before it is created.
-- When the comparison is written, say which half was built and which was read.
+The "extra practice" idea recorded earlier the same day (building AWS networking in addition to an Azure-only CLOUD-27) was superseded within hours: CLOUD-27 itself now builds both clouds, by hand first, and the AWS comparison-only rule is gone. See `docs/jira-project.md`, section "Working model".
