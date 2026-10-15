@@ -179,11 +179,46 @@ Differences from the console build, all observed:
 - Log group retention: 7 days. The console log group never expired.
 - Time to build: Azure 1 min 47 s and AWS 36 s by Terraform, against about an hour of console steps (not a like-for-like timing: the console time included reading screens and choosing options).
 
+## Cost read of the Terraform session, 15 Oct 2026 (observed)
+
+Azure Cost Management, 12-15 Oct, gross cost, grouped by service and meter, read at about 08:48 local. AWS Cost Explorer, 14 Oct, unblended, credits excluded, by tag domain and usage type (one call, about 0.01 USD).
+
+Azure, change against the 13 Oct read:
+
+| Meter | 13 Oct read | 15 Oct read | Added by the 14 Oct session |
+|---|---|---|---|
+| Virtual Machines B1s | 2.983 h, 0.0358 USD | 5.083 h, 0.0610 USD | 2.100 h, 0.0252 USD |
+| E4 LRS Disk | 0.004755 month, 0.0114 USD | 0.009778 month, 0.0235 USD | 0.005023 month, 0.0121 USD |
+| E4 LRS Disk Operations | 0.0022 USD | 0.0042 USD | 0.0020 USD |
+| Standard IPv4 Static Public IP | 0.787 h, 0.0039 USD | 0.787 h, 0.0039 USD | none |
+
+- B1s: predicted about 2.1 h, observed 2.100 h. Running 60 min plus Stopped 64 min is 124 min (2.07 h) and the rest is the minutes between apply start and the stop. Deallocated, 60 min, billed nothing, for the second time.
+- The 2.100 h at 0.012 USD an hour is 0.0252 USD, exactly the list price. No free-hours effect is visible.
+- The Azure part of the session cost about 0.039 USD (VM 0.0252, disk 0.0121, disk operations 0.0020, rest in the millionths). The runbook estimate was 0.05 USD for three hours of VM, and it was high because the third hour billed no compute.
+- The disk gap is small and unexplained: 0.005023 month is about 3.6 h at 720 h a month, against about 3.2 h from apply start to destroy end. Roughly 0.002 USD.
+- The public IP meter did not move, which fits the Terraform VM having no public IP. The 0.787 h therefore comes only from 12 Oct (the console VM and Bastion) and is still not explained.
+- No Azure Bastion row, three days after the Bastion existed. Still open.
+- New tiny rows (storage operations, hot LRS writes) are most likely the Terraform state in blob storage.
+
+AWS, 14 Oct, all tagged `domain=compute`:
+
+| Usage type | Quantity | Cost |
+|---|---|---|
+| USE1-ApiGatewayHttpRequest | 10 | 0.00001 USD |
+| Request-ARM (Lambda) | 10 | 0 (free allowance) |
+| Lambda-GB-Second-ARM | 0.01075 | 0 (free allowance) |
+| Log storage, vended logs, data transfer out | millionths | 0 |
+
+- The ten calls of the Terraform session cost 0.00001 USD in total, all of it API Gateway at 1.00 USD per million requests. This confirms the price a second time.
+- The API Gateway usage is tagged this time. On 12 Oct it was untagged because the tags were added after the calls. This is the visible effect of tagging at creation.
+- Lambda: 0.01075 GB-s over 10 calls at 128 MB (0.125 GB) is about 8.6 ms billed per call on average, cold start included. On 12 Oct it was about 28 ms; the function code and runtime are not the same, so this is not a like-for-like comparison.
+- The read was taken about 15 hours after the end of 14 Oct, so late records are possible. Nothing has been posted for 15 Oct yet.
+
 ## Still to read
 
 | Reading | Status |
 |---|---|
-| Azure Bastion row and the public IP discrepancy | reread 14 Oct: row still absent, IP hours unchanged; open |
+| Azure Bastion row and the public IP discrepancy | read 14 and 15 Oct: row still absent, IP hours unchanged; open |
 | Where the free hours show up (charge type) | open |
 | Lambda and API Gateway per-request cost, measured | done: see the AWS read |
 | AWS cost at zero traffic | done: 0 USD |
