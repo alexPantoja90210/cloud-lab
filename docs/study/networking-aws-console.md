@@ -35,6 +35,12 @@ allows 1433 from `sg-web`); a bucket with public access blocked; an S3 gateway e
 - After associating the endpoint to the main route table: `result: ok`, `key_count: 0` (empty bucket),
   2460 ms billed, from a subnet with no internet route.
 
+- Custom network ACL `nacl-net-private` created with no rules and associated to the private subnet, nothing
+  else changed (same code, same route, same security group): the same call went from `ok` in 2460 ms to
+  `Sandbox.Timedout` after 15 seconds, again with no error message. A new ACL denies everything by default,
+  the opposite of the default ACL that comes with the VPC. A missing route and a denying ACL look identical
+  from the client (silence until the timeout); telling them apart took reading the route table and the ACL.
+
 ## Log of surprises (the operator, 15 Oct 2026)
 
 - AWS felt more complex than Azure for the same exercise. Part of that is the design of the two clouds
@@ -45,7 +51,7 @@ allows 1433 from `sg-web`); a bucket with public access blocked; an S3 gateway e
 
 ## Still to do
 
-The deliberate denial with a custom network ACL on the private subnet (a new ACL denies everything by
-default); the refusal of the public path (bucket policy that only accepts the endpoint); the cleanup by
+Restore the private subnet to the default ACL (or open the ACL by rules, which needs the return ports
+because the ACL is stateless); the refusal of the public path (bucket policy that only accepts the endpoint); the cleanup by
 tag and its verification; the cost read in Cost Explorer filtered by `domain = networking`, next day, with
 its date; the comparison with Azure; and the Terraform twin of both.
