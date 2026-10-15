@@ -48,6 +48,10 @@ foreach ($Region in $Regions) {
   Write-Host "EC2 instances running    : $(aws ec2 describe-instances --region $Region --filters Name=instance-state-name,Values=running --query "length(Reservations[].Instances[])" --output text)"
   Write-Host ""
 }
+Write-Host "== AWS global checks, tagged or not =="
+Write-Host "S3 buckets in the account      : $(aws s3api list-buckets --query "length(Buckets)" --output text)"
+Write-Host "CloudFront distributions       : $(aws cloudfront list-distributions --query "DistributionList.Quantity" --output text)"
+Write-Host ""
 Write-Host "Limits: AWS shows only tagged resources in the regions listed (global services such as CloudFront and IAM"
 Write-Host "appear under us-east-1). An untagged resource is invisible here; the four checks cover what bills by the hour."
 Write-Host "Cost by service and by tag is read in Cost Explorer."
