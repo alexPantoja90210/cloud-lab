@@ -124,3 +124,18 @@ resource "azurerm_linux_virtual_machine" "compute" {
 
   depends_on = [azurerm_network_interface_security_group_association.compute]
 }
+
+# Image capture (CLOUD-28, second session). An incremental snapshot of the OS disk: the Azure
+# counterpart of an EBS snapshot, and the image of this exercise. A generalized managed image would
+# need the VM deprovisioned from inside, which this lab cannot do (no login path, on purpose), and
+# it would leave the VM unusable. The snapshot is crash-consistent, taken while the VM runs.
+# It is a separate resource so that "apply the VM", "resize", and "snapshot" are three plans.
+resource "azurerm_snapshot" "compute" {
+  name                = "snap-cloud-lab-compute"
+  resource_group_name = data.azurerm_resource_group.lab.name
+  location            = var.compute_location
+  create_option       = "Copy"
+  source_uri          = azurerm_linux_virtual_machine.compute.os_managed_disk_id
+  incremental_enabled = true
+  tags                = merge(local.tags, { domain = "compute" })
+}

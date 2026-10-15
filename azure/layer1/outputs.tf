@@ -12,3 +12,8 @@ output "compute_vm_name" {
   description = "VM of the CLOUD-28 compute exercise, for the power-state commands."
   value       = azurerm_linux_virtual_machine.compute.name
 }
+
+output "compute_snapshot_name" {
+  description = "Snapshot of the compute VM's OS disk, for the image check."
+  value       = azurerm_snapshot.compute.name
+}
