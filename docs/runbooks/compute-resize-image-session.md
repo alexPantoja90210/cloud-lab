@@ -27,7 +27,7 @@ terraform "-chdir=azure/layer1" init "-backend-config=backend.local.hcl"
 terraform "-chdir=azure/layer1" validate
 ```
 
-## 1. Build at B1s (expected 8 to add)
+## 1. Build at B1s (expected 7 to add)
 
 ```powershell
 terraform "-chdir=azure/layer1" plan -no-color "-target=azurerm_linux_virtual_machine.compute" "-out=build.tfplan"
