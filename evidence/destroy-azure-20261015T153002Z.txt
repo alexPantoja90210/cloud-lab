@@ -1,0 +1,287 @@
+Acquiring state lock. This may take a few moments...
+tls_private_key.compute: Refreshing state... [id=<redacted-hash>]
+data.azurerm_user_assigned_identity.reader: Reading...
+data.azurerm_resource_group.lab: Reading...
+data.azurerm_client_config.current: Reading...
+data.azurerm_client_config.current: Read complete after 0s [id=<redacted-client-config>]
+data.azurerm_resource_group.lab: Read complete after 0s [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab]
+azurerm_network_security_group.compute: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-compute]
+azurerm_virtual_network.compute: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-compute]
+data.azurerm_user_assigned_identity.reader: Read complete after 0s [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab-identity/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-cloud-lab-reader]
+azurerm_subnet.compute: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-compute/subnets/snet-cloud-lab-compute]
+azurerm_network_interface.compute: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-compute]
+azurerm_network_interface_security_group_association.compute: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-compute|/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-compute]
+azurerm_linux_virtual_machine.compute: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/virtualMachines/vm-cloud-lab-compute]
+azurerm_snapshot.compute: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/snapshots/snap-cloud-lab-compute]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # azurerm_linux_virtual_machine.compute will be destroyed
+  - resource "azurerm_linux_virtual_machine" "compute" {
+      - admin_username                                         = "azureuser" -> null
+      - allow_extension_operations                             = true -> null
+      - bypass_platform_safety_checks_on_user_schedule_enabled = false -> null
+      - computer_name                                          = "vm-cloud-lab-compute" -> null
+      - disable_password_authentication                        = true -> null
+      - disk_controller_type                                   = "SCSI" -> null
+      - encryption_at_host_enabled                             = false -> null
+      - extensions_time_budget                                 = "PT1H30M" -> null
+      - id                                                     = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/virtualMachines/vm-cloud-lab-compute" -> null
+      - location                                               = "denmarkeast" -> null
+      - max_bid_price                                          = -1 -> null
+      - name                                                   = "vm-cloud-lab-compute" -> null
+      - network_interface_ids                                  = [
+          - "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-compute",
+        ] -> null
+      - os_managed_disk_id                                     = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/disks/vm-cloud-lab-compute_disk1_<redacted-suffix>" -> null
+      - patch_assessment_mode                                  = "ImageDefault" -> null
+      - patch_mode                                             = "ImageDefault" -> null
+      - platform_fault_domain                                  = -1 -> null
+      - priority                                               = "Regular" -> null
+      - private_ip_address                                     = "10.60.1.4" -> null
+      - private_ip_addresses                                   = [
+          - "10.60.1.4",
+        ] -> null
+      - provision_vm_agent                                     = true -> null
+      - public_ip_addresses                                    = [] -> null
+      - resource_group_name                                    = "rg-cloud-lab" -> null
+      - secure_boot_enabled                                    = false -> null
+      - size                                                   = "Standard_B2ats_v2" -> null
+      - tags                                                   = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - virtual_machine_id                                     = "<redacted-guid>" -> null
+      - vm_agent_platform_updates_enabled                      = true -> null
+      - vtpm_enabled                                           = false -> null
+      - zone                                                   = "1" -> null
+        # (13 unchanged attributes hidden)
+
+      - admin_ssh_key {
+          - public_key = <<-EOT
+                ssh-rsa <redacted-key>
+            EOT -> null
+          - username   = "azureuser" -> null
+        }
+
+      - os_disk {
+          - caching                          = "ReadWrite" -> null
+          - disk_size_gb                     = 30 -> null
+          - id                               = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/disks/vm-cloud-lab-compute_disk1_<redacted-suffix>" -> null
+          - name                             = "vm-cloud-lab-compute_disk1_<redacted-suffix>" -> null
+          - storage_account_type             = "StandardSSD_LRS" -> null
+          - write_accelerator_enabled        = false -> null
+            # (3 unchanged attributes hidden)
+        }
+
+      - source_image_reference {
+          - offer     = "ubuntu-24_04-lts" -> null
+          - publisher = "Canonical" -> null
+          - sku       = "server" -> null
+          - version   = "latest" -> null
+        }
+    }
+
+  # azurerm_network_interface.compute will be destroyed
+  - resource "azurerm_network_interface" "compute" {
+      - accelerated_networking_enabled = false -> null
+      - applied_dns_servers            = [] -> null
+      - dns_servers                    = [] -> null
+      - id                             = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-compute" -> null
+      - internal_domain_name_suffix    = "rvcjltypa1tuzcje4rr3y3gqya.cphx.internal.cloudapp.net" -> null
+      - ip_forwarding_enabled          = false -> null
+      - location                       = "denmarkeast" -> null
+      - mac_address                    = "<redacted-mac>" -> null
+      - name                           = "nic-cloud-lab-compute" -> null
+      - private_ip_address             = "10.60.1.4" -> null
+      - private_ip_addresses           = [
+          - "10.60.1.4",
+        ] -> null
+      - resource_group_name            = "rg-cloud-lab" -> null
+      - tags                           = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - virtual_machine_id             = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/virtualMachines/vm-cloud-lab-compute" -> null
+        # (4 unchanged attributes hidden)
+
+      - ip_configuration {
+          - name                                               = "internal" -> null
+          - primary                                            = true -> null
+          - private_ip_address                                 = "10.60.1.4" -> null
+          - private_ip_address_allocation                      = "Dynamic" -> null
+          - private_ip_address_version                         = "IPv4" -> null
+          - subnet_id                                          = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-compute/subnets/snet-cloud-lab-compute" -> null
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # azurerm_network_interface_security_group_association.compute will be destroyed
+  - resource "azurerm_network_interface_security_group_association" "compute" {
+      - id                        = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-compute|/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-compute" -> null
+      - network_interface_id      = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-compute" -> null
+      - network_security_group_id = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-compute" -> null
+    }
+
+  # azurerm_network_security_group.compute will be destroyed
+  - resource "azurerm_network_security_group" "compute" {
+      - id                  = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-compute" -> null
+      - location            = "denmarkeast" -> null
+      - name                = "nsg-cloud-lab-compute" -> null
+      - resource_group_name = "rg-cloud-lab" -> null
+      - security_rule       = [] -> null
+      - tags                = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+    }
+
+  # azurerm_snapshot.compute will be destroyed
+  - resource "azurerm_snapshot" "compute" {
+      - create_option                 = "Copy" -> null
+      - disk_size_gb                  = 30 -> null
+      - id                            = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/snapshots/snap-cloud-lab-compute" -> null
+      - incremental_enabled           = true -> null
+      - location                      = "denmarkeast" -> null
+      - name                          = "snap-cloud-lab-compute" -> null
+      - network_access_policy         = "AllowAll" -> null
+      - public_network_access_enabled = true -> null
+      - resource_group_name           = "rg-cloud-lab" -> null
+      - source_uri                    = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/disks/vm-cloud-lab-compute_disk1_<redacted-suffix>" -> null
+      - tags                          = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - trusted_launch_enabled        = false -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # azurerm_subnet.compute will be destroyed
+  - resource "azurerm_subnet" "compute" {
+      - address_prefixes                              = [
+          - "10.60.1.0/24",
+        ] -> null
+      - default_outbound_access_enabled               = true -> null
+      - id                                            = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-compute/subnets/snet-cloud-lab-compute" -> null
+      - name                                          = "snet-cloud-lab-compute" -> null
+      - private_endpoint_network_policies             = "Disabled" -> null
+      - private_link_service_network_policies_enabled = true -> null
+      - resource_group_name                           = "rg-cloud-lab" -> null
+      - service_endpoint_policy_ids                   = [] -> null
+      - service_endpoints                             = [] -> null
+      - virtual_network_name                          = "vnet-cloud-lab-compute" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_virtual_network.compute will be destroyed
+  - resource "azurerm_virtual_network" "compute" {
+      - address_space                  = [
+          - "10.60.0.0/16",
+        ] -> null
+      - dns_servers                    = [] -> null
+      - flow_timeout_in_minutes        = 0 -> null
+      - guid                           = "<redacted-guid>" -> null
+      - id                             = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-compute" -> null
+      - location                       = "denmarkeast" -> null
+      - name                           = "vnet-cloud-lab-compute" -> null
+      - private_endpoint_vnet_policies = "Disabled" -> null
+      - resource_group_name            = "rg-cloud-lab" -> null
+      - subnet                         = [
+          - {
+              - address_prefixes                              = [
+                  - "10.60.1.0/24",
+                ]
+              - default_outbound_access_enabled               = true
+              - delegation                                    = []
+              - id                                            = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-compute/subnets/snet-cloud-lab-compute"
+              - name                                          = "snet-cloud-lab-compute"
+              - private_endpoint_network_policies             = "Disabled"
+              - private_link_service_network_policies_enabled = true
+              - service_endpoint_policy_ids                   = []
+              - service_endpoints                             = []
+                # (2 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags                           = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # tls_private_key.compute will be destroyed
+  - resource "tls_private_key" "compute" {
+      - algorithm                     = "RSA" -> null
+      - ecdsa_curve                   = "P224" -> null
+      - id = "<redacted-id>" -> null
+      - private_key_openssh           = (sensitive value) -> null
+      - private_key_pem               = (sensitive value) -> null
+      - private_key_pem_pkcs8         = (sensitive value) -> null
+      - public_key_fingerprint_md5    = "<redacted-fingerprint>" -> null
+      - public_key_fingerprint_sha256 = "<redacted-fingerprint>" -> null
+      - public_key_openssh            = <<-EOT
+            ssh-rsa <redacted-key>
+        EOT -> null
+      - public_key_pem                = <<-EOT
+            -----BEGIN PUBLIC KEY----- <redacted-key>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            ZLa8Ym88/2IYqBod4jD6ncUCAwEAAQ==
+            -----END PUBLIC KEY-----
+        EOT -> null
+      - rsa_bits                      = 4096 -> null
+    }
+
+Plan: 0 to add, 0 to change, 8 to destroy.
+
+Changes to Outputs:
+  - compute_snapshot_name = "snap-cloud-lab-compute" -> null
+  - compute_vm_name       = "vm-cloud-lab-compute" -> null
+  - storage_container     = "data" -> null
+  - storage_private_only  = false -> null
+  - target_resource_group = "rg-cloud-lab" -> null
+azurerm_snapshot.compute: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/snapshots/snap-cloud-lab-compute]
+azurerm_snapshot.compute: Still destroying... [id=/subscriptions/<redacted-guid>...mpute/snapshots/snap-cloud-lab-compute, 00m10s elapsed]
+azurerm_snapshot.compute: Destruction complete after 14s
+azurerm_linux_virtual_machine.compute: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/virtualMachines/vm-cloud-lab-compute]
+azurerm_linux_virtual_machine.compute: Still destroying... [id=/subscriptions/<redacted-guid>...e/virtualMachines/vm-cloud-lab-compute, 00m10s elapsed]
+azurerm_linux_virtual_machine.compute: Still destroying... [id=/subscriptions/<redacted-guid>...e/virtualMachines/vm-cloud-lab-compute, 00m20s elapsed]
+azurerm_linux_virtual_machine.compute: Destruction complete after 27s
+azurerm_network_interface_security_group_association.compute: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-compute|/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-compute]
+tls_private_key.compute: Destroying... [id=<redacted-hash>]
+tls_private_key.compute: Destruction complete after 0s
+azurerm_network_interface_security_group_association.compute: Still destroying... [id=/subscriptions/<redacted-guid>...rkSecurityGroups/nsg-cloud-lab-compute, 00m10s elapsed]
+azurerm_network_interface_security_group_association.compute: Destruction complete after 12s
+azurerm_network_security_group.compute: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-compute]
+azurerm_network_interface.compute: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-compute]
+azurerm_network_security_group.compute: Still destroying... [id=/subscriptions/<redacted-guid>...rkSecurityGroups/nsg-cloud-lab-compute, 00m10s elapsed]
+azurerm_network_interface.compute: Still destroying... [id=/subscriptions/<redacted-guid>...etworkInterfaces/nic-cloud-lab-compute, 00m10s elapsed]
+azurerm_network_security_group.compute: Destruction complete after 12s
+azurerm_network_interface.compute: Destruction complete after 13s
+azurerm_subnet.compute: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-compute/subnets/snet-cloud-lab-compute]
+azurerm_subnet.compute: Still destroying... [id=/subscriptions/<redacted-guid>...compute/subnets/snet-cloud-lab-compute, 00m10s elapsed]
+azurerm_subnet.compute: Destruction complete after 12s
+azurerm_virtual_network.compute: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-compute]
+azurerm_virtual_network.compute: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworks/vnet-cloud-lab-compute, 00m10s elapsed]
+azurerm_virtual_network.compute: Destruction complete after 11s
+Releasing state lock. This may take a few moments...
+
+Destroy complete! Resources: 8 destroyed.

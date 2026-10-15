@@ -55,7 +55,7 @@ The `stop` ran about 40 minutes later than planned and the `deallocate` about 18
 
 ## Configured but not observed
 
-- **The Terraform build.** CLOUD-28 asks for a VM built, resized, imaged and destroyed from Terraform. The 12 Oct session was console-only, by decision. The Terraform twin was written and syntax-checked on 13 Oct (`azure/layer1/compute.tf`, `aws/layer1/compute.tf`, session steps in `docs/runbooks/compute-session.md`) but has not been planned or applied, so nothing in it is observed yet. Resize and image capture are not covered.
+- **The Terraform build.** CLOUD-28 asks for a VM built, resized, imaged and destroyed from Terraform. The 12 Oct session was console-only, by decision. The Terraform twin (`azure/layer1/compute.tf`, `aws/layer1/compute.tf`, steps in `docs/runbooks/compute-session.md`) was applied and destroyed on 14 Oct, and resize and image capture were done on 15 Oct (`docs/runbooks/compute-resize-image-session.md`). Both are observed: see the two sections below. The billing rows of the 15 Oct session are read on 16 Oct.
 - **Free-hours consumption.** The 750-hour allowance was read at 0 hours of B1s before the session (12 Oct, 09:59). The 13 Oct read shows 2.983 hours of B1s priced at the full list rate, with no zero-priced meter for B1s. Whether the free-hours benefit or the credit paid for them is not visible in that gross view and is still open.
 - **Cost at zero traffic on AWS** is observed on the 14 Oct read (section below): a full day with the stack in place and no calls produced no Lambda or API Gateway line.
 - **Disaster recovery and migration.** Planned in CLOUD-33, CLOUD-34 and CLOUD-35, not started.
@@ -213,6 +213,25 @@ AWS, 14 Oct, all tagged `domain=compute`:
 - The API Gateway usage is tagged this time. On 12 Oct it was untagged because the tags were added after the calls. This is the visible effect of tagging at creation.
 - Lambda: 0.01075 GB-s over 10 calls at 128 MB (0.125 GB) is about 8.6 ms billed per call on average, cold start included. On 12 Oct it was about 28 ms; the function code and runtime are not the same, so this is not a like-for-like comparison.
 - The read was taken about 15 hours after the end of 14 Oct, so late records are possible. Nothing has been posted for 15 Oct yet.
+
+## Resize and image session, 15 Oct 2026 (observed)
+
+Azure only. AWS has no machine in this lab to resize or image (Lambda).
+
+| Step | Time (UTC) | Result |
+|---|---|---|
+| Build at B1s, `-target` the VM | 15:21:15 to 15:22:54 | 7 added, `Standard_B1s`, `VM running` |
+| Resize to `Standard_B2ats_v2` | 15:24:19 to 15:25:57 | plan: 1 to change, updated in place; `Standard_B2ats_v2`, `VM running` |
+| Snapshot of the OS disk | 15:27:35 to 15:28:06 | 1 added; incremental, `Succeeded`, tags `domain=compute`, `layer=1` |
+| Teardown | from 15:30:02 | 8 destroyed (snapshot 14 s, VM 27 s, network about 12 s each) |
+
+Checked afterwards, not from the destroy output: the resource group lists no resources and no snapshot remains. The VM existed for about 8 minutes.
+
+What the resize did, from the activity log (UTC): Power Off 15:24:39 to 15:24:45, Create or Update 15:24:51 to 15:24:57, Start 15:25:03 to 15:25:09. The provider powered the VM off, it did not deallocate it. For about 24 seconds the VM was Stopped (Allocated), the state that still bills compute. Whether those seconds, and the update between the two sizes, show up under the B1s meter or the B2ats_v2 meter is read on 16 Oct.
+
+What the image is: an incremental snapshot of the OS disk, 30 GiB (the CLI reported the size field empty; the byte count 32,213,303,296 and the Terraform state `disk_size_gb = 30` agree). It is crash-consistent, taken while the VM ran. The snapshot SKU came out `Standard_ZRS`, the default for incremental snapshots, not something chosen in the code. A generalized managed image was not made: it needs the VM deprovisioned from inside, which this lab cannot do on purpose (no login path), and it would leave the VM unusable. This was not restored to a disk, so "usable" is not demonstrated, only "created and complete".
+
+Cost expected, not observed: about 0.01 to 0.02 USD (VM minutes at two sizes, the disk, a snapshot that lived minutes). Read on 16 Oct: expect a B1s row and a B2ats_v2 row.
 
 ## Still to read
 
