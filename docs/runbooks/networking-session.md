@@ -27,9 +27,13 @@ $t = @(
   "-target=azurerm_network_security_rule.net_web_https",
   "-target=azurerm_network_security_rule.net_db_sql_from_web",
   "-target=azurerm_network_security_rule.net_db_deny_internet",
-  "-target=azurerm_network_security_rule.net_db_deny_web_other"
+  "-target=azurerm_network_security_rule.net_db_deny_web_other",
+  "-target=azurerm_private_dns_zone_virtual_network_link.net_blob"
 )
 ```
+
+The DNS link needs its own `-target`: nothing in the list depends on it, so the first plan (16 Oct) came
+out at 18 instead of 19 and would have left the name resolving to the public address.
 
 ## Before applying
 

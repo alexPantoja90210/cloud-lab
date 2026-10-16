@@ -68,3 +68,21 @@ Operations, Read Operations.
 ## Still to do
 
 Compare with the CLI report on Azure (5-decimal figures) and record both in `docs/credit-log.md`.
+
+## Terraform twin run (16 Oct 2026, about 12:49 to 13:09 local)
+
+`azure/layer1/networking.tf` applied in four phases, destroyed at the end (19 resources applied, 20
+destroyed after the rule added in phase C; the resource group listing was empty afterwards).
+
+| Phase | Change | Read from inside the VM | Predicted by the operator |
+|---|---|---|---|
+| A | build | name resolves to 10.70.2.4, port 443 `open` | yes |
+| B | endpoint policy `Disabled` to `NetworkSecurityGroupEnabled` | `blocked` (rule 300) | yes |
+| C | add rule 150 allow web to endpoint | `open` (150 beats 300) | to be confirmed in the operator's log |
+| D | public network access off | laptop gets 403 | not recorded |
+
+- Same results as the console build, including the same private address.
+- The first plan counted 18, not 19: the DNS zone link was missing from the `-target` list because nothing
+  in the list depends on it. Without it the VM would have resolved the public address. Found by comparing
+  the count with the one computed from the code before applying.
+- The endpoint policy is one property of the subnet in Terraform; in the console it was a setting to find.

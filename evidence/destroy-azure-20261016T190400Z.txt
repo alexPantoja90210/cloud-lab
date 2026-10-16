@@ -1,0 +1,776 @@
+Acquiring state lock. This may take a few moments...
+random_string.net_suffix: Refreshing state... [id=wecujc]
+tls_private_key.net_client: Refreshing state... [id=<redacted-hash>]
+data.azurerm_client_config.current: Reading...
+data.azurerm_resource_group.lab: Reading...
+data.azurerm_user_assigned_identity.reader: Reading...
+data.azurerm_client_config.current: Read complete after 0s [id=<redacted-client-config>]
+data.azurerm_resource_group.lab: Read complete after 1s [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab]
+azurerm_network_security_group.net_web: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-web]
+azurerm_private_dns_zone.net_blob: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateDnsZones/<redacted-azure-storage-endpoint>]
+azurerm_virtual_network.net: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net]
+azurerm_storage_account.net: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabnetwecujc]
+azurerm_network_security_group.net_db: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db]
+data.azurerm_user_assigned_identity.reader: Read complete after 1s [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab-identity/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-cloud-lab-reader]
+azurerm_subnet.net_db: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db]
+azurerm_subnet.net_web: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web]
+azurerm_network_security_rule.net_db_deny_web_other: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/deny-web-other]
+azurerm_network_security_rule.net_db_sql_from_web: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/allow-sql-from-web]
+azurerm_network_security_rule.net_db_deny_internet: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/deny-internet-in]
+azurerm_network_security_rule.net_web_https: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-web/securityRules/allow-https-in]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateDnsZones/<redacted-azure-storage-endpoint>/virtualNetworkLinks/link-cloud-lab-net]
+azurerm_subnet_network_security_group_association.net_web: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web]
+azurerm_network_interface.net_client: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-net-client]
+azurerm_subnet_network_security_group_association.net_db: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db]
+azurerm_linux_virtual_machine.net_client: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/virtualMachines/vm-cloud-lab-net-client]
+azurerm_private_endpoint.net: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateEndpoints/pe-cloud-lab-net-blob]
+azurerm_network_security_rule.net_db_allow_web_to_pe[0]: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/allow-web-to-pe]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # azurerm_linux_virtual_machine.net_client will be destroyed
+  - resource "azurerm_linux_virtual_machine" "net_client" {
+      - admin_username                                         = "azureuser" -> null
+      - allow_extension_operations                             = true -> null
+      - bypass_platform_safety_checks_on_user_schedule_enabled = false -> null
+      - computer_name                                          = "vm-cloud-lab-net-client" -> null
+      - disable_password_authentication                        = true -> null
+      - disk_controller_type                                   = "SCSI" -> null
+      - encryption_at_host_enabled                             = false -> null
+      - extensions_time_budget                                 = "PT1H30M" -> null
+      - id                                                     = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/virtualMachines/vm-cloud-lab-net-client" -> null
+      - location                                               = "denmarkeast" -> null
+      - max_bid_price                                          = -1 -> null
+      - name                                                   = "vm-cloud-lab-net-client" -> null
+      - network_interface_ids                                  = [
+          - "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-net-client",
+        ] -> null
+      - os_managed_disk_id                                     = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/disks/vm-cloud-lab-net-client_disk1_<redacted-suffix>" -> null
+      - patch_assessment_mode                                  = "ImageDefault" -> null
+      - patch_mode                                             = "ImageDefault" -> null
+      - platform_fault_domain                                  = -1 -> null
+      - priority                                               = "Regular" -> null
+      - private_ip_address                                     = "10.70.1.4" -> null
+      - private_ip_addresses                                   = [
+          - "10.70.1.4",
+        ] -> null
+      - provision_vm_agent                                     = true -> null
+      - public_ip_addresses                                    = [] -> null
+      - resource_group_name                                    = "rg-cloud-lab" -> null
+      - secure_boot_enabled                                    = false -> null
+      - size                                                   = "Standard_B1s" -> null
+      - tags                                                   = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - virtual_machine_id                                     = "<redacted-guid>" -> null
+      - vm_agent_platform_updates_enabled                      = true -> null
+      - vtpm_enabled                                           = false -> null
+      - zone                                                   = "1" -> null
+        # (13 unchanged attributes hidden)
+
+      - admin_ssh_key {
+          - public_key = <<-EOT
+                ssh-rsa <redacted-key>
+            EOT -> null
+          - username   = "azureuser" -> null
+        }
+
+      - os_disk {
+          - caching                          = "ReadWrite" -> null
+          - disk_size_gb                     = 30 -> null
+          - id                               = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/disks/vm-cloud-lab-net-client_disk1_<redacted-suffix>" -> null
+          - name                             = "vm-cloud-lab-net-client_disk1_<redacted-suffix>" -> null
+          - storage_account_type             = "StandardSSD_LRS" -> null
+          - write_accelerator_enabled        = false -> null
+            # (3 unchanged attributes hidden)
+        }
+
+      - source_image_reference {
+          - offer     = "ubuntu-24_04-lts" -> null
+          - publisher = "Canonical" -> null
+          - sku       = "server" -> null
+          - version   = "latest" -> null
+        }
+    }
+
+  # azurerm_network_interface.net_client will be destroyed
+  - resource "azurerm_network_interface" "net_client" {
+      - accelerated_networking_enabled = false -> null
+      - applied_dns_servers            = [] -> null
+      - dns_servers                    = [] -> null
+      - id                             = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-net-client" -> null
+      - internal_domain_name_suffix    = "4chlfi4qekbuhi24vt1fo1uhna.cphx.internal.cloudapp.net" -> null
+      - ip_forwarding_enabled          = false -> null
+      - location                       = "denmarkeast" -> null
+      - mac_address                    = "<redacted-mac>" -> null
+      - name                           = "nic-cloud-lab-net-client" -> null
+      - private_ip_address             = "10.70.1.4" -> null
+      - private_ip_addresses           = [
+          - "10.70.1.4",
+        ] -> null
+      - resource_group_name            = "rg-cloud-lab" -> null
+      - tags                           = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - virtual_machine_id             = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/virtualMachines/vm-cloud-lab-net-client" -> null
+        # (4 unchanged attributes hidden)
+
+      - ip_configuration {
+          - name                                               = "internal" -> null
+          - primary                                            = true -> null
+          - private_ip_address                                 = "10.70.1.4" -> null
+          - private_ip_address_allocation                      = "Dynamic" -> null
+          - private_ip_address_version                         = "IPv4" -> null
+          - subnet_id                                          = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web" -> null
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # azurerm_network_security_group.net_db will be destroyed
+  - resource "azurerm_network_security_group" "net_db" {
+      - id                  = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db" -> null
+      - location            = "denmarkeast" -> null
+      - name                = "nsg-cloud-lab-net-db" -> null
+      - resource_group_name = "rg-cloud-lab" -> null
+      - security_rule       = [
+          - {
+              - access                                     = "Allow"
+              - destination_address_prefix                 = "*"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "1433"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "allow-sql-from-web"
+              - priority                                   = 100
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "10.70.1.0/24"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+                # (1 unchanged attribute hidden)
+            },
+          - {
+              - access                                     = "Allow"
+              - destination_address_prefix                 = "10.70.2.4/32"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "443"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "allow-web-to-pe"
+              - priority                                   = 150
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "10.70.1.0/24"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+                # (1 unchanged attribute hidden)
+            },
+          - {
+              - access                                     = "Deny"
+              - destination_address_prefix                 = "*"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "*"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "deny-internet-in"
+              - priority                                   = 200
+              - protocol                                   = "*"
+              - source_address_prefix                      = "Internet"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+                # (1 unchanged attribute hidden)
+            },
+          - {
+              - access                                     = "Deny"
+              - destination_address_prefix                 = "*"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "*"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "deny-web-other"
+              - priority                                   = 300
+              - protocol                                   = "*"
+              - source_address_prefix                      = "10.70.1.0/24"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - tags                = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+    }
+
+  # azurerm_network_security_group.net_web will be destroyed
+  - resource "azurerm_network_security_group" "net_web" {
+      - id                  = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-web" -> null
+      - location            = "denmarkeast" -> null
+      - name                = "nsg-cloud-lab-net-web" -> null
+      - resource_group_name = "rg-cloud-lab" -> null
+      - security_rule       = [
+          - {
+              - access                                     = "Allow"
+              - destination_address_prefix                 = "*"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "443"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "allow-https-in"
+              - priority                                   = 100
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "*"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - tags                = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+    }
+
+  # azurerm_network_security_rule.net_db_allow_web_to_pe[0] will be destroyed
+  - resource "azurerm_network_security_rule" "net_db_allow_web_to_pe" {
+      - access                                     = "Allow" -> null
+      - destination_address_prefix                 = "10.70.2.4/32" -> null
+      - destination_address_prefixes               = [] -> null
+      - destination_application_security_group_ids = [] -> null
+      - destination_port_range                     = "443" -> null
+      - destination_port_ranges                    = [] -> null
+      - direction                                  = "Inbound" -> null
+      - id                                         = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/allow-web-to-pe" -> null
+      - name                                       = "allow-web-to-pe" -> null
+      - network_security_group_name                = "nsg-cloud-lab-net-db" -> null
+      - priority                                   = 150 -> null
+      - protocol                                   = "Tcp" -> null
+      - resource_group_name                        = "rg-cloud-lab" -> null
+      - source_address_prefix                      = "10.70.1.0/24" -> null
+      - source_address_prefixes                    = [] -> null
+      - source_application_security_group_ids      = [] -> null
+      - source_port_range                          = "*" -> null
+      - source_port_ranges                         = [] -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_network_security_rule.net_db_deny_internet will be destroyed
+  - resource "azurerm_network_security_rule" "net_db_deny_internet" {
+      - access                                     = "Deny" -> null
+      - destination_address_prefix                 = "*" -> null
+      - destination_address_prefixes               = [] -> null
+      - destination_application_security_group_ids = [] -> null
+      - destination_port_range                     = "*" -> null
+      - destination_port_ranges                    = [] -> null
+      - direction                                  = "Inbound" -> null
+      - id                                         = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/deny-internet-in" -> null
+      - name                                       = "deny-internet-in" -> null
+      - network_security_group_name                = "nsg-cloud-lab-net-db" -> null
+      - priority                                   = 200 -> null
+      - protocol                                   = "*" -> null
+      - resource_group_name                        = "rg-cloud-lab" -> null
+      - source_address_prefix                      = "Internet" -> null
+      - source_address_prefixes                    = [] -> null
+      - source_application_security_group_ids      = [] -> null
+      - source_port_range                          = "*" -> null
+      - source_port_ranges                         = [] -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_network_security_rule.net_db_deny_web_other will be destroyed
+  - resource "azurerm_network_security_rule" "net_db_deny_web_other" {
+      - access                                     = "Deny" -> null
+      - destination_address_prefix                 = "*" -> null
+      - destination_address_prefixes               = [] -> null
+      - destination_application_security_group_ids = [] -> null
+      - destination_port_range                     = "*" -> null
+      - destination_port_ranges                    = [] -> null
+      - direction                                  = "Inbound" -> null
+      - id                                         = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/deny-web-other" -> null
+      - name                                       = "deny-web-other" -> null
+      - network_security_group_name                = "nsg-cloud-lab-net-db" -> null
+      - priority                                   = 300 -> null
+      - protocol                                   = "*" -> null
+      - resource_group_name                        = "rg-cloud-lab" -> null
+      - source_address_prefix                      = "10.70.1.0/24" -> null
+      - source_address_prefixes                    = [] -> null
+      - source_application_security_group_ids      = [] -> null
+      - source_port_range                          = "*" -> null
+      - source_port_ranges                         = [] -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_network_security_rule.net_db_sql_from_web will be destroyed
+  - resource "azurerm_network_security_rule" "net_db_sql_from_web" {
+      - access                                     = "Allow" -> null
+      - destination_address_prefix                 = "*" -> null
+      - destination_address_prefixes               = [] -> null
+      - destination_application_security_group_ids = [] -> null
+      - destination_port_range                     = "1433" -> null
+      - destination_port_ranges                    = [] -> null
+      - direction                                  = "Inbound" -> null
+      - id                                         = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/allow-sql-from-web" -> null
+      - name                                       = "allow-sql-from-web" -> null
+      - network_security_group_name                = "nsg-cloud-lab-net-db" -> null
+      - priority                                   = 100 -> null
+      - protocol                                   = "Tcp" -> null
+      - resource_group_name                        = "rg-cloud-lab" -> null
+      - source_address_prefix                      = "10.70.1.0/24" -> null
+      - source_address_prefixes                    = [] -> null
+      - source_application_security_group_ids      = [] -> null
+      - source_port_range                          = "*" -> null
+      - source_port_ranges                         = [] -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_network_security_rule.net_web_https will be destroyed
+  - resource "azurerm_network_security_rule" "net_web_https" {
+      - access                                     = "Allow" -> null
+      - destination_address_prefix                 = "*" -> null
+      - destination_address_prefixes               = [] -> null
+      - destination_application_security_group_ids = [] -> null
+      - destination_port_range                     = "443" -> null
+      - destination_port_ranges                    = [] -> null
+      - direction                                  = "Inbound" -> null
+      - id                                         = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-web/securityRules/allow-https-in" -> null
+      - name                                       = "allow-https-in" -> null
+      - network_security_group_name                = "nsg-cloud-lab-net-web" -> null
+      - priority                                   = 100 -> null
+      - protocol                                   = "Tcp" -> null
+      - resource_group_name                        = "rg-cloud-lab" -> null
+      - source_address_prefix                      = "*" -> null
+      - source_address_prefixes                    = [] -> null
+      - source_application_security_group_ids      = [] -> null
+      - source_port_range                          = "*" -> null
+      - source_port_ranges                         = [] -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_private_dns_zone.net_blob will be destroyed
+  - resource "azurerm_private_dns_zone" "net_blob" {
+      - id                                                    = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateDnsZones/<redacted-azure-storage-endpoint>" -> null
+      - max_number_of_record_sets                             = 25000 -> null
+      - max_number_of_virtual_network_links                   = 1000 -> null
+      - max_number_of_virtual_network_links_with_registration = 100 -> null
+      - name                                                  = "<redacted-azure-storage-endpoint>" -> null
+      - number_of_record_sets                                 = 2 -> null
+      - resource_group_name                                   = "rg-cloud-lab" -> null
+      - tags                                                  = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+
+      - soa_record {
+          - email         = "azureprivatedns-host.microsoft.com" -> null
+          - expire_time   = 2419200 -> null
+          - fqdn          = "<redacted-azure-storage-endpoint>." -> null
+          - host_name     = "azureprivatedns.net" -> null
+          - minimum_ttl   = 10 -> null
+          - refresh_time  = 3600 -> null
+          - retry_time    = 300 -> null
+          - serial_number = 1 -> null
+          - tags          = {} -> null
+          - ttl           = 3600 -> null
+        }
+    }
+
+  # azurerm_private_dns_zone_virtual_network_link.net_blob will be destroyed
+  - resource "azurerm_private_dns_zone_virtual_network_link" "net_blob" {
+      - id                    = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateDnsZones/<redacted-azure-storage-endpoint>/virtualNetworkLinks/link-cloud-lab-net" -> null
+      - name                  = "link-cloud-lab-net" -> null
+      - private_dns_zone_name = "<redacted-azure-storage-endpoint>" -> null
+      - registration_enabled  = false -> null
+      - resolution_policy     = "Default" -> null
+      - resource_group_name   = "rg-cloud-lab" -> null
+      - tags                  = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - virtual_network_id    = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net" -> null
+    }
+
+  # azurerm_private_endpoint.net will be destroyed
+  - resource "azurerm_private_endpoint" "net" {
+      - custom_dns_configs            = [] -> null
+      - id                            = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateEndpoints/pe-cloud-lab-net-blob" -> null
+      - location                      = "denmarkeast" -> null
+      - name                          = "pe-cloud-lab-net-blob" -> null
+      - network_interface             = [
+          - {
+              - id   = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/pe-cloud-lab-net-blob.nic.<redacted-guid>"
+              - name = "pe-cloud-lab-net-blob.nic.<redacted-guid>"
+            },
+        ] -> null
+      - private_dns_zone_configs      = [
+          - {
+              - id                  = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateEndpoints/pe-cloud-lab-net-blob/privateDnsZoneGroups/default/privateDnsZoneConfigs/<redacted-azure-storage-endpoint>"
+              - name                = "<redacted-azure-storage-endpoint>"
+              - private_dns_zone_id = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateDnsZones/<redacted-azure-storage-endpoint>"
+              - record_sets         = [
+                  - {
+                      - fqdn         = "stlabnetwecujc.<redacted-azure-storage-endpoint>"
+                      - ip_addresses = [
+                          - "10.70.2.4",
+                        ]
+                      - name         = "stlabnetwecujc"
+                      - ttl          = 10
+                      - type         = "A"
+                    },
+                ]
+            },
+        ] -> null
+      - resource_group_name           = "rg-cloud-lab" -> null
+      - subnet_id                     = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db" -> null
+      - tags                          = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - private_dns_zone_group {
+          - id                   = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateEndpoints/pe-cloud-lab-net-blob/privateDnsZoneGroups/default" -> null
+          - name                 = "default" -> null
+          - private_dns_zone_ids = [
+              - "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateDnsZones/<redacted-azure-storage-endpoint>",
+            ] -> null
+        }
+
+      - private_service_connection {
+          - is_manual_connection              = false -> null
+          - name                              = "psc-cloud-lab-net-blob" -> null
+          - private_connection_resource_id    = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabnetwecujc" -> null
+          - private_ip_address                = "10.70.2.4" -> null
+          - subresource_names                 = [
+              - "blob",
+            ] -> null
+            # (2 unchanged attributes hidden)
+        }
+    }
+
+  # azurerm_storage_account.net will be destroyed
+  - resource "azurerm_storage_account" "net" {
+      - access_tier                        = "Hot" -> null
+      - account_kind                       = "StorageV2" -> null
+      - account_replication_type           = "LRS" -> null
+      - account_tier                       = "Standard" -> null
+      - allow_nested_items_to_be_public    = false -> null
+      - cross_tenant_replication_enabled   = false -> null
+      - default_to_oauth_authentication    = false -> null
+      - dns_endpoint_type                  = "Standard" -> null
+      - https_traffic_only_enabled         = true -> null
+      - id                                 = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabnetwecujc" -> null
+      - infrastructure_encryption_enabled  = false -> null
+      - is_hns_enabled                     = false -> null
+      - large_file_share_enabled           = false -> null
+      - local_user_enabled                 = true -> null
+      - location                           = "denmarkeast" -> null
+      - min_tls_version                    = "TLS1_2" -> null
+      - name                               = "stlabnetwecujc" -> null
+      - nfsv3_enabled                      = false -> null
+      - primary_access_key                 = (sensitive value) -> null
+      - primary_blob_connection_string     = (sensitive value) -> null
+      - primary_blob_endpoint              = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_blob_host                  = "<redacted-azure-storage-endpoint>" -> null
+      - primary_connection_string          = (sensitive value) -> null
+      - primary_dfs_endpoint               = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_dfs_host                   = "<redacted-azure-storage-endpoint>" -> null
+      - primary_file_endpoint              = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_file_host                  = "<redacted-azure-storage-endpoint>" -> null
+      - primary_location                   = "denmarkeast" -> null
+      - primary_queue_endpoint             = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_queue_host                 = "<redacted-azure-storage-endpoint>" -> null
+      - primary_table_endpoint             = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_table_host                 = "<redacted-azure-storage-endpoint>" -> null
+      - primary_web_endpoint               = "https://stlabnetwecujc.<redacted-azure-storage-endpoint>/" -> null
+      - primary_web_host                   = "stlabnetwecujc.<redacted-azure-storage-endpoint>" -> null
+      - public_network_access_enabled      = false -> null
+      - queue_encryption_key_type          = "Service" -> null
+      - resource_group_name                = "rg-cloud-lab" -> null
+      - secondary_access_key               = (sensitive value) -> null
+      - secondary_connection_string        = (sensitive value) -> null
+      - sftp_enabled                       = false -> null
+      - shared_access_key_enabled          = true -> null
+      - table_encryption_key_type          = "Service" -> null
+      - tags                               = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (57 unchanged attributes hidden)
+
+      - blob_properties {
+          - change_feed_enabled           = false -> null
+          - change_feed_retention_in_days = 0 -> null
+          - last_access_time_enabled      = false -> null
+          - versioning_enabled            = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - share_properties {
+          - retention_policy {
+              - days = 7 -> null
+            }
+        }
+    }
+
+  # azurerm_subnet.net_db will be destroyed
+  - resource "azurerm_subnet" "net_db" {
+      - address_prefixes                              = [
+          - "10.70.2.0/24",
+        ] -> null
+      - default_outbound_access_enabled               = true -> null
+      - id                                            = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db" -> null
+      - name                                          = "snet-db" -> null
+      - private_endpoint_network_policies             = "NetworkSecurityGroupEnabled" -> null
+      - private_link_service_network_policies_enabled = true -> null
+      - resource_group_name                           = "rg-cloud-lab" -> null
+      - service_endpoint_policy_ids                   = [] -> null
+      - service_endpoints                             = [] -> null
+      - virtual_network_name                          = "vnet-cloud-lab-net" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_subnet.net_web will be destroyed
+  - resource "azurerm_subnet" "net_web" {
+      - address_prefixes                              = [
+          - "10.70.1.0/24",
+        ] -> null
+      - default_outbound_access_enabled               = true -> null
+      - id                                            = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web" -> null
+      - name                                          = "snet-web" -> null
+      - private_endpoint_network_policies             = "Disabled" -> null
+      - private_link_service_network_policies_enabled = true -> null
+      - resource_group_name                           = "rg-cloud-lab" -> null
+      - service_endpoint_policy_ids                   = [] -> null
+      - service_endpoints                             = [] -> null
+      - virtual_network_name                          = "vnet-cloud-lab-net" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # azurerm_subnet_network_security_group_association.net_db will be destroyed
+  - resource "azurerm_subnet_network_security_group_association" "net_db" {
+      - id                        = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db" -> null
+      - network_security_group_id = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db" -> null
+      - subnet_id                 = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db" -> null
+    }
+
+  # azurerm_subnet_network_security_group_association.net_web will be destroyed
+  - resource "azurerm_subnet_network_security_group_association" "net_web" {
+      - id                        = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web" -> null
+      - network_security_group_id = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-web" -> null
+      - subnet_id                 = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web" -> null
+    }
+
+  # azurerm_virtual_network.net will be destroyed
+  - resource "azurerm_virtual_network" "net" {
+      - address_space                  = [
+          - "10.70.0.0/16",
+        ] -> null
+      - dns_servers                    = [] -> null
+      - flow_timeout_in_minutes        = 0 -> null
+      - guid                           = "<redacted-guid>" -> null
+      - id                             = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net" -> null
+      - location                       = "denmarkeast" -> null
+      - name                           = "vnet-cloud-lab-net" -> null
+      - private_endpoint_vnet_policies = "Disabled" -> null
+      - resource_group_name            = "rg-cloud-lab" -> null
+      - subnet                         = [
+          - {
+              - address_prefixes                              = [
+                  - "10.70.1.0/24",
+                ]
+              - default_outbound_access_enabled               = true
+              - delegation                                    = []
+              - id                                            = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web"
+              - name                                          = "snet-web"
+              - private_endpoint_network_policies             = "Disabled"
+              - private_link_service_network_policies_enabled = true
+              - security_group                                = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-web"
+              - service_endpoint_policy_ids                   = []
+              - service_endpoints                             = []
+                # (1 unchanged attribute hidden)
+            },
+          - {
+              - address_prefixes                              = [
+                  - "10.70.2.0/24",
+                ]
+              - default_outbound_access_enabled               = true
+              - delegation                                    = []
+              - id                                            = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db"
+              - name                                          = "snet-db"
+              - private_endpoint_network_policies             = "NetworkSecurityGroupEnabled"
+              - private_link_service_network_policies_enabled = true
+              - security_group                                = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db"
+              - service_endpoint_policy_ids                   = []
+              - service_endpoints                             = []
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - tags                           = {
+          - "domain" = "networking"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # random_string.net_suffix will be destroyed
+  - resource "random_string" "net_suffix" {
+      - id          = "wecujc" -> null
+      - length      = 6 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = "wecujc" -> null
+      - special     = false -> null
+      - upper       = false -> null
+    }
+
+  # tls_private_key.net_client will be destroyed
+  - resource "tls_private_key" "net_client" {
+      - algorithm                     = "RSA" -> null
+      - ecdsa_curve                   = "P224" -> null
+      - id = "<redacted-id>" -> null
+      - private_key_openssh           = (sensitive value) -> null
+      - private_key_pem               = (sensitive value) -> null
+      - private_key_pem_pkcs8         = (sensitive value) -> null
+      - public_key_fingerprint_md5    = "<redacted-fingerprint>" -> null
+      - public_key_fingerprint_sha256 = "<redacted-fingerprint>" -> null
+      - public_key_openssh            = <<-EOT
+            ssh-rsa <redacted-key>
+        EOT -> null
+      - public_key_pem                = <<-EOT
+            -----BEGIN PUBLIC KEY----- <redacted-key>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            <redacted-key-body>
+            1RMG9LC19nm3QpNW0gZMhmcCAwEAAQ==
+            -----END PUBLIC KEY-----
+        EOT -> null
+      - rsa_bits                      = 4096 -> null
+    }
+
+Plan: 0 to add, 0 to change, 20 to destroy.
+
+Changes to Outputs:
+  - compute_snapshot_name = "snap-cloud-lab-compute" -> null
+  - compute_vm_name       = "vm-cloud-lab-compute" -> null
+  - net_endpoint_ip       = "10.70.2.4" -> null
+  - net_storage_account   = "stlabnetwecujc" -> null
+  - net_vm_name           = "vm-cloud-lab-net-client" -> null
+  - storage_container     = "data" -> null
+  - storage_private_only  = false -> null
+  - target_resource_group = "rg-cloud-lab" -> null
+azurerm_subnet_network_security_group_association.net_db: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateDnsZones/<redacted-azure-storage-endpoint>/virtualNetworkLinks/link-cloud-lab-net]
+azurerm_network_security_rule.net_db_deny_internet: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/deny-internet-in]
+azurerm_network_security_rule.net_db_allow_web_to_pe[0]: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/allow-web-to-pe]
+azurerm_network_security_rule.net_db_deny_web_other: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/deny-web-other]
+azurerm_network_security_rule.net_web_https: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-web/securityRules/allow-https-in]
+azurerm_network_security_rule.net_db_sql_from_web: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db/securityRules/allow-sql-from-web]
+azurerm_linux_virtual_machine.net_client: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Compute/virtualMachines/vm-cloud-lab-net-client]
+azurerm_subnet_network_security_group_association.net_db: Destruction complete after 6s
+azurerm_network_security_rule.net_db_deny_web_other: Still destroying... [id=/subscriptions/<redacted-guid>...ab-net-db/securityRules/deny-web-other, 00m10s elapsed]
+azurerm_network_security_rule.net_db_allow_web_to_pe[0]: Still destroying... [id=/subscriptions/<redacted-guid>...b-net-db/securityRules/allow-web-to-pe, 00m10s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 00m10s elapsed]
+azurerm_network_security_rule.net_web_https: Still destroying... [id=/subscriptions/<redacted-guid>...b-net-web/securityRules/allow-https-in, 00m10s elapsed]
+azurerm_network_security_rule.net_db_sql_from_web: Still destroying... [id=/subscriptions/<redacted-guid>...et-db/securityRules/allow-sql-from-web, 00m10s elapsed]
+azurerm_network_security_rule.net_db_deny_internet: Still destroying... [id=/subscriptions/<redacted-guid>...-net-db/securityRules/deny-internet-in, 00m10s elapsed]
+azurerm_linux_virtual_machine.net_client: Still destroying... [id=/subscriptions/<redacted-guid>...irtualMachines/vm-cloud-lab-net-client, 00m10s elapsed]
+azurerm_network_security_rule.net_db_sql_from_web: Destruction complete after 11s
+azurerm_network_security_rule.net_db_deny_web_other: Destruction complete after 12s
+azurerm_network_security_rule.net_web_https: Destruction complete after 12s
+azurerm_network_security_rule.net_db_deny_internet: Destruction complete after 12s
+azurerm_network_security_rule.net_db_allow_web_to_pe[0]: Still destroying... [id=/subscriptions/<redacted-guid>...b-net-db/securityRules/allow-web-to-pe, 00m20s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 00m20s elapsed]
+azurerm_linux_virtual_machine.net_client: Still destroying... [id=/subscriptions/<redacted-guid>...irtualMachines/vm-cloud-lab-net-client, 00m20s elapsed]
+azurerm_network_security_rule.net_db_allow_web_to_pe[0]: Destruction complete after 25s
+azurerm_private_endpoint.net: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateEndpoints/pe-cloud-lab-net-blob]
+azurerm_network_security_group.net_db: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-db]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 00m30s elapsed]
+azurerm_linux_virtual_machine.net_client: Still destroying... [id=/subscriptions/<redacted-guid>...irtualMachines/vm-cloud-lab-net-client, 00m30s elapsed]
+azurerm_linux_virtual_machine.net_client: Destruction complete after 35s
+azurerm_private_endpoint.net: Still destroying... [id=/subscriptions/<redacted-guid>...privateEndpoints/pe-cloud-lab-net-blob, 00m10s elapsed]
+azurerm_network_security_group.net_db: Still destroying... [id=/subscriptions/<redacted-guid>...orkSecurityGroups/nsg-cloud-lab-net-db, 00m10s elapsed]
+azurerm_subnet_network_security_group_association.net_web: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web]
+azurerm_network_interface.net_client: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkInterfaces/nic-cloud-lab-net-client]
+tls_private_key.net_client: Destroying... [id=<redacted-hash>]
+tls_private_key.net_client: Destruction complete after 0s
+azurerm_network_security_group.net_db: Destruction complete after 11s
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 00m40s elapsed]
+azurerm_subnet_network_security_group_association.net_web: Destruction complete after 6s
+azurerm_network_security_group.net_web: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-cloud-lab-net-web]
+azurerm_private_endpoint.net: Still destroying... [id=/subscriptions/<redacted-guid>...privateEndpoints/pe-cloud-lab-net-blob, 00m20s elapsed]
+azurerm_network_interface.net_client: Still destroying... [id=/subscriptions/<redacted-guid>...orkInterfaces/nic-cloud-lab-net-client, 00m10s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 00m50s elapsed]
+azurerm_network_security_group.net_web: Still destroying... [id=/subscriptions/<redacted-guid>...rkSecurityGroups/nsg-cloud-lab-net-web, 00m10s elapsed]
+azurerm_network_interface.net_client: Destruction complete after 17s
+azurerm_subnet.net_web: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-web]
+azurerm_network_security_group.net_web: Destruction complete after 11s
+azurerm_private_endpoint.net: Still destroying... [id=/subscriptions/<redacted-guid>...privateEndpoints/pe-cloud-lab-net-blob, 00m30s elapsed]
+azurerm_private_endpoint.net: Destruction complete after 35s
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 01m00s elapsed]
+azurerm_subnet.net_db: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net/subnets/snet-db]
+azurerm_storage_account.net: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabnetwecujc]
+azurerm_subnet.net_web: Still destroying... [id=/subscriptions/<redacted-guid>...ks/vnet-cloud-lab-net/subnets/snet-web, 00m10s elapsed]
+azurerm_storage_account.net: Destruction complete after 4s
+random_string.net_suffix: Destroying... [id=wecujc]
+random_string.net_suffix: Destruction complete after 0s
+azurerm_subnet.net_web: Destruction complete after 12s
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 01m10s elapsed]
+azurerm_subnet.net_db: Still destroying... [id=/subscriptions/<redacted-guid>...rks/vnet-cloud-lab-net/subnets/snet-db, 00m10s elapsed]
+azurerm_subnet.net_db: Destruction complete after 16s
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 01m20s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 01m30s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 01m40s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 01m50s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 02m00s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...virtualNetworkLinks/link-cloud-lab-net, 02m10s elapsed]
+azurerm_private_dns_zone_virtual_network_link.net_blob: Destruction complete after 2m17s
+azurerm_private_dns_zone.net_blob: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/privateDnsZones/<redacted-azure-storage-endpoint>]
+azurerm_virtual_network.net: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Network/virtualNetworks/vnet-cloud-lab-net]
+azurerm_virtual_network.net: Still destroying... [id=/subscriptions/<redacted-guid>...ork/virtualNetworks/vnet-cloud-lab-net, 00m10s elapsed]
+azurerm_private_dns_zone.net_blob: Still destroying... [id=/subscriptions/<redacted-guid>...ones/<redacted-azure-storage-endpoint>, 00m10s elapsed]
+azurerm_virtual_network.net: Destruction complete after 12s
+azurerm_private_dns_zone.net_blob: Destruction complete after 13s
+Releasing state lock. This may take a few moments...
+
+Destroy complete! Resources: 20 destroyed.
