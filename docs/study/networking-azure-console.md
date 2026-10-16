@@ -46,7 +46,25 @@ default. The VM wizard also defaults to creating a public IP, which bills by the
 Follow-up from item 3: `scripts/inventory.ps1` (read-only; types, counts and tags, flags what bills by the
 hour).
 
-## Still to read
+## Cost read by the operator (Cost analysis, 16 Oct 2026, about 12:23 local)
 
-Cost of the session in Cost analysis (filter `domain = networking`), next day, with its date; then compare
-with the CLI report. Open: whether the private endpoint meter shows the hours the portal never displayed.
+Filter `domain = networking`, range 10-16 Oct, grouped by meter. Total actual cost: 0.02 USD, all on 15 Oct,
+all in Denmark East, one resource group. By service: Virtual Network 0.01, Virtual Machines, Storage and
+Azure DNS each under 0.01. Meters shown: Standard Private Endpoint (largest segment, read by eye), B1s,
+P4 LRS Disk, Private Zone, Private Queries, Standard Data Processed, All Other Operations, LRS Write
+Operations, Read Operations.
+
+- Prediction (operator): the VMs would be the most expensive. Result: the private endpoint was, the piece
+  the portal never priced at creation. The VM ran about as long and cost under 0.01 USD.
+- The filter by tag worked, and the numbers appeared one day after the session.
+- **[general]** A private endpoint left on for a month would be about 7 USD at 0.01 USD an hour (computed
+  from the price, not measured).
+- AWS Cost Explorer for the same domain (usage 9-15 Oct, same day): 0.00 USD, 7 usage types (Lambda GB-seconds,
+  S3 requests, data transfer), no NAT gateway, endpoint hours or Elastic IP. The gateway endpoint is free.
+  Reason for the gap: Azure bills the interface endpoint by the hour, AWS did not bill anything we used.
+- Lesson: in networking the cost is what is left running, and short sessions round to zero on the console
+  (AWS shows two decimals).
+
+## Still to do
+
+Compare with the CLI report on Azure (5-decimal figures) and record both in `docs/credit-log.md`.
