@@ -1,7 +1,7 @@
 # Runbook: DR recovery drill, Azure (CLOUD-35)
 
-Status: **draft, not run.** `azure/layer1/dr.tf` has not been validated yet: the first step below is
-`terraform validate`. Targets are in `docs/study/dr-recovery-azure.md` (RPO 1 hour, RTO 1 hour). The plan
+Status: **draft, not run.** `terraform fmt` and `validate` passed on 17 Oct 2026 (about 17:38 local); the
+file has not been planned or applied yet, so the first plan with `dr_restore=true` is its first real test. Targets are in `docs/study/dr-recovery-azure.md` (RPO 1 hour, RTO 1 hour). The plan
 is `docs/plans/migration-dr-rehost-plan.md`. About 2 to 3 hours. Azure only for the disk; the AWS redeploy
 time is measured at the end.
 
@@ -19,7 +19,7 @@ terraform fmt -check -recursive azure/layer1
 terraform "-chdir=azure/layer1" validate
 ```
 
-If `validate` fails on `dr.tf`, stop and paste the error.
+If `validate` fails on `dr.tf`, stop and paste the error. (It passed on 17 Oct; repeat it anyway.)
 
 ## 1. Build the VM and the snapshot (expected 8 to add)
 
