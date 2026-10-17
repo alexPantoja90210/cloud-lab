@@ -65,9 +65,23 @@ Operations, Read Operations.
 - Lesson: in networking the cost is what is left running, and short sessions round to zero on the console
   (AWS shows two decimals).
 
+## CLI read (17 Oct 2026), compared with the portal
+
+Same filter, 14 to 17 Oct, by meter, 5 decimals: private endpoint 0.0266 USD (65 percent), B1s 0.0076,
+the two disks 0.0060 (P4 Premium from the portal default 0.0028, E4 Standard SSD from Terraform 0.0032),
+private DNS zone 0.0007, the rest below 0.00001. Total about 0.041 USD against the 0.02 the portal showed
+on 16 Oct (that read was before the Terraform session and rounded to the cent).
+
+- The prediction (VMs most expensive) stays wrong even counting the disks: VM plus disks is about a third,
+  the private endpoint two thirds.
+- The portal total hid the split; the CLI showed it. Two decimals in the portal and in AWS Cost Explorer
+  turn everything under half a cent into zero.
+- Open: the endpoint and one disk were billed for more hours than the VM ran. Reading the activity log for
+  the real lifetimes would settle it.
+
 ## Still to do
 
-Compare with the CLI report on Azure (5-decimal figures) and record both in `docs/credit-log.md`.
+The AWS CLI read for the same domain, if it is worth the 0.01 USD (the console already showed 0.00).
 
 ## Terraform twin run (16 Oct 2026, about 12:49 to 13:09 local)
 
