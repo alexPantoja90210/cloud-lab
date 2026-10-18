@@ -53,7 +53,11 @@ Five test objects, no real data. Source: an Azure storage account built from `az
 
 ## Alex's log of surprises
 
-- (to add)
+- The copy between clouds was easier than expected, at least in this lab.
+- Adding metadata to files is new to me; I see it as a form of redundancy for validating the data.
+  (Note from the review: metadata describes an object, such as department or project; it does not
+  prove the bytes are intact. The validation here came from the checksums, the MD5 of the files
+  against the S3 ETag. Metadata is what the manual path lost, and the script kept it.)
 
 ## Still to read
 
