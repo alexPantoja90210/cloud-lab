@@ -1,0 +1,173 @@
+Acquiring state lock. This may take a few moments...
+random_string.storage_suffix: Refreshing state... [id=ibtkqd]
+data.azurerm_resource_group.lab: Reading...
+data.azurerm_client_config.current: Reading...
+data.azurerm_user_assigned_identity.reader: Reading...
+data.azurerm_client_config.current: Read complete after 0s [id=<redacted-client-config>]
+data.azurerm_resource_group.lab: Read complete after 0s [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab]
+azurerm_storage_account.storage: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>]
+data.azurerm_user_assigned_identity.reader: Read complete after 0s [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab-identity/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-cloud-lab-reader]
+azurerm_storage_container.data: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/blobServices/default/containers/data]
+azurerm_role_assignment.storage_operator_delegator: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/providers/Microsoft.Authorization/roleAssignments/<redacted-guid>]
+azurerm_role_assignment.storage_operator_blob: Refreshing state... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/providers/Microsoft.Authorization/roleAssignments/<redacted-guid>]
+time_sleep.storage_rbac: Refreshing state... [id=2026-10-18T23:02:16Z]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # azurerm_role_assignment.storage_operator_blob will be destroyed
+  - resource "azurerm_role_assignment" "storage_operator_blob" {
+      - id                                     = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/providers/Microsoft.Authorization/roleAssignments/<redacted-guid>" -> null
+      - name                                   = "<redacted-guid>" -> null
+      - principal_id                           = "<redacted-guid>" -> null
+      - principal_type                         = "User" -> null
+      - role_definition_id                     = "/subscriptions/<redacted-guid>/providers/Microsoft.Authorization/roleDefinitions/<redacted-guid>" -> null
+      - role_definition_name                   = "Storage Blob Data Contributor" -> null
+      - scope                                  = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # azurerm_role_assignment.storage_operator_delegator will be destroyed
+  - resource "azurerm_role_assignment" "storage_operator_delegator" {
+      - id                                     = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/providers/Microsoft.Authorization/roleAssignments/<redacted-guid>" -> null
+      - name                                   = "<redacted-guid>" -> null
+      - principal_id                           = "<redacted-guid>" -> null
+      - principal_type                         = "User" -> null
+      - role_definition_id                     = "/subscriptions/<redacted-guid>/providers/Microsoft.Authorization/roleDefinitions/<redacted-guid>" -> null
+      - role_definition_name                   = "Storage Blob Delegator" -> null
+      - scope                                  = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # azurerm_storage_account.storage will be destroyed
+  - resource "azurerm_storage_account" "storage" {
+      - access_tier                        = "Hot" -> null
+      - account_kind                       = "StorageV2" -> null
+      - account_replication_type           = "LRS" -> null
+      - account_tier                       = "Standard" -> null
+      - allow_nested_items_to_be_public    = false -> null
+      - cross_tenant_replication_enabled   = false -> null
+      - default_to_oauth_authentication    = true -> null
+      - dns_endpoint_type                  = "Standard" -> null
+      - https_traffic_only_enabled         = true -> null
+      - id                                 = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>" -> null
+      - infrastructure_encryption_enabled  = false -> null
+      - is_hns_enabled                     = false -> null
+      - large_file_share_enabled           = false -> null
+      - local_user_enabled                 = true -> null
+      - location                           = "eastus2" -> null
+      - min_tls_version                    = "TLS1_2" -> null
+      - name                               = "stlabstore<redacted-suffix>" -> null
+      - nfsv3_enabled                      = false -> null
+      - primary_access_key                 = (sensitive value) -> null
+      - primary_blob_connection_string     = (sensitive value) -> null
+      - primary_blob_endpoint              = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_blob_host                  = "<redacted-azure-storage-endpoint>" -> null
+      - primary_connection_string          = (sensitive value) -> null
+      - primary_dfs_endpoint               = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_dfs_host                   = "<redacted-azure-storage-endpoint>" -> null
+      - primary_file_endpoint              = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_file_host                  = "<redacted-azure-storage-endpoint>" -> null
+      - primary_location                   = "eastus2" -> null
+      - primary_queue_endpoint             = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_queue_host                 = "<redacted-azure-storage-endpoint>" -> null
+      - primary_table_endpoint             = "https://<redacted-azure-storage-endpoint>/" -> null
+      - primary_table_host                 = "<redacted-azure-storage-endpoint>" -> null
+      - primary_web_endpoint               = "https://stlabstore<redacted-suffix>.<redacted-azure-storage-endpoint>/" -> null
+      - primary_web_host                   = "stlabstore<redacted-suffix>.<redacted-azure-storage-endpoint>" -> null
+      - public_network_access_enabled      = true -> null
+      - queue_encryption_key_type          = "Service" -> null
+      - resource_group_name                = "rg-cloud-lab" -> null
+      - secondary_access_key               = (sensitive value) -> null
+      - secondary_connection_string        = (sensitive value) -> null
+      - sftp_enabled                       = false -> null
+      - shared_access_key_enabled          = false -> null
+      - table_encryption_key_type          = "Service" -> null
+      - tags                               = {
+          - "domain" = "storage"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (57 unchanged attributes hidden)
+
+      - blob_properties {
+          - change_feed_enabled           = false -> null
+          - change_feed_retention_in_days = 0 -> null
+          - last_access_time_enabled      = false -> null
+          - versioning_enabled            = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - share_properties {
+          - retention_policy {
+              - days = 7 -> null
+            }
+        }
+    }
+
+  # azurerm_storage_container.data will be destroyed
+  - resource "azurerm_storage_container" "data" {
+      - container_access_type             = "private" -> null
+      - default_encryption_scope          = "$account-encryption-key" -> null
+      - encryption_scope_override_enabled = true -> null
+      - has_immutability_policy           = false -> null
+      - has_legal_hold                    = false -> null
+      - id                                = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/blobServices/default/containers/data" -> null
+      - metadata                          = {} -> null
+      - name                              = "data" -> null
+      - resource_manager_id               = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/blobServices/default/containers/data" -> null
+      - storage_account_id                = "/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>" -> null
+      - url                               = "https://<redacted-azure-storage-endpoint>/data" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # random_string.storage_suffix will be destroyed
+  - resource "random_string" "storage_suffix" {
+      - id          = "ibtkqd" -> null
+      - length      = 6 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = "ibtkqd" -> null
+      - special     = false -> null
+      - upper       = false -> null
+    }
+
+  # time_sleep.storage_rbac will be destroyed
+  - resource "time_sleep" "storage_rbac" {
+      - create_duration = "90s" -> null
+      - id              = "2026-10-18T23:02:16Z" -> null
+    }
+
+Plan: 0 to add, 0 to change, 6 to destroy.
+
+Changes to Outputs:
+  - compute_snapshot_name = "snap-cloud-lab-compute" -> null
+  - compute_vm_name       = "vm-cloud-lab-compute" -> null
+  - net_vm_name           = "vm-cloud-lab-net-client" -> null
+  - storage_account       = "stlabstore<redacted-suffix>" -> null
+  - storage_container     = "data" -> null
+  - storage_private_only  = false -> null
+  - target_resource_group = "rg-cloud-lab" -> null
+time_sleep.storage_rbac: Destroying... [id=2026-10-18T23:02:16Z]
+time_sleep.storage_rbac: Destruction complete after 0s
+azurerm_role_assignment.storage_operator_blob: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/providers/Microsoft.Authorization/roleAssignments/<redacted-guid>]
+azurerm_role_assignment.storage_operator_delegator: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/providers/Microsoft.Authorization/roleAssignments/<redacted-guid>]
+azurerm_storage_container.data: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>/blobServices/default/containers/data]
+azurerm_storage_container.data: Destruction complete after 0s
+azurerm_role_assignment.storage_operator_delegator: Destruction complete after 2s
+azurerm_role_assignment.storage_operator_blob: Destruction complete after 2s
+azurerm_storage_account.storage: Destroying... [id=/subscriptions/<redacted-guid>/resourceGroups/rg-cloud-lab/providers/Microsoft.Storage/storageAccounts/stlabstore<redacted-suffix>]
+azurerm_storage_account.storage: Destruction complete after 2s
+random_string.storage_suffix: Destroying... [id=ibtkqd]
+random_string.storage_suffix: Destruction complete after 0s
+Releasing state lock. This may take a few moments...
+
+Destroy complete! Resources: 6 destroyed.
