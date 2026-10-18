@@ -119,3 +119,14 @@ Decided by Alex on 17 Oct 2026:
 ## 9. Updated after the drills
 
 To be filled in after each drill: what happened, and what this plan got wrong.
+
+### CLOUD-35 (DR recovery, 18 Oct 2026) - Done
+
+- Azure by hand about 15 min; Azure with Terraform plus CLI about 7 min including one failed attempt; AWS Lambda redeploy 32 s. The RTO hypothesis of 60 min held on every path. Details: `docs/study/dr-recovery-azure.md`.
+- What the plan got wrong: it did not foresee that `az vm create` without `--location` uses the resource group region (SkuNotAvailable), that an interrupted apply leaves the state blob leased, or that the portal wizard creates its own NSG and does not tag. The runbook now covers all three.
+
+### CLOUD-34 (Blob to S3, 18 Oct 2026) - Done
+
+- Planned under 0.05 USD and a few cents; real cost to be read on 19 Oct. One session of about 33 minutes: by hand about 5 min, by script 23 s, rollback exercised, presigned URL read, both sides destroyed and verified empty. Details: `docs/study/migration-blob-to-s3.md`.
+- What the plan got wrong: it assumed the move would carry the objects as they were. The manual path loses metadata and re-guesses the content type, and the tier does not map by name (Cool to Standard-IA brings a 128 KB minimum and 30 days). Tags could not be tested because the operator role lacks the right to write them. The script now maps tier, keeps metadata and checks MD5 against the ETag.
+- Order change: CLOUD-34 was planned as a second session with a separate tool step; it fit in one. The next in order is CLOUD-37.
