@@ -55,10 +55,11 @@ still exists; this prints only the VM name and the state):
 
 ```powershell
 $nic = az network nic show --resource-group rg-cloud-lab --name nic-cloud-lab-compute --query id -o tsv
-az vm create --resource-group rg-cloud-lab --name vm-cloud-lab-restored --attach-os-disk disk-cloud-lab-restored --os-type linux --nics $nic --size Standard_B1s --zone 1 --tags lab=cloud-lab layer=1 domain=compute --query "{name:name,state:provisioningState}" -o tsv
+az vm create --resource-group rg-cloud-lab --name vm-cloud-lab-restored --location denmarkeast --attach-os-disk disk-cloud-lab-restored --os-type linux --nics $nic --size Standard_B1s --zone 1 --tags lab=cloud-lab layer=1 domain=compute --query "{name:name,state:provisioningState}" -o tsv
 ```
 
-Write **T3**, when the CLI returns and the VM is `Running`. Terraform and CLI recovery time is T3 minus T2.
+`--location denmarkeast` is required: without it the VM goes to the resource group's region (East US 2),
+where B1s is not available to this subscription (found on 18 Oct). Write **T3**, when the CLI returns and the VM is `Running`. Terraform and CLI recovery time is T3 minus T2.
 
 ## 5. Compare
 
@@ -73,17 +74,30 @@ the AWS RTO. Exact targets to be written when this step is reached.
 ## 7. Teardown and verification
 
 The VM created with the CLI is not in the Terraform state, and it holds the restored disk and the NIC, so
-delete it first:
+delete it first. The portal wizard also leaves a network security group of its own that Terraform does not
+know; delete it after the teardown:
 
 ```powershell
+$bash = "C:\Program Files\Git\bin\bash.exe"
 az vm delete --resource-group rg-cloud-lab --name vm-cloud-lab-restored --yes
 & $bash scripts/teardown.sh azure
+az network nsg list --resource-group rg-cloud-lab --query "[].name" --output tsv | ForEach-Object { az network nsg delete --resource-group rg-cloud-lab --name $_ }
 az resource list --resource-group rg-cloud-lab --query "[].type" --output tsv
 az snapshot list --resource-group rg-cloud-lab --query "[].name" --output tsv
 ```
 
 Expected: both lists empty. Run `powershell -File scripts/inventory.ps1`. Read every file in `evidence/`
 before committing.
+
+## Notes from the 18 Oct run
+
+- Windows PowerShell 5.1 has no `Get-Date -AsUTC`; use `(Get-Date).ToUniversalTime().ToString("HH:mm:ss")`.
+- Variables such as `$bash` and `$nic` live in one PowerShell window; Azure and AWS were run in separate
+  windows, so define them again in each.
+- An interrupted `apply` can leave the state blob leased. Check that no `terraform` process is running
+  (`Get-Process terraform`), then break the lease on the state blob; do not use `-lock=false`.
+- In the portal wizards: disk from snapshot defaults to Premium SSD; VM from disk defaults to a new
+  virtual network, creates its own network security group, and does not tag what it did not create.
 
 ## 8. After
 

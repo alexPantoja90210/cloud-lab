@@ -25,6 +25,20 @@ Where the time went (manual path): disk from the snapshot about 6 minutes after 
 minutes later, VM deployed in about 1 minute. Azure itself took about 1 minute per piece; the rest was
 reading the wizards and correcting defaults.
 
+AWS redeploy (CLOUD-28 stack: role, policy attachment, log group, Lambda, HTTP API, integration, route,
+stage, permission; 9 resources) from an empty account, 18 Oct: start 22:43:53 UTC, `apply` finished
+22:44:15 (22 seconds), ten calls answered `200` at 22:44:25 (32 seconds). Alex's prediction was 5 minutes.
+Teardown: 9 destroyed, functions, APIs and log groups all 0.
+
+| Path | Time until serving |
+|---|---|
+| Azure, manual in the portal | about 15 minutes |
+| Azure, Terraform and CLI | about 7 minutes |
+| AWS, redeploy from Terraform | 32 seconds |
+
+The gap comes from state: a VM needs its disk rebuilt from the snapshot, a Lambda has no data to restore
+because its code is in version control. Recovery time follows what has to be brought back.
+
 What the drill showed:
 - The disk wizard defaults to Premium SSD; the portal does not show a price on the review page. The VM
   wizard defaulted to a new virtual network, created a network security group of its own even with no

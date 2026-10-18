@@ -1,0 +1,265 @@
+data.archive_file.hello: Reading...
+data.archive_file.hello: Read complete after 0s [id=<redacted-hash>]
+data.aws_iam_policy_document.lambda_assume: Reading...
+data.aws_cloudfront_cache_policy.caching_disabled: Reading...
+aws_cloudwatch_log_group.hello: Refreshing state... [id=/aws/lambda/cloud-lab-hello-tf]
+aws_apigatewayv2_api.hello: Refreshing state... [id=<redacted-api-id>]
+data.aws_iam_policy_document.lambda_assume: Read complete after 0s [id=<redacted-api-id>]
+aws_iam_role.hello: Refreshing state... [id=cloud-lab-hello-tf-role]
+aws_apigatewayv2_stage.hello: Refreshing state... [id=<redacted-api-id>]
+data.aws_cloudfront_cache_policy.caching_disabled: Read complete after 1s [id=<redacted-guid>]
+aws_iam_role_policy_attachment.hello_logs: Refreshing state... [id=cloud-lab-hello-tf-role/<redacted-arn>]
+aws_lambda_function.hello: Refreshing state... [id=cloud-lab-hello-tf]
+aws_lambda_permission.hello_api: Refreshing state... [id=AllowAPIGatewayInvoke]
+aws_apigatewayv2_integration.hello: Refreshing state... [id=<redacted-api-id>]
+aws_apigatewayv2_route.hello: Refreshing state... [id=<redacted-api-id>]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_apigatewayv2_api.hello will be destroyed
+  - resource "aws_apigatewayv2_api" "hello" {
+      - api_endpoint                 = "https://<redacted-api-endpoint>" -> null
+      - api_key_selection_expression = "$request.header.x-api-key" -> null
+      - arn                          = "<redacted-arn>" -> null
+      - disable_execute_api_endpoint = false -> null
+      - execution_arn                = "<redacted-arn>" -> null
+      - id = "<redacted-api-id>" -> null
+      - ip_address_type              = "ipv4" -> null
+      - name                         = "cloud-lab-hello-tf-API" -> null
+      - protocol_type                = "HTTP" -> null
+      - region                       = "us-east-1" -> null
+      - route_selection_expression   = "$request.method $request.path" -> null
+      - tags                         = {
+          - "domain" = "compute"
+        } -> null
+      - tags_all                     = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_apigatewayv2_integration.hello will be destroyed
+  - resource "aws_apigatewayv2_integration" "hello" {
+      - api_id = "<redacted-api-id>" -> null
+      - connection_type                           = "INTERNET" -> null
+      - id = "<redacted-id>" -> null
+      - integration_method                        = "POST" -> null
+      - integration_type                          = "AWS_PROXY" -> null
+      - integration_uri                           = "<redacted-arn>" -> null
+      - payload_format_version                    = "2.0" -> null
+      - region                                    = "us-east-1" -> null
+      - request_parameters                        = {} -> null
+      - request_templates                         = {} -> null
+      - timeout_milliseconds                      = 30000 -> null
+        # (8 unchanged attributes hidden)
+    }
+
+  # aws_apigatewayv2_route.hello will be destroyed
+  - resource "aws_apigatewayv2_route" "hello" {
+      - api_id = "<redacted-api-id>" -> null
+      - api_key_required                    = false -> null
+      - authorization_scopes                = [] -> null
+      - authorization_type                  = "NONE" -> null
+      - id = "<redacted-id>" -> null
+      - region                              = "us-east-1" -> null
+      - request_models                      = {} -> null
+      - route_key                           = "ANY /hello" -> null
+      - target                              = "integrations/<redacted-id>" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_apigatewayv2_stage.hello will be destroyed
+  - resource "aws_apigatewayv2_stage" "hello" {
+      - api_id = "<redacted-api-id>" -> null
+      - arn                   = "<redacted-arn>" -> null
+      - auto_deploy           = true -> null
+      - deployment_id         = "<redacted-id>" -> null
+      - execution_arn         = "<redacted-arn>" -> null
+      - id                    = "default" -> null
+      - invoke_url            = "https://<redacted-api-endpoint>/default" -> null
+      - name                  = "default" -> null
+      - region                = "us-east-1" -> null
+      - stage_variables       = {} -> null
+      - tags                  = {
+          - "domain" = "compute"
+        } -> null
+      - tags_all              = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - default_route_settings {
+          - data_trace_enabled       = false -> null
+          - detailed_metrics_enabled = false -> null
+          - throttling_burst_limit   = 10 -> null
+          - throttling_rate_limit    = 5 -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_cloudwatch_log_group.hello will be destroyed
+  - resource "aws_cloudwatch_log_group" "hello" {
+      - arn                         = "<redacted-arn>" -> null
+      - deletion_protection_enabled = false -> null
+      - id                          = "/aws/lambda/cloud-lab-hello-tf" -> null
+      - log_group_class             = "STANDARD" -> null
+      - name                        = "/aws/lambda/cloud-lab-hello-tf" -> null
+      - region                      = "us-east-1" -> null
+      - retention_in_days           = 7 -> null
+      - skip_destroy                = false -> null
+      - tags                        = {
+          - "domain" = "compute"
+        } -> null
+      - tags_all                    = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_iam_role.hello will be destroyed
+  - resource "aws_iam_role" "hello" {
+      - arn                   = "<redacted-arn>" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "lambda.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-10-18T22:43:57Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "cloud-lab-hello-tf-role" -> null
+      - managed_policy_arns   = [
+          - "<redacted-arn>",
+        ] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "cloud-lab-hello-tf-role" -> null
+      - path                  = "/" -> null
+      - tags                  = {
+          - "domain" = "compute"
+        } -> null
+      - tags_all              = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - unique_id             = "<redacted-unique-id>" -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # aws_iam_role_policy_attachment.hello_logs will be destroyed
+  - resource "aws_iam_role_policy_attachment" "hello_logs" {
+      - id         = "cloud-lab-hello-tf-role/<redacted-arn>" -> null
+      - policy_arn = "<redacted-arn>" -> null
+      - role       = "cloud-lab-hello-tf-role" -> null
+    }
+
+  # aws_lambda_function.hello will be destroyed
+  - resource "aws_lambda_function" "hello" {
+      - architectures                  = [
+          - "arm64",
+        ] -> null
+      - arn                            = "<redacted-arn>" -> null
+      - code_sha256                    = "14OED3jOMuQZl/rWiONNmoT2fyiiT2vKPsJqJABtpoQ=" -> null
+      - filename                       = "./.build/hello.zip" -> null
+      - function_name                  = "cloud-lab-hello-tf" -> null
+      - handler                        = "hello.handler" -> null
+      - id                             = "cloud-lab-hello-tf" -> null
+      - invoke_arn                     = "<redacted-arn>" -> null
+      - last_modified                  = "2026-10-18T22:44:07.056+0000" -> null
+      - layers                         = [] -> null
+      - memory_size                    = 128 -> null
+      - package_type                   = "Zip" -> null
+      - publish                        = false -> null
+      - qualified_arn                  = "<redacted-arn>" -> null
+      - qualified_invoke_arn           = "<redacted-arn>" -> null
+      - region                         = "us-east-1" -> null
+      - reserved_concurrent_executions = -1 -> null
+      - response_streaming_invoke_arn  = "<redacted-arn>" -> null
+      - role                           = "<redacted-arn>" -> null
+      - runtime                        = "python3.13" -> null
+      - skip_destroy                   = false -> null
+      - source_code_hash               = "14OED3jOMuQZl/rWiONNmoT2fyiiT2vKPsJqJABtpoQ=" -> null
+      - source_code_size               = 345 -> null
+      - tags                           = {
+          - "domain" = "compute"
+        } -> null
+      - tags_all                       = {
+          - "domain" = "compute"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - timeout                        = 3 -> null
+      - version                        = "$LATEST" -> null
+        # (7 unchanged attributes hidden)
+
+      - ephemeral_storage {
+          - size = 512 -> null
+        }
+
+      - logging_config {
+          - log_format            = "Text" -> null
+          - log_group             = "/aws/lambda/cloud-lab-hello-tf" -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - tracing_config {
+          - mode = "PassThrough" -> null
+        }
+    }
+
+  # aws_lambda_permission.hello_api will be destroyed
+  - resource "aws_lambda_permission" "hello_api" {
+      - action              = "lambda:InvokeFunction" -> null
+      - function_name       = "cloud-lab-hello-tf" -> null
+      - id                  = "AllowAPIGatewayInvoke" -> null
+      - principal           = "apigateway.amazonaws.com" -> null
+      - region              = "us-east-1" -> null
+      - source_arn          = "<redacted-arn>" -> null
+      - statement_id        = "AllowAPIGatewayInvoke" -> null
+        # (2 unchanged attributes hidden)
+    }
+
+Plan: 0 to add, 0 to change, 9 to destroy.
+
+Changes to Outputs:
+  - compute_function_name = "cloud-lab-hello-tf" -> null
+  - compute_invoke_url    = "https://<redacted-api-endpoint>/default/hello" -> null
+  - target_tags           = "lab=cloud-lab, layer=1" -> null
+aws_apigatewayv2_stage.hello: Destroying... [id=<redacted-api-id>]
+aws_lambda_permission.hello_api: Destroying... [id=AllowAPIGatewayInvoke]
+aws_apigatewayv2_route.hello: Destroying... [id=<redacted-api-id>]
+aws_apigatewayv2_route.hello: Destruction complete after 0s
+aws_apigatewayv2_integration.hello: Destroying... [id=<redacted-api-id>]
+aws_lambda_permission.hello_api: Destruction complete after 0s
+aws_apigatewayv2_stage.hello: Destruction complete after 1s
+aws_apigatewayv2_integration.hello: Destruction complete after 1s
+aws_apigatewayv2_api.hello: Destroying... [id=<redacted-api-id>]
+aws_lambda_function.hello: Destroying... [id=cloud-lab-hello-tf]
+aws_apigatewayv2_api.hello: Destruction complete after 0s
+aws_lambda_function.hello: Destruction complete after 5s
+aws_iam_role_policy_attachment.hello_logs: Destroying... [id=cloud-lab-hello-tf-role/<redacted-arn>]
+aws_cloudwatch_log_group.hello: Destroying... [id=/aws/lambda/cloud-lab-hello-tf]
+aws_cloudwatch_log_group.hello: Destruction complete after 0s
+aws_iam_role_policy_attachment.hello_logs: Destruction complete after 0s
+aws_iam_role.hello: Destroying... [id=cloud-lab-hello-tf-role]
+aws_iam_role.hello: Destruction complete after 1s
+
+Destroy complete! Resources: 9 destroyed.
