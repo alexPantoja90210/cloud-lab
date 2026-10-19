@@ -85,3 +85,22 @@ Validation on Azure: SHA-256 of the page `1bd9fcd1...4baeb98` and of `/var/lib/r
 - A Terraform twin for the Azure leg: the restored disk and the VM are created with the CLI (the provider does not
   attach an existing OS disk reliably, as in CLOUD-35).
 - The AWS leg is CLOUD-38 (November); `rehost-export\rehost-src.vhd` (20 GiB) and `sample-1GiB.bin` stay on the laptop.
+
+## Cost read, 19 Oct 2026 (CLI, gross USD, 18 to 19 Oct)
+
+Read with `scripts/azure-cost-read.ps1`; the portal read by the operator is still to be added.
+
+| Tag | Total | Meters |
+|---|---|---|
+| domain=compute (CLOUD-35) | 0.0037 | B1s 0.0020 (0.167 h), E4 disk 0.0017 |
+| domain=rehost (CLOUD-37) | 0.0074 | Standard IPv4 static public IP 0.0047 (0.947 h), B1s 0.0018 (0.15 h), E4 disk 0.0008 |
+| no tag filter (all meters) | 0.0111 | the two above plus 0.00003 of other operations; storage meters are all "Free" at 0.0 |
+
+- The whole Azure bill of the three drills of 18 Oct was 0.0111 USD, 4 percent of the 0.25 USD daily stop threshold.
+- Estimates were high: CLOUD-35 about 0.03 expected against 0.0037; CLOUD-37 0.03 to 0.05 expected (the plan said 0.10 to 0.20) against 0.0074.
+- Nothing carried no tag: compute plus rehost equals the unfiltered total within 0.00003 USD.
+- The public IP was the most expensive meter of CLOUD-37 (64 percent), the same kind of piece as the private endpoint of 16 Oct.
+- The activity log gives the real life of the IP: created 04:03:13 UTC, deleted 04:17:03 UTC, 13 min 50 s (0.23 h). Billed quantity: 0.947 h, about 4.1 times more. The cause is not explained.
+  Working rule until it is: for an hourly meter budget at least one full hour, not the minutes observed.
+- The outbound data meter does not answer the export question yet: "Standard Data Transfer Out - Free" shows 0.00049 and the sample read from the disk was 64 MiB (about 0.06 GB), so the disk read is not posted yet or sits in another meter. Read again on 20 Oct.
+- Tooling lessons: `az monitor activity-log list` returns 50 events unless `--max-events` is raised (the creation events were cut off); in Windows PowerShell 5.1 a JSON array piped straight from `ConvertFrom-Json` arrives as one object, so store it in a variable first; the cost API answers 429 when queried several times in a row, and a failed query must not be shown as "no rows" (the script now retries and says QUERY FAILED).

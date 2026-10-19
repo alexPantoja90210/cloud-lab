@@ -136,3 +136,9 @@ To be filled in after each drill: what happened, and what this plan got wrong.
 - The VM booted on Azure at the first attempt and passed the three checks (SSH, same page hash, `running` after one fix). Rollback timed: 49 s. Details: `docs/study/rehost-azure.md`.
 - What the plan got wrong: it said the base system runs no service (an Apache from a Linux exercise was already serving port 80); it assumed the upload time would follow the 20 GiB size (it took 4 minutes); it did not foresee that a disk attached with `--attach-os-disk` leaves `cloud-init` failing on an empty user name; and it left the full disk export open without a price. Only a 64 MiB sample was exported.
 - Open: read the outbound data meter on 19 Oct and decide whether to do the full export; CLOUD-38 (AWS, November) starts from the local VHD.
+
+### Cost read of 19 Oct 2026 and risk R1
+
+- The three Azure drills of 18 Oct cost 0.0111 USD in total (gross, by CLI), 4 percent of the stop threshold; everything was tagged. Estimates in section 4 were 4 to 10 times too high.
+- R1 gets a third data point: the public IP of CLOUD-37 lived 13 min 50 s (activity log) and billed 0.947 h. Updated mitigation: for any hourly meter budget at least one full hour; the activity log is read with `--max-events` raised, and the result is stored in a variable in Windows PowerShell 5.1.
+- Still open: the outbound data meter for the export decision (read again on 20 Oct).
