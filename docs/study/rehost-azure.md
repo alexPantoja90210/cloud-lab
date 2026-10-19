@@ -43,6 +43,45 @@ Source: `rehost-src`, a full clone of the lab VM `node2` (RHEL 10.2, 2 vCPU, 2 G
 Azure agents (`waagent`, `cloud-init`) were enabled last and not boot-tested locally on purpose: cloud-init would wait for
 an Azure that does not exist on the home network. The first real test is the Azure boot.
 
-## Azure leg
+## Azure leg (18 Oct, 21:56 to 22:18 local; UTC = local + 6 h)
 
-Pending.
+Built by hand with the CLI in `rg-cloud-lab`, region denmarkeast, zone 1, tags lab/layer/domain=rehost. Not in Terraform state.
+End time stated in advance: 23:30 local; upload cut-off 22:50. Actual end of the drill: 22:18 local.
+
+| Step | Alex's prediction | Result |
+|---|---|---|
+| Disk for upload (`--for-upload`, 21474836992 bytes) | state: "empty" | `ReadyToUpload` (state is lifecycle, not content) |
+| Upload of the 20 GiB VHD with azcopy | not given | 3.8 min (21:56:20 to 22:00:16); about 100 Mbps on the real data |
+| VM created from the disk | 3 min | 44 s |
+| First boot on Azure | will not boot first time | booted; SSH by key answered; page hash identical |
+| `is-system-running` | not given | `degraded` at first boot, `running` after the fix and a reboot |
+| Deallocate | 1 min | 37 s |
+| Sample download from the disk | 1 min | 64 MiB in 39 s, about 14 Mbps (asked for 1 GiB) |
+| Rollback: delete VM and every resource | 5 min | 49 s; resource group empty a few seconds later |
+
+Validation on Azure: SHA-256 of the page `1bd9fcd1...4baeb98` and of `/var/lib/rehost-data.txt` `ba6baac6...4039` identical to local;
+`waagent` active; `eth0` took 10.0.0.4 from Azure DHCP (the unbound network profile worked).
+
+## Findings from the Azure leg
+
+1. Upload time follows the data, not the disk size. azcopy skips zero ranges of a page blob (hypothesis, consistent with the numbers):
+   20 GiB in 4 min at about 100 Mbps of real data, against 26 min estimated from the file size.
+2. `cloud-init` failed on the first boot: `useradd: invalid user name ''`. A VM created with `--attach-os-disk` gets no OS profile,
+   so the Azure datasource reads an empty admin user (hypothesis from the error). It made `cloud-init` and `cloud-final` fail and
+   the system `degraded`. Fix applied on the Azure VM only: `/etc/cloud/cloud-init.disabled`; after a reboot the state was `running`.
+   The local VHD still has cloud-init enabled and needs the same fix if it is used again as a specialized disk.
+3. The drivers `hv_netvsc` and `hv_storvsc` in the boot image, the console and `net.ifnames` kernel parameters, and unbinding
+   the network profile from the interface name were all needed for a first boot with network.
+4. The NSG created by `az vm create` would allow SSH from anywhere; a dedicated NSG allowed port 22 only from the operator's IP.
+5. The first `az resource list` after deleting listed one disk that was already gone: deletion is asynchronous.
+6. A single range request on the disk URL returned 64 MiB, not the 1 GiB asked for (hypothesis: a per-request limit).
+   Disk read speed about 14 Mbps on one request, below the 44 Mbps of the home line.
+7. The first 64 MiB downloaded from the Azure disk are byte-identical to the local VHD (EFI and /boot included).
+
+## Not done, and why
+
+- Full export of the 20 GiB disk back to a file: the outbound data price was not read and one request is slow;
+  only a 64 MiB sample was exported and compared. To decide after reading the data-transfer meter in Cost analysis on 19 Oct.
+- A Terraform twin for the Azure leg: the restored disk and the VM are created with the CLI (the provider does not
+  attach an existing OS disk reliably, as in CLOUD-35).
+- The AWS leg is CLOUD-38 (November); `rehost-export\rehost-src.vhd` (20 GiB) and `sample-1GiB.bin` stay on the laptop.

@@ -130,3 +130,9 @@ To be filled in after each drill: what happened, and what this plan got wrong.
 - Planned under 0.05 USD and a few cents; real cost to be read on 19 Oct. One session of about 33 minutes: by hand about 5 min, by script 23 s, rollback exercised, presigned URL read, both sides destroyed and verified empty. Details: `docs/study/migration-blob-to-s3.md`.
 - What the plan got wrong: it assumed the move would carry the objects as they were. The manual path loses metadata and re-guesses the content type, and the tier does not map by name (Cool to Standard-IA brings a 128 KB minimum and 30 days). Tags could not be tested because the operator role lacks the right to write them. The script now maps tier, keeps metadata and checks MD5 against the ETag.
 - Order change: CLOUD-34 was planned as a second session with a separate tool step; it fit in one. The next in order is CLOUD-37.
+
+### CLOUD-37, Azure leg (18 Oct 2026)
+
+- The VM booted on Azure at the first attempt and passed the three checks (SSH, same page hash, `running` after one fix). Rollback timed: 49 s. Details: `docs/study/rehost-azure.md`.
+- What the plan got wrong: it said the base system runs no service (an Apache from a Linux exercise was already serving port 80); it assumed the upload time would follow the 20 GiB size (it took 4 minutes); it did not foresee that a disk attached with `--attach-os-disk` leaves `cloud-init` failing on an empty user name; and it left the full disk export open without a price. Only a 64 MiB sample was exported.
+- Open: read the outbound data meter on 19 Oct and decide whether to do the full export; CLOUD-38 (AWS, November) starts from the local VHD.
