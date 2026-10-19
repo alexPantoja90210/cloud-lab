@@ -16,7 +16,8 @@ param(
   [Parameter(Mandatory = $true)][string]$From,
   [Parameter(Mandatory = $true)][string]$To,
   [string[]]$Domains = @("compute", "storage", "rehost", "networking"),
-  [switch]$All
+  [switch]$All,
+  [switch]$OnlyAll
 )
 
 $ErrorActionPreference = "Stop"
@@ -25,6 +26,7 @@ if (-not $sub) { throw "No Azure login." }
 $url = "https://management.azure.com/subscriptions/$sub/providers/Microsoft.CostManagement/query?api-version=2023-11-01"
 
 function Invoke-CostQuery([string]$label, $filter) {
+  $ErrorActionPreference = "Continue"
   $dataset = [ordered]@{
     granularity = "None"
     aggregation = [ordered]@{
@@ -42,8 +44,14 @@ function Invoke-CostQuery([string]$label, $filter) {
   }
   $file = Join-Path $env:TEMP "cost-body.json"
   ($body | ConvertTo-Json -Depth 8) | Set-Content -Encoding ascii $file
-  $raw = az rest --method post --url $url --body "@$file" -o json | Out-String
+  $raw = ""
+  for ($try = 1; $try -le 4; $try++) {
+    $raw = az rest --method post --url $url --body "@$file" -o json 2>$null | Out-String
+    if ($LASTEXITCODE -eq 0 -and $raw.Trim()) { break }
+    Start-Sleep -Seconds (15 * $try)
+  }
   Remove-Item $file -Force
+  if ($LASTEXITCODE -ne 0 -or -not $raw.Trim()) { "=== $label ($From to $To)"; "    QUERY FAILED after 4 tries (rate limit?). This is not 'no data'."; return }
   $res = $raw | ConvertFrom-Json
   $cols = @($res.properties.columns | ForEach-Object { $_.name })
   $rows = @()
@@ -58,8 +66,8 @@ function Invoke-CostQuery([string]$label, $filter) {
   "    total: " + [math]::Round((($rows | Measure-Object Cost -Sum).Sum), 5) + " USD"
 }
 
-foreach ($d in $Domains) {
+if (-not $OnlyAll) { foreach ($d in $Domains) {
   Invoke-CostQuery "tag domain=$d" @{ Tags = @{ name = "domain"; operator = "In"; values = @($d) } }
   Start-Sleep -Seconds 2
-}
-if ($All) { Invoke-CostQuery "all meters, no tag filter" $null }
+} }
+if ($All -or $OnlyAll) { Invoke-CostQuery "all meters, no tag filter" $null }
