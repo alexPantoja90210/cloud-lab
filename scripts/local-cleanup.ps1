@@ -6,7 +6,7 @@
   Dry run by default: lists what exists and its size. -Execute deletes.
   Default scope (safe after every session): the CLOUD-34 test data and the 64 MiB export sample.
   -IncludeRehost (use it when CLOUD-38 is finished): also removes the VM clone rehost-src and its
-  disk, the exported 20 GiB VHD, the lab SSH key id_rehost, its known_hosts entry and the labnet
+  disk, the exported 20 GiB VHD and its dynamic copy (CLOUD-38), the lab SSH key id_rehost, its known_hosts entry and the labnet
   port-forward rule named rehost.
   Never touches node1, node2 or rhel10-template. Windows PowerShell 5.1 compatible.
 #>
@@ -48,10 +48,13 @@ if ($IncludeRehost) {
     }
   } else { "VirtualBox VM: rehost-src absent" }
   "VirtualBox port-forward rule: rehost (labnet)"
-  "VirtualBox media entry: rehost-src.vhd (closed before the file is deleted)"
+  "VirtualBox media entries: every .vhd in rehost-export (closed before the files are deleted)"
   if ($Execute) {
     & $vbm natnetwork modify --netname labnet --port-forward-4 delete rehost
-    & $vbm closemedium disk (Join-Path $export "rehost-src.vhd")
+    # Every VHD that VBoxManage opened stays in the VirtualBox media registry: close each one first.
+    foreach ($f in (Get-ChildItem $export -Filter "*.vhd" -ErrorAction SilentlyContinue)) {
+      try { & $vbm closemedium disk $f.FullName 2>&1 | Out-Null } catch { "closemedium skipped: " + $f.Name }
+    }
     ssh-keygen -R "[127.0.0.1]:2204" | Out-Null
   }
 }

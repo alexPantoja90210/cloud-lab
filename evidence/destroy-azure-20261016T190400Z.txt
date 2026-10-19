@@ -76,7 +76,7 @@ Terraform will perform the following actions:
 
       - admin_ssh_key {
           - public_key = <<-EOT
-                ssh-rsa <redacted-key>
+                ssh-rsa <redacted-key><redacted-key>
             EOT -> null
           - username   = "azureuser" -> null
         }
@@ -161,7 +161,7 @@ Terraform will perform the following actions:
             },
           - {
               - access                                     = "Allow"
-              - destination_address_prefix                 = "10.70.2.4/32"
+              - destination_address_prefix                 = "<redacted-ip>/32"
               - destination_address_prefixes               = []
               - destination_application_security_group_ids = []
               - destination_port_range                     = "443"
@@ -257,7 +257,7 @@ Terraform will perform the following actions:
   # azurerm_network_security_rule.net_db_allow_web_to_pe[0] will be destroyed
   - resource "azurerm_network_security_rule" "net_db_allow_web_to_pe" {
       - access                                     = "Allow" -> null
-      - destination_address_prefix                 = "10.70.2.4/32" -> null
+      - destination_address_prefix                 = "<redacted-ip>/32" -> null
       - destination_address_prefixes               = [] -> null
       - destination_application_security_group_ids = [] -> null
       - destination_port_range                     = "443" -> null
@@ -667,10 +667,10 @@ Terraform will perform the following actions:
       - public_key_fingerprint_md5    = "<redacted-fingerprint>" -> null
       - public_key_fingerprint_sha256 = "<redacted-fingerprint>" -> null
       - public_key_openssh            = <<-EOT
-            ssh-rsa <redacted-key>
+            ssh-rsa <redacted-key><redacted-key>
         EOT -> null
       - public_key_pem                = <<-EOT
-            -----BEGIN PUBLIC KEY----- <redacted-key>
+            -----BEGIN PUBLIC KEY----- <redacted-key><redacted-key>
             <redacted-key-body>
             <redacted-key-body>
             <redacted-key-body>

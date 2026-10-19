@@ -98,7 +98,7 @@ Terraform will perform the following actions:
       - min_upper   = 0 -> null
       - number      = true -> null
       - numeric     = true -> null
-      - result      = "wi0x7gdc" -> null
+      - result      = "<redacted-suffix>" -> null
       - special     = false -> null
       - upper       = false -> null
     }

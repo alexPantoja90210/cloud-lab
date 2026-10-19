@@ -1,0 +1,331 @@
+random_string.rehost_suffix: Refreshing state... [id=<redacted-api-id>]
+data.archive_file.hello: Reading...
+data.archive_file.hello: Read complete after 0s [id=<redacted-hash>]
+data.aws_vpc.default: Reading...
+data.aws_cloudfront_cache_policy.caching_disabled: Reading...
+data.aws_iam_policy_document.lambda_assume: Reading...
+aws_iam_role.vmimport: Refreshing state... [id=<redacted-api-id>]
+aws_s3_bucket.rehost: Refreshing state... [id=cloud-lab-rehost-<redacted-suffix>]
+data.aws_iam_policy_document.lambda_assume: Read complete after 0s [id=<redacted-api-id>]
+data.aws_cloudfront_cache_policy.caching_disabled: Read complete after 0s [id=<redacted-guid>]
+data.aws_vpc.default: Read complete after 1s [id=<redacted-vpc-id>]
+aws_security_group.rehost: Refreshing state... [id=<redacted-sg-id>]
+aws_vpc_security_group_ingress_rule.rehost_ssh: Refreshing state... [id=<redacted-sgr-id>]
+aws_vpc_security_group_egress_rule.rehost_all: Refreshing state... [id=<redacted-sgr-id>]
+aws_iam_role_policy.vmimport: Refreshing state... [id=vmimport:vmimport-lab]
+aws_s3_bucket_public_access_block.rehost: Refreshing state... [id=cloud-lab-rehost-<redacted-suffix>]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_iam_role.vmimport will be destroyed
+  - resource "aws_iam_role" "vmimport" {
+      - arn                   = "<redacted-arn>" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Condition = {
+                          - StringEquals = {
+                              - "sts:Externalid" = "vmimport"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "vmie.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-10-19T19:19:05Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "vmimport" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "vmimport" -> null
+      - path                  = "/" -> null
+      - tags                  = {
+          - "domain" = "rehost"
+        } -> null
+      - tags_all              = {
+          - "domain" = "rehost"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - unique_id             = "<redacted-unique-id>" -> null
+        # (3 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "vmimport-lab" -> null
+          - policy = jsonencode(
+                {
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "s3:GetBucketLocation",
+                              - "s3:GetObject",
+                              - "s3:ListBucket",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "<redacted-arn>",
+                              - "<redacted-arn>",
+                            ]
+                        },
+                      - {
+                          - Action   = [
+                              - "ec2:ModifySnapshotAttribute",
+                              - "ec2:CopySnapshot",
+                              - "ec2:RegisterImage",
+                              - "ec2:CreateTags",
+                              - "ec2:Describe*",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # aws_iam_role_policy.vmimport will be destroyed
+  - resource "aws_iam_role_policy" "vmimport" {
+      - id          = "vmimport:vmimport-lab" -> null
+      - name        = "vmimport-lab" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "s3:GetBucketLocation",
+                          - "s3:GetObject",
+                          - "s3:ListBucket",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "<redacted-arn>",
+                          - "<redacted-arn>",
+                        ]
+                    },
+                  - {
+                      - Action   = [
+                          - "ec2:ModifySnapshotAttribute",
+                          - "ec2:CopySnapshot",
+                          - "ec2:RegisterImage",
+                          - "ec2:CreateTags",
+                          - "ec2:Describe*",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "vmimport" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_bucket.rehost will be destroyed
+  - resource "aws_s3_bucket" "rehost" {
+      - arn                         = "<redacted-arn>" -> null
+      - bucket                      = "cloud-lab-rehost-<redacted-suffix>" -> null
+      - bucket_domain_name          = "<redacted-s3-endpoint>" -> null
+      - bucket_namespace            = "global" -> null
+      - bucket_region               = "us-east-1" -> null
+      - bucket_regional_domain_name = "<redacted-s3-endpoint>" -> null
+      - force_destroy               = true -> null
+      - hosted_zone_id              = "Z3AQBSTGFYJSTF" -> null
+      - id                          = "cloud-lab-rehost-<redacted-suffix>" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-1" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {
+          - "domain" = "rehost"
+        } -> null
+      - tags_all                    = {
+          - "domain" = "rehost"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "<redacted-canonical-id>" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket_public_access_block.rehost will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "rehost" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "cloud-lab-rehost-<redacted-suffix>" -> null
+      - id                      = "cloud-lab-rehost-<redacted-suffix>" -> null
+      - ignore_public_acls      = true -> null
+      - region                  = "us-east-1" -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # aws_security_group.rehost will be destroyed
+  - resource "aws_security_group" "rehost" {
+      - arn                    = "<redacted-arn>" -> null
+      - description            = "CLOUD-38 rehost drill: SSH from the operator only" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = "Outbound for package and metadata access"
+              - from_port        = 0
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+            },
+        ] -> null
+      - id                     = "<redacted-sg-id>" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = [
+                  - "<redacted-ip>/32",
+                ]
+              - description      = "SSH from the operator"
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 22
+            },
+        ] -> null
+      - name                   = "cloud-lab-rehost-ssh" -> null
+      - owner_id               = "<redacted-account-id>" -> null
+      - region                 = "us-east-1" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {
+          - "domain" = "rehost"
+        } -> null
+      - tags_all               = {
+          - "domain" = "rehost"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - vpc_id                 = "<redacted-vpc-id>" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_vpc_security_group_egress_rule.rehost_all will be destroyed
+  - resource "aws_vpc_security_group_egress_rule" "rehost_all" {
+      - arn                    = "<redacted-arn>" -> null
+      - cidr_ipv4              = "0.0.0.0/0" -> null
+      - description            = "Outbound for package and metadata access" -> null
+      - id                     = "<redacted-sgr-id>" -> null
+      - ip_protocol            = "-1" -> null
+      - region                 = "us-east-1" -> null
+      - security_group_id      = "<redacted-sg-id>" -> null
+      - security_group_rule_id = "<redacted-sgr-id>" -> null
+      - tags                   = {
+          - "domain" = "rehost"
+        } -> null
+      - tags_all               = {
+          - "domain" = "rehost"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+    }
+
+  # aws_vpc_security_group_ingress_rule.rehost_ssh will be destroyed
+  - resource "aws_vpc_security_group_ingress_rule" "rehost_ssh" {
+      - arn                    = "<redacted-arn>" -> null
+      - cidr_ipv4              = "<redacted-ip>/32" -> null
+      - description            = "SSH from the operator" -> null
+      - from_port              = 22 -> null
+      - id                     = "<redacted-sgr-id>" -> null
+      - ip_protocol            = "tcp" -> null
+      - region                 = "us-east-1" -> null
+      - security_group_id      = "<redacted-sg-id>" -> null
+      - security_group_rule_id = "<redacted-sgr-id>" -> null
+      - tags                   = {
+          - "domain" = "rehost"
+        } -> null
+      - tags_all               = {
+          - "domain" = "rehost"
+          - "lab"    = "cloud-lab"
+          - "layer"  = "1"
+        } -> null
+      - to_port                = 22 -> null
+    }
+
+  # random_string.rehost_suffix will be destroyed
+  - resource "random_string" "rehost_suffix" {
+      - id = "<redacted-id>" -> null
+      - length      = 8 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = "<redacted-suffix>" -> null
+      - special     = false -> null
+      - upper       = false -> null
+    }
+
+Plan: 0 to add, 0 to change, 8 to destroy.
+
+Changes to Outputs:
+  - compute_function_name = "cloud-lab-hello-tf" -> null
+  - rehost_bucket         = "cloud-lab-rehost-<redacted-suffix>" -> null
+  - rehost_security_group = "<redacted-sg-id>" -> null
+  - target_tags           = "lab=cloud-lab, layer=1" -> null
+aws_iam_role_policy.vmimport: Destroying... [id=vmimport:vmimport-lab]
+aws_vpc_security_group_egress_rule.rehost_all: Destroying... [id=<redacted-sgr-id>]
+aws_s3_bucket_public_access_block.rehost: Destroying... [id=cloud-lab-rehost-<redacted-suffix>]
+aws_vpc_security_group_ingress_rule.rehost_ssh: Destroying... [id=<redacted-sgr-id>]
+aws_iam_role_policy.vmimport: Destruction complete after 0s
+aws_iam_role.vmimport: Destroying... [id=<redacted-api-id>]
+aws_vpc_security_group_ingress_rule.rehost_ssh: Destruction complete after 1s
+aws_iam_role.vmimport: Destruction complete after 1s
+aws_vpc_security_group_egress_rule.rehost_all: Destruction complete after 1s
+aws_security_group.rehost: Destroying... [id=<redacted-sg-id>]
+aws_s3_bucket_public_access_block.rehost: Destruction complete after 1s
+aws_s3_bucket.rehost: Destroying... [id=cloud-lab-rehost-<redacted-suffix>]
+aws_security_group.rehost: Destruction complete after 0s
+aws_s3_bucket.rehost: Destruction complete after 1s
+random_string.rehost_suffix: Destroying... [id=<redacted-api-id>]
+random_string.rehost_suffix: Destruction complete after 0s
+
+Destroy complete! Resources: 8 destroyed.

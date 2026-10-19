@@ -21,7 +21,7 @@ s/<(HostId|RequestId)>[^<]*<\/\1>/<\1><redacted><\/\1>/g
 # ARNs go first so everything inside them is covered, including the S3 form without an account.
 s/arn:aws:[^]" ,]+/<redacted-arn>/g
 s/\bE[0-9A-Z]{12,13}\b/<redacted-cloudfront-id>/g
-s/cloud-lab-(storage|identity-probe)-[a-z0-9]{8}/cloud-lab-\1-<redacted-suffix>/g
+s/cloud-lab-(storage|identity-probe|rehost)-[a-z0-9]{8}/cloud-lab-\1-<redacted-suffix>/g
 s/stlab(probe|store)[a-z0-9]{6}/stlab\1<redacted-suffix>/g
 s/^( *[-+~]? *etag +=) "[^"]*"/\1 "<redacted-etag>"/
 
@@ -44,3 +44,10 @@ s/(fingerprint_(md5|sha256) +=) "[^"]*"/\1 "<redacted-fingerprint>"/
 s/\b([0-9A-Fa-f]{2}[-:]){5}[0-9A-Fa-f]{2}\b/<redacted-mac>/g
 s/^ +[A-Za-z0-9+\/]{40,}={0,2}$/            <redacted-key-body>/
 s/(disk[0-9]+_)[0-9a-f]{32}/\1<redacted-suffix>/g
+
+# CLOUD-38: random_string results (bucket name suffixes) printed by Terraform.
+s/(result +=) "[a-z0-9]{8}"/\1 "<redacted-suffix>"/
+
+# CLOUD-38: EC2 and VPC identifiers printed by Terraform, and the operator's own address in an allow rule.
+s/\b(vpc|sg|sgr|subnet|eni|vol|snap|ami|i)-[0-9a-f]{8,17}\b/<redacted-\1-id>/g
+s/\b([0-9]{1,3}\.){3}[0-9]{1,3}\/32\b/<redacted-ip>\/32/g

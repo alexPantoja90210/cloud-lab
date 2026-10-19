@@ -143,7 +143,7 @@ To be filled in after each drill: what happened, and what this plan got wrong.
 - R1 gets a third data point: the public IP of CLOUD-37 lived 13 min 50 s (activity log) and billed 0.947 h. Updated mitigation: for any hourly meter budget at least one full hour; the activity log is read with `--max-events` raised, and the result is stored in a variable in Windows PowerShell 5.1.
 - Still open: the outbound data meter for the export decision (read again on 20 Oct).
 
-## 10. AWS leg of the rehost (CLOUD-38) - DRAFT v1, not approved
+## 10. AWS leg of the rehost (CLOUD-38) - executed 19 Oct 2026 (v1 text kept; see 10.9 for what it got wrong)
 
 Written 19 Oct 2026 from the vendor documentation of that day and from the two drills of 18 Oct. Everything under "expected" is a hypothesis
 until the drill runs.
@@ -199,3 +199,14 @@ Under 0.10 USD for a session of about 2 hours: S3 for about 3 GB for hours, an E
 - **D1.** Cloud-to-cloud input: (a) redo the Azure leg before about 31 Oct (re-upload 4 min, full export about 1 hour at best, outbound price still to be read on 20 Oct) and import that file in AWS; or (b) skip it, import only the local VHD, and record that the cloud-to-cloud leg was not done.
 - **D2.** Use the 3 GB dynamic VHD for AWS (recommended) or the 20 GiB fixed one.
 - **D3.** The session and its end time, to be set at the start of the run.
+
+### 10.9 Result of the AWS leg (19 Oct 2026)
+
+Details and times: `docs/study/rehost-aws.md`.
+- Path 1 worked: `import-image` accepted RHEL 10.2 (expected refusal did not happen), 21 min 37 s, then t3.micro booted and both hashes matched.
+- Path 2 was not needed and not run.
+- Corrections to this section: the run-instances volume is untagged and survives termination (count volumes after rollback); shell variables are per window (check lengths before API calls); the tag index lags, use describe calls as proof.
+- Teardown 12:40 with 8 destroyed; `redact.sed` gained a rule for the `rehost` bucket name and the random-string result line.
+- Cloud-to-cloud (19 Oct): the disk uploaded to Azure was exported (download under 8 min, hash equal), converted to a dynamic VHD and imported: `import-image` accepted it, the instance passed the status checks, SSH never answered (cloud-init pinned to the Azure datasource stalled the boot, hypothesis). The Azure VM was not booted before the export. The plan's cloud-to-cloud step now needs the guest preparation as a step of its own, before the export. Details in `docs/study/rehost-aws.md`.
+- Corrections to this section: a security group with one allowed address breaks when the home address changes (check it before blaming the instance); the access granted to an exported disk must be revoked before the disk can be deleted.
+
