@@ -142,3 +142,60 @@ To be filled in after each drill: what happened, and what this plan got wrong.
 - The three Azure drills of 18 Oct cost 0.0111 USD in total (gross, by CLI), 4 percent of the stop threshold; everything was tagged. Estimates in section 4 were 4 to 10 times too high.
 - R1 gets a third data point: the public IP of CLOUD-37 lived 13 min 50 s (activity log) and billed 0.947 h. Updated mitigation: for any hourly meter budget at least one full hour; the activity log is read with `--max-events` raised, and the result is stored in a variable in Windows PowerShell 5.1.
 - Still open: the outbound data meter for the export decision (read again on 20 Oct).
+
+## 10. AWS leg of the rehost (CLOUD-38) - DRAFT v1, not approved
+
+Written 19 Oct 2026 from the vendor documentation of that day and from the two drills of 18 Oct. Everything under "expected" is a hypothesis
+until the drill runs.
+
+### 10.1 Scope and inputs
+
+- Input A: the local VM disk (`rehost-src`, RHEL 10.2, EFI, LVM root), already validated on Azure (page hash `1bd9fcd1...4baeb98`, data file hash `ba6baac6...4039`).
+- Input B: the disk exported from Azure. **Not available**: only a 64 MiB sample was exported on 18 Oct and the Azure disk was deleted. See decision D1.
+- Region: us-east-1, as the rest of the lab. Network: the default VPC (to be checked with `describe-vpcs`; the lab has no AWS network of its own now).
+
+### 10.2 What the AWS documentation says (read 19 Oct)
+
+- Supported RHEL: 5, 6, 7, 8.0-8.9, 9.0-9.7 and **10.0-10.1** (kernel 6.12.0). The source is **10.2**: not listed.
+- Formats: VHD and VHDX (fixed and dynamic), stream-optimized VMDK, OVA, RAW. Boot mode `uefi` or `legacy-bios` (`--boot-mode`).
+- Linux limits: default kernels only; **predictable interface names are not supported** (the image already uses `net.ifnames=0`); a fallback `BOOTX64.EFI` must exist on the EFI partition; the AWS NVMe and ENA drivers are recommended in the image; one network interface with DHCP; **only a private IPv4 address after `import-image`**; no encrypted volumes.
+
+### 10.3 Image preparation (local, no cost) on `rehost-src`
+
+1. Remove `/etc/cloud/cloud.cfg.d/91-azure_datasource.cfg` (it pins the datasource to Azure) and set `datasource_list: [ Ec2, None ]`.
+2. Disable `waagent` (Azure only).
+3. Add `nvme` and `ena` to the boot image through the dracut file used on 18 Oct, and rebuild it. (The Azure drivers `hv_*` can stay.)
+4. Check that `/boot/efi/EFI/BOOT/BOOTX64.EFI` exists.
+5. Power off, confirm `VMState=poweroff`, convert to a **dynamic** VHD (about 3 GB of real data) instead of the 20 GiB fixed one: S3 stores and the upload moves every byte of a fixed file, 20 GiB at 108 Mbps is about 26 minutes against about 4 for the dynamic one (estimates). Write the SHA-256 of the file.
+
+### 10.4 Paths
+
+- **Path 1, the documented one:** `import-image` with `--boot-mode uefi` and `--license-type BYOL`, with the `vmimport` service role and a bucket policy. Expected: refused because of 10.2. Record the exact error and the time to refusal.
+- **Path 2, fallback:** `import-snapshot`, then `register-image` (UEFI, ENA enabled), then `run-instances` on a Nitro type (t3.micro) with auto-assigned public IP. This path does not check the OS version.
+- If Path 1 is accepted, the instance gets a private address only: an Elastic IP is needed (it bills by the hour).
+
+### 10.5 Validation, rollback, teardown
+
+- Validation, the same three checks as local and Azure: SSH by key answers; page and data file give the same hashes; `systemctl is-system-running` is `running`. SSH is allowed only from the operator's IP in a dedicated security group.
+- Rollback, timed: terminate the instance, deregister the AMI, delete the snapshot, delete the S3 object, delete the role; then the tag query and `describe-*` calls return nothing. Everything created by the import is tagged `lab=cloud-lab, layer=1, domain=rehost`.
+- Teardown evidence is read before it is committed; the local clone and VHD are removed with `scripts/local-cleanup.ps1 -IncludeRehost -Execute` only when CLOUD-38 is finished.
+
+### 10.6 Cost and stop (estimates, not measured)
+
+Under 0.10 USD for a session of about 2 hours: S3 for about 3 GB for hours, an EBS snapshot, a t3.micro (about 0.0104 USD an hour) and a public IPv4 (about 0.005 USD an hour). Stop threshold unchanged: 0.25 USD for the day or the stated end time. Rule from 19 Oct: for any hourly meter budget at least one full hour.
+
+### 10.7 Risks specific to this leg
+
+| # | Risk | Evidence | Mitigation | Stop signal |
+|---|---|---|---|---|
+| R9 | The import refuses RHEL 10.2 | Not in the supported list | Path 2 | Both paths fail |
+| R10 | The instance does not boot on Nitro because the boot image lacks `nvme` or `ena` | Same failure class as the missing `hv_*` drivers on Azure (found by reading before building) | Step 3 of 10.3 and `lsinitrd` check before converting | No SSH 15 min after `running` |
+| R11 | `cloud-init` pinned to Azure delays or breaks the first boot | The Azure datasource file left in the image | Step 1 of 10.3 | `is-system-running` is not `running` |
+| R12 | Snapshots, AMIs or S3 objects keep billing after the drill | Lab rule: layer 1 destroyed; the tagging API lags after deletion | Tag everything; check with `describe-*`, not only the tag query | Anything listed after teardown |
+| R13 | The import tasks take much longer than the build | Not measured | State the end time with margin; keep the Azure lesson that time follows data, not size | Task still `active` at the end time |
+
+### 10.8 Decisions needed from the operator
+
+- **D1.** Cloud-to-cloud input: (a) redo the Azure leg before about 31 Oct (re-upload 4 min, full export about 1 hour at best, outbound price still to be read on 20 Oct) and import that file in AWS; or (b) skip it, import only the local VHD, and record that the cloud-to-cloud leg was not done.
+- **D2.** Use the 3 GB dynamic VHD for AWS (recommended) or the 20 GiB fixed one.
+- **D3.** The session and its end time, to be set at the start of the run.
