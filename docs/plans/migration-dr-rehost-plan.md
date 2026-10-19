@@ -96,7 +96,7 @@ disk and confirming the resource group is empty. It is exercised once by doing e
 Layer 0 builds the state backend, budgets, tag scheme and role definitions and is never destroyed. Layer 1
 holds everything a drill creates and is destroyed by `scripts/teardown.sh azure|aws`, which saves redacted
 evidence in `evidence/`. After each session: `scripts/inventory.ps1`, `az resource list` on the layer 1
-resource group, and the AWS tag query. Evidence files are read before they are committed.
+resource group, and the AWS tag query. Evidence files are read before they are committed. Local data (test files, export sample, and at the end of CLOUD-38 the VM clone `rehost-src` and the exported VHD) is removed with `scripts/local-cleanup.ps1`; the clone and the VHD stay until CLOUD-38 is finished.
 
 ## 7. Assumptions to test (from vendor documentation, not from the lab record)
 
