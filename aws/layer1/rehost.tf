@@ -83,7 +83,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_security_group" "rehost" {
-  name        = "sg-cloud-lab-rehost"
+  name        = "cloud-lab-rehost-ssh"
   description = "CLOUD-38 rehost drill: SSH from the operator only"
   vpc_id      = data.aws_vpc.default.id
 
