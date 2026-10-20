@@ -24,7 +24,7 @@ Costs and times below are estimates unless marked measured.
 
 ## Does Google accept this image? (20 Oct 2026)
 
-- Not confirmed. The documentation lists VMDK as accepted and recommended ("only monolithic VMDK files are supported") but never names the subtypes (monolithicSparse, streamOptimized, split). VirtualBox `--variant Standard` writes a single-file VMDK; its `createType` is to be read locally from the file header. The only real test is the import itself; plan B is `disk.raw` in a `.tar.gz`.
+- Not confirmed. The documentation lists VMDK as accepted and recommended ("only monolithic VMDK files are supported") but never names the subtypes (monolithicSparse, streamOptimized, split). VirtualBox `--variant Standard` writes a single-file VMDK. Read locally on 20 Oct 2026: magic `KDMV`, `createType="monolithicSparse"` (one growable file, the monolithic kind). This is consistent with the documentation but does not prove acceptance. The only real test is the import itself; plan B is `disk.raw` in a `.tar.gz`.
 
 ## Estimated cost (not measured; prices read 20 Oct 2026 unless marked)
 
