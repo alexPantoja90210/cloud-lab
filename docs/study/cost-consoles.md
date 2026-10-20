@@ -19,6 +19,6 @@ Menu paths are the operator's own words, translated.
 
 ## Nothing billable left, by eye in the console
 
-- AWS (us-east-1, 20 Oct): Instances, Volumes, Snapshots and Elastic IPs all empty. Matches the CLI counts.
-- Azure: not yet read by eye in the portal (sign-in needed); the CLI inventory shows 4 inert resources.
-- Google: not yet read by eye.
+- AWS (us-east-1, 20 Oct): operator read EC2 by eye: Instances, Volumes and Elastic IPs empty; Snapshots showed nothing (the screen read by Claude also showed no owned snapshots). Matches the CLI counts.
+- Google Cloud (20 Oct): operator read Cloud Storage: no buckets.
+- Azure: not confirmed. The operator's All resources screen showed a list of providers and services, not the resource list; the CLI inventory (20 Oct) shows 4 inert resources. To be read again by eye.
