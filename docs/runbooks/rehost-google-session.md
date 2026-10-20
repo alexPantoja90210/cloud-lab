@@ -43,3 +43,9 @@ Total estimate: about 0.05 to 0.08 USD (about 1 to 1.5 MXN); ceiling 0.10 USD, s
 ## Estimated time
 
 Set-up of APIs and roles 15 to 20 min; upload about 10 min (2.77 GiB at about 44 Mbps); import 10 to 30 min (AWS took 22 min; the Google page shows 4.5 min only as an illustration); create and boot the VM 5 to 10 min; validation 10 min; rollback and teardown 5 to 10 min. Total about 1.5 to 2 h.
+
+## Cloud-side set-up log, 20 Oct 2026 (operator runs the commands; output filtered)
+
+- 12:57: APIs enabled in the trial project: Compute Engine, VM Migration, Cloud Storage (verified by listing). Billing was linked (`billingEnabled` True). Cost 0.
+- 12:58: bucket created in us-east1 with uniform access and public access prevention (one bucket listed). Cost 0 until data is uploaded.
+- 13:00 to 13:05, finding: granting `roles/vmmigration.serviceAgent` to the Migrate to Virtual Machines service agent failed twice with the generic message "Policy modification failed ... lint-condition". The cause was that the service agent did not exist yet (enabling the API does not create it). `gcloud beta services identity create --service=vmmigration.googleapis.com` created it (the `beta` component had to be installed first; `--quiet` fails with the bundled Python, run it interactively), and the same grant then worked (verified: 1 binding). Lesson: the error text points at conditions, the real cause was a missing identity; and discarding the output of the failing command hid it.
