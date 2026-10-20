@@ -8,13 +8,16 @@
   -IncludeRehost (use it when CLOUD-38 is finished): also removes the VM clone rehost-src and its
   disk, the exported 20 GiB VHD and its dynamic copy (CLOUD-38), the lab SSH key id_rehost, its known_hosts entry and the labnet
   port-forward rule named rehost.
+  -IncludeGcp (use it when the Google Cloud rehost, CLOUD-43, is finished): removes the VM clone rehost-gcp and its disk,
+  its VirtualBox media entries and the folder gcp-export (the VMDK exported for the import).
   Never touches node1, node2 or rhel10-template. Windows PowerShell 5.1 compatible.
 #>
-param([switch]$Execute, [switch]$IncludeRehost)
+param([switch]$Execute, [switch]$IncludeRehost, [switch]$IncludeGcp)
 
 $ErrorActionPreference = "Stop"
 $vbm = "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"
 $export = Join-Path $env:USERPROFILE "rehost-export"
+$gcpExport = Join-Path $env:USERPROFILE "gcp-export"
 
 $paths = @(
   (Join-Path $env:TEMP "move-src"),
@@ -56,6 +59,25 @@ if ($IncludeRehost) {
       try { & $vbm closemedium disk $f.FullName 2>&1 | Out-Null } catch { "closemedium skipped: " + $f.Name }
     }
     ssh-keygen -R "[127.0.0.1]:2204" | Out-Null
+  }
+}
+
+if ($IncludeGcp) {
+  $paths += $gcpExport
+  $vms = & $vbm list vms
+  if ($vms -match '"rehost-gcp"') {
+    "VirtualBox VM: rehost-gcp (with its own disk)"
+    if ($Execute) {
+      $state = (& $vbm showvminfo rehost-gcp --machinereadable | Select-String "^VMState=").ToString()
+      if ($state -notmatch "poweroff") { throw "rehost-gcp is not powered off. Power it off first." }
+      & $vbm unregistervm rehost-gcp --delete
+    }
+  } else { "VirtualBox VM: rehost-gcp absent" }
+  "VirtualBox media entries: every .vmdk in gcp-export (closed before the files are deleted)"
+  if ($Execute) {
+    foreach ($f in (Get-ChildItem $gcpExport -Filter "*.vmdk" -ErrorAction SilentlyContinue)) {
+      try { & $vbm closemedium disk $f.FullName 2>&1 | Out-Null } catch { "closemedium skipped: " + $f.Name }
+    }
   }
 }
 

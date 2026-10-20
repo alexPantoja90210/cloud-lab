@@ -18,6 +18,6 @@ Costs and times below are estimates unless marked measured.
 
 ## Plan, not yet run
 
-1. DONE 20 Oct 2026: disk of `rehost-gcp` converted to VMDK with `clonemedium --format VMDK --variant Standard` (VirtualBox variant Standard). Result: 2,972,909,568 bytes (2.77 GiB), SHA-256 starts with `10cecf237d15fcf2`. Local, free. File kept in the folder `gcp-export` of the user profile (not covered yet by `scripts/local-cleanup.ps1`). Not yet confirmed that Google accepts this VMDK subtype as monolithic.
+1. DONE 20 Oct 2026: disk of `rehost-gcp` converted to VMDK with `clonemedium --format VMDK --variant Standard` (VirtualBox variant Standard). Result: 2,972,909,568 bytes (2.77 GiB), SHA-256 starts with `10cecf237d15fcf2`. Local, free. File kept in the folder `gcp-export` of the user profile (removed with `scripts/local-cleanup.ps1 -IncludeGcp`, together with the VM `rehost-gcp`). Not yet confirmed that Google accepts this VMDK subtype as monolithic.
 2. Cloud side: enable APIs, create bucket (us-east1), upload, grant the three roles, create the target project, run the import, boot a small VM, compare the two hashes, roll back, tear down. Cost and end time to be written here before running.
 3. Cost stop threshold: 0.25 USD, same as Azure. Expected ceiling about 0.10 USD, not measured.
