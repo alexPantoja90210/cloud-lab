@@ -21,3 +21,25 @@ Costs and times below are estimates unless marked measured.
 1. DONE 20 Oct 2026: disk of `rehost-gcp` converted to VMDK with `clonemedium --format VMDK --variant Standard` (VirtualBox variant Standard). Result: 2,972,909,568 bytes (2.77 GiB), SHA-256 starts with `10cecf237d15fcf2`. Local, free. File kept in the folder `gcp-export` of the user profile (removed with `scripts/local-cleanup.ps1 -IncludeGcp`, together with the VM `rehost-gcp`). Not yet confirmed that Google accepts this VMDK subtype as monolithic.
 2. Cloud side: enable APIs, create bucket (us-east1), upload, grant the three roles, create the target project, run the import, boot a small VM, compare the two hashes, roll back, tear down. Cost and end time to be written here before running.
 3. Cost stop threshold: 0.25 USD, same as Azure. Expected ceiling about 0.10 USD, not measured.
+
+## Does Google accept this image? (20 Oct 2026)
+
+- Not confirmed. The documentation lists VMDK as accepted and recommended ("only monolithic VMDK files are supported") but never names the subtypes (monolithicSparse, streamOptimized, split). VirtualBox `--variant Standard` writes a single-file VMDK; its `createType` is to be read locally from the file header. The only real test is the import itself; plan B is `disk.raw` in a `.tar.gz`.
+
+## Estimated cost (not measured; prices read 20 Oct 2026 unless marked)
+
+| Item | Price | Estimate for this drill |
+|---|---|---|
+| Migrate to Virtual Machines | "no charge for migrations into Google Cloud"; test or validation resources are charged | 0 for the tool; temporary resources of the import: unknown |
+| Cloud Storage Standard, us-east1 | about 0.02 USD per GiB-month; upload free; Always Free 5 GB-months | 2.77 GiB for about one day: under 0.01 USD, probably 0 |
+| Image storage | 0.05 USD per GiB-month | under 0.01 USD for a day |
+| VM e2-micro | 0.0084 USD per hour (1 GB of RAM, too small); e2-small about double (derived, not read) | about 0.017 USD per hour, 2 h about 0.04 USD |
+| Boot disk 20 GB | standard 0.04, balanced 0.10 USD per GB-month | about 0.001 to 0.003 USD per hour |
+| External IPv4 | about 0.005 USD per hour (from memory, not confirmed) | 2 h about 0.01 USD |
+| Egress | uploads free; SSH and hash checks negligible | about 0 |
+
+Total estimate: about 0.05 to 0.08 USD (about 1 to 1.5 MXN); ceiling 0.10 USD, stop threshold 0.25 USD. Main unknown: temporary resources created by the import.
+
+## Estimated time
+
+Set-up of APIs and roles 15 to 20 min; upload about 10 min (2.77 GiB at about 44 Mbps); import 10 to 30 min (AWS took 22 min; the Google page shows 4.5 min only as an illustration); create and boot the VM 5 to 10 min; validation 10 min; rollback and teardown 5 to 10 min. Total about 1.5 to 2 h.
