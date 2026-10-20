@@ -34,8 +34,8 @@ work item in the query", otherwise an action such as "Add comment" has nothing t
 ## Plan limits (read 20 Oct 2026)
 
 - Usage page, current month (October), estimate: 93 automation steps, 0 Rovo credits; all 93 come from the three Job Pipeline rules so far (the CLOUD runs had not appeared in the list yet).
-- Atlassian's documentation lists the Free plan limit for Jira at 150 steps per month. A step is one executed part of a flow: the trigger, each condition and each action count, even when nothing matches. Not verified whether this subscription is Free (the page shows an Upgrade button).
-- Consequence: about 57 steps left in October at that limit. Each run of these CLOUD rules costs about 2 steps. After 3 Dec 2026 the documentation says extra usage is billed at 0.50 USD per 1,000 steps, and flows stop at 100 percent if extra usage is off.
+- Atlassian's documentation lists the Free plan limit for Jira at 150 steps per month. A step is one executed part of a flow: the trigger, each condition and each action count, even when nothing matches. The operator confirmed on 20 Oct that the Jira plan is Free (no card, no upgrade ever).
+- Consequence: about 57 steps left in October (150 minus 93). Each run of these CLOUD rules costs about 2 steps. After 3 Dec 2026 the documentation says extra usage is billed at 0.50 USD per 1,000 steps, and flows stop at 100 percent if extra usage is off.
 
 ## Not done
 
