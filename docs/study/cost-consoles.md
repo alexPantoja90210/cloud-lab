@@ -21,4 +21,4 @@ Menu paths are the operator's own words, translated.
 
 - AWS (us-east-1, 20 Oct): operator read EC2 by eye: Instances, Volumes and Elastic IPs empty; Snapshots showed nothing (the screen read by Claude also showed no owned snapshots). Matches the CLI counts.
 - Google Cloud (20 Oct): operator read Cloud Storage: no buckets.
-- Azure: not confirmed. The operator's All resources screen showed a list of providers and services, not the resource list; the CLI inventory (20 Oct) shows 4 inert resources. To be read again by eye.
+- Azure (20 Oct): operator read the resource group rg-cloud-lab by eye: empty. The All resources screen showed a list of providers and services, not resources, so the subscription-wide count (CLI inventory: 4 inert resources) was not read in the portal.
