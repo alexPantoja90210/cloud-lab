@@ -49,3 +49,26 @@ Set-up of APIs and roles 15 to 20 min; upload about 10 min (2.77 GiB at about 44
 - 12:57: APIs enabled in the trial project: Compute Engine, VM Migration, Cloud Storage (verified by listing). Billing was linked (`billingEnabled` True). Cost 0.
 - 12:58: bucket created in us-east1 with uniform access and public access prevention (one bucket listed). Cost 0 until data is uploaded.
 - 13:00 to 13:05, finding: granting `roles/vmmigration.serviceAgent` to the Migrate to Virtual Machines service agent failed twice with the generic message "Policy modification failed ... lint-condition". The cause was that the service agent did not exist yet (enabling the API does not create it). `gcloud beta services identity create --service=vmmigration.googleapis.com` created it (the `beta` component had to be installed first; `--quiet` fails with the bundled Python, run it interactively), and the same grant then worked (verified: 1 binding). Lesson: the error text points at conditions, the real cause was a missing identity; and discarding the output of the failing command hid it.
+
+## Measured results, 20 Oct 2026 (times are local, UTC-6)
+
+- Bucket role: `roles/storage.objectViewer` for the service agent verified (1 binding).
+- Upload: 2,972,909,568 bytes in 135 s (about 176 Mbps). The 10 min estimate above was wrong by about 5x because it used the home line speed (44 Mbps) instead of what the upload really got.
+- First import attempt failed with FAILED_PRECONDITION "TargetProject ... not found". Nothing was created, cost 0. The GA `gcloud migration vms target-projects` group only has `list`; the documentation gives no CLI or REST way to add one. It was added in the console (Migrate to Virtual Machines > Targets > Add Projects). Host project shown without a warning.
+- Import: created 13:20:58, job RUNNING 13:22:43, SUCCEEDED 13:32:05 (about 9.4 min). First attempt, so BIOS-to-UEFI conversion and the monolithicSparse VMDK were accepted. Image READY, 20 GB disk, archive 2,127,641,280 bytes, features GVNIC, IDPF, VIRTIO_SCSI_MULTIQUEUE, UEFI_COMPATIBLE. The image appeared in the project at about 13:30:44.
+- Temporary resources: polling every 60 s showed 0 disks and 0 instances in the project during the whole import; only the final image appeared. Any hidden cost of the import is not visible from the project; check the bill.
+- The import installed the Google guest agent in the image (seen in the serial log), so `gcloud compute ssh` worked with no password.
+- VM: e2-small, us-east1-b, 20 GB standard disk, no service account, created 13:47, booted to multi-user in about 70 s.
+- Port 80 did not answer even though httpd was running: firewalld inside the guest had no `http` service (the local check had been done from inside the VM). Port 22 answered. Opened at runtime only with `firewall-cmd --add-service=http`; not made permanent.
+- Acceptance: page HTTP 200, 28 bytes, SHA-256 starts 1bd9fcd1c25d6d63 = MATCH; data file SHA-256 starts e4ce0a5294ed84c1 and text "rehost-gcp data 2026-10-20" = MATCH.
+- Security: the default network had SSH (22) and RDP (3389) open to 0.0.0.0/0. SSH was restricted to the operator's IP, the RDP rule was deleted, HTTP was allowed from the operator's IP only through a temporary rule, and the VM had no service account.
+- Teardown 14:05 to 14:06: VM and disk, HTTP rule, image, image-import resource, bucket with the VMDK, and the project `ssh-keys` metadata were deleted. Verification: 0 instances, 0 disks, 0 images, 0 snapshots, 0 image-imports, 0 buckets, 0 addresses; firewall has only the three default rules (SSH now restricted to one IP).
+- Left on purpose: the registered target project (no cost) and the gcloud SSH key on the operator's PC (outside the repo).
+- Time: about 1 h 10 min from the first cloud command (about 12:57) to a verified-empty project; import 9.4 min; VM alive 13:47 to 14:05 (18 min).
+- Cost: estimated about 0.007 USD for the VM time plus cents for storage; not measured. Real figure to be read from the billing panel on 21 Oct (it lags hours).
+
+## Mistakes and lessons
+
+- PowerShell: `R` is a built-in alias of Invoke-History, so my redaction helper never ran; the gcloud commands inside the parentheses still executed. Use a function name that is not an alias.
+- A wrapped line in the PowerShell error text broke the redaction of the project ID once; filter at the source (`--format="value(...)"`) instead of redacting afterwards.
+- The documented prerequisites were not enough: the service agent had to be created by hand and the target project had to be registered in the console.
