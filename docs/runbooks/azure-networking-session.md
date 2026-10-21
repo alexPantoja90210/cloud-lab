@@ -1,4 +1,6 @@
-# Azure networking, hand-built (CLOUD-27, Azure half), 21 Oct 2026
+# Azure networking, second hand-built run (CLOUD-27), 21 Oct 2026
+
+**This repeated work that was already done.** The Azure half of CLOUD-27 was built by hand in the console on 15 Oct 2026 and applied and destroyed in Terraform on 16 Oct (see `docs/study/networking-azure-console.md` and `docs/runbooks/networking-session.md`). The 21 Oct run happened because the plan for the day was made without reading those files first. It is kept as a second, independent run with its own predictions; the findings that are new compared with the first run are listed at the end.
 
 Region East US 2 (the region of the existing storage account). Operator built the pieces in the portal from written steps; the CLI was used only to read and verify. Times are local (UTC-6). Cost figures are estimates until the Cost analysis lag has passed.
 
@@ -48,3 +50,11 @@ Public network access was turned off only for seconds, in a block with a `finall
 ## Left to do for this half
 
 - Delete the endpoint, the DNS zone and links, the virtual network and the NSG (layer 1 empty), then the Terraform twin applied and destroyed, and the cost compared with the Cost analysis view.
+
+## New compared with the 15 and 16 Oct runs (to check against them before treating as new)
+
+- Subnets created in the portal on 21 Oct had "private subnet" (default outbound access off) enabled by default.
+- `Standard_B1s` was not offered in `eastus2` for this subscription at all; the 15 and 16 Oct runs used another region. Capacity is per size and region.
+- A control (flip the rule to Allow, repeat) separated "denied by the rule" from "unreachable".
+- For the storage test, a plain request to the account root answered `400` whether public access was on or off; a valid `?comp=list` gave `409` on and `403 AuthorizationFailure` off.
+- The rule created in the portal came out as Allow although it was named deny.
