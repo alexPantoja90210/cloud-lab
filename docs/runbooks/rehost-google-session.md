@@ -72,3 +72,12 @@ Set-up of APIs and roles 15 to 20 min; upload about 10 min (2.77 GiB at about 44
 - PowerShell: `R` is a built-in alias of Invoke-History, so my redaction helper never ran; the gcloud commands inside the parentheses still executed. Use a function name that is not an alias.
 - A wrapped line in the PowerShell error text broke the redaction of the project ID once; filter at the source (`--format="value(...)"`) instead of redacting afterwards.
 - The documented prerequisites were not enough: the service agent had to be created by hand and the target project had to be registered in the console.
+
+## Real cost read in the Billing console, 21 Oct 2026
+
+- Reports page, 1 to 21 Oct 2026, currency MXN (confirmed on the page): total usage cost MXN 0.14, all of it on 20 Oct, savings MXN 0.00. By service: Compute Engine MXN 0.09 and Networking MXN 0.05; the two lines add up to the total, so no other service (Cloud Storage, Migrate to Virtual Machines) shows a cost at this rounding.
+- The cost breakdown page shows the same MXN 0.14 gross, offset by promotional credits and investment-based discounts, so the amount actually payable is MXN 0.00 (the card is blocked anyway).
+- Against the estimate: about 0.007 USD for 18 minutes of VM time is roughly MXN 0.13 to 0.14 at about 19 to 20 MXN per USD (exchange rate approximate, not read from a source). The estimate and the measurement agree within the rounding of the panel.
+- SKUs named by the console summary (Gemini Cloud Assist, a preview feature, so treat it with care): Compute Engine MXN 0.09, of which MXN 0.06 is "E2 Instance Core running in Americas" (the VM CPU); Networking MXN 0.05, of which MXN 0.02 is "Network Intelligence Center Network Analyzer Resource Hours". The earlier guess that Networking was the external IPv4 address was wrong for at least that MXN 0.02. The remaining MXN 0.03 of Networking and MXN 0.03 of Compute Engine are not attributed. Open question: Network Analyzer bills per resource-hour and was not started by us on purpose; check on 22 Oct whether a charge keeps appearing while only the default network and its three firewall rules remain.
+- The import itself created no visible line: no separate Migrate to Virtual Machines cost and no temporary-resource cost appeared. Limits of that statement: one drill, panel rounding to MXN 0.01, and billing data can still be revised.
+- Credit used by the whole drill: MXN 0.14 of the MXN 5,344 granted.
