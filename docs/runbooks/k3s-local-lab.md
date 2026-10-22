@@ -40,3 +40,27 @@ Terraform with the kubernetes provider against this cluster; GitOps (Flux or Arg
 ## What local practice does not teach
 
 Managed control planes, IAM and workload identity, cloud load balancers, node autoscaling, and the bill.
+
+## Failure drills, 21 Oct 2026 (evening)
+
+| Drill | What was done | Observed |
+|---|---|---|
+| ImagePullBackOff | Deployment with image `nginx:no-such-tag-xyz` | Events: Scheduled, Pulling, Failed (ErrImagePull), BackOff (ImagePullBackOff), Pulling again. Status alternated between ErrImagePull and ImagePullBackOff. Restarts stayed 0 because the container never started. |
+| Failing readiness probe | 2 replicas, probe on a path that does not exist, plus a Service | Pods `Running` but `0/1`, restarts 0, Service endpoints empty. After patching the probe path: `1/1` and two endpoints, one per node. The operator predicted Ready; the pods were Running but not Ready. |
+| Stopped node, run 1 | `node2` powered off hard, 4 replicas over both nodes | Invalid. `node1` had `/mnt/shared` mounted from `node2` over NFS with the `hard` option. When `node2` went down, `node1` blocked on that mount: load average above 20 with a mostly idle CPU, soft lockups on both CPUs, kubectl timeouts, and no pod was moved in 14.5 minutes. An early guess that a background `dnf` was the cause was wrong. |
+| Stopped node, run 2 | Same, after unmounting the NFS share and commenting its line in `/etc/fstab` (backup `/etc/fstab.bak-cloud44`) | `node2` NotReady about 105 s after the observer started (the power-off was within seconds of that start, so the figure is approximate). `node1` flapped between NotReady and Ready (NotReady at 162 s and 434 s, Ready at 296 s and 523 s); cause not identified. The two pods on `node2` became Terminating at about 523 s. The same line did not list any pod on `node1`, so whether replacement pods were created was not seen: the deployment was deleted before the next observation. |
+
+Pod toleration for node-not-ready and node-unreachable is 300 s (read from the pod spec). The taints `unreachable:NoSchedule` and `unreachable:NoExecute` were present on `node2`.
+
+Lessons:
+- Running is not Ready; a failing readiness probe does not restart a container.
+- ImagePullBackOff means waiting before the next pull attempt.
+- A node that is a dependency of another (here an NFS server) turns a worker failure into a cascade. A `hard` NFS mount blocks everything that touches it.
+- An observer must watch the field that actually changes (deletion timestamp, not phase), and its own commands need time limits.
+- A two-node cluster whose server node is unstable cannot answer "how fast does Kubernetes evacuate a dead node". When every node is NotReady the controller may pause evictions (a hypothesis, not verified here).
+
+Not explained: why `node1` flapped to NotReady; host memory pressure (VirtualBox windows were open) is a possible contributor, not confirmed.
+
+To repeat cleanly: keep the NFS line disabled, close the VirtualBox windows and other heavy applications, wait for `node1` to be quiet (load average low and stable) before powering off `node2`, and record the exact power-off time from `VBoxManage showvminfo` instead of estimating it.
+
+Still open in phase 1: Terraform versus k3s, GitOps, the operator's own study note.
