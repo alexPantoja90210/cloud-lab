@@ -20,8 +20,8 @@ Resource group `rg-cloud-lab` was verified empty at the end (0 resources, 0 `MC_
 | Public endpoint (Service type LoadBalancer) | HTTP 200, first request 1.17 s | n/a |
 | AKS delete | Succeeded, node resource group removed | 278 |
 
-Not captured: time for the public IP to be assigned (the line scrolled out of the console),
-and the time Container Apps takes to scale back to zero.
+Not captured in this first run: time for the public IP to be assigned and the time Container Apps takes
+to scale back to zero. Both were measured in the second run below.
 
 ## Cost
 
@@ -81,6 +81,43 @@ Azure CNI overlay, standard load balancer, nothing else enabled. Own state key, 
 - Terraform removes the whole cluster in one command and the resource count returned to 0 immediately
   (the hand-built delete briefly left one resource behind).
 - Cost: the cluster existed about 10 minutes, roughly 0.02 USD by the price table above. Real figure pending Cost Management.
+
+## Second run: Terraform only, inspected in the console (same day)
+
+Why: the first run was built and destroyed by hand without the console being looked at. This run was created with
+Terraform (`azure/aks`, `azure/containerapps`), reviewed in the portal, then destroyed.
+
+| Step | Result | Seconds |
+|---|---|---|
+| AKS apply (Free tier, 1 node), then 2-replica deployment and a LoadBalancer service | public IP assigned, HTTP 200 | IP in 13 |
+| Container Apps apply (environment plus app, scale 0 to 1) | 2 added | 97 |
+| First request right after create | 0.3 s (a replica was still alive; not a cold start) | n/a |
+| Scale to zero after my last request | 0 replicas in under about 2 minutes (only minute-level timestamps) | n/a |
+| Cold request from zero replicas | HTTP 200 | 25.84 |
+| Container Apps destroy | 2 destroyed | 724 |
+| AKS destroy | 1 destroyed, 0 node resource groups left | not captured |
+
+What the portal showed (node resource group `MC_...`, ordered by type):
+1 virtual machine scale set, 2 public IP addresses, 1 load balancer, 1 network security group,
+1 managed identity, 1 virtual network. There is no separate disk resource, so the 0.01 USD disk
+estimate in the cost table is unverified.
+
+Public IPs, checked live: one has a long identifier as its name and is the cluster's outbound IP, billed even
+if nothing is published. The other is named `kubernetes-<hash>` and is created by the Service of type
+LoadBalancer. Deleting the Service removed it; recreating the Service produced a new one with a different name.
+
+Observations:
+
+1. Container Apps by Terraform took 97 s to create against 939 s by hand. Unexplained. Two untested hypotheses:
+   first environment in the region or subscription is slower, or normal variance. One sample each.
+2. The Container Apps API returns no `minReplicas` when it is 0 (the default), so the CLI shows it empty.
+3. Scale to zero was much faster than the roughly 5 minutes I expected. Cold start from zero was 25.84 s,
+   consistent with 24.2 s in the first run.
+4. Container Apps destroy by Terraform took 724 s; the hand-built environment took about 29 min to delete (estimate).
+5. The portal was in Spanish, so menu names differed from the English ones used in the instructions.
+   Checking values by CLI settled what the portal screens meant.
+6. AKS cost for this run: the cluster existed roughly 35 minutes, about 0.08 USD by the price table. Estimate;
+   the real figure comes from Cost Management.
 
 ## Next
 
