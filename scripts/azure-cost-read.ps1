@@ -11,11 +11,16 @@
 
 .EXAMPLE
   powershell -File scripts/azure-cost-read.ps1 -From 2026-10-14 -To 2026-10-19 -All
+
+.EXAMPLE
+  Cost per department (tag `department`):
+  powershell -File scripts/azure-cost-read.ps1 -From 2026-10-21 -To 2026-10-22 -TagName department -Domains finance,hr,operations,engineering
 #>
 param(
   [Parameter(Mandatory = $true)][string]$From,
   [Parameter(Mandatory = $true)][string]$To,
   [string[]]$Domains = @("compute", "storage", "rehost", "networking"),
+  [string]$TagName = "domain",
   [switch]$All,
   [switch]$OnlyAll
 )
@@ -67,7 +72,7 @@ function Invoke-CostQuery([string]$label, $filter) {
 }
 
 if (-not $OnlyAll) { foreach ($d in $Domains) {
-  Invoke-CostQuery "tag domain=$d" @{ Tags = @{ name = "domain"; operator = "In"; values = @($d) } }
+  Invoke-CostQuery "tag $TagName=$d" @{ Tags = @{ name = $TagName; operator = "In"; values = @($d) } }
   Start-Sleep -Seconds 2
 } }
 if ($All -or $OnlyAll) { Invoke-CostQuery "all meters, no tag filter" $null }

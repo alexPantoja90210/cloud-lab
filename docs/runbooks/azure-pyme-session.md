@@ -47,7 +47,25 @@ Practical reading for a program manager: removing someone from a group is not an
 
 ## Still open
 
-- Cost by department from Cost analysis (22 Oct), compared with the CLI report.
+- Cost by department read with the CLI (done 22 Oct, all 0 USD). Optional: compare with the Cost analysis portal view.
 - Narrow the expiry window for bob (optional: probe at 1 h and 2 h on a fresh identity).
 - Human-user mover and leaver (needs a test user and the MFA question).
-- Clean-up of the hand-built layer: 4 storage accounts, 4 `grp-` groups, `sp-lab-alice`, `sp-lab-bob`, and the local login folders `azalice` and `azbob` in the temp folder. Verify empty afterwards.
+
+## Cost by department, read 22 Oct 2026
+
+Read with `scripts/azure-cost-read.ps1 -TagName department` (CLI, Cost Management query API, gross before credits). The tag works as a cost filter: each department returns its own rows.
+
+| Department | Cost 21 to 22 Oct (USD) | Notes |
+|---|---|---|
+| finance | 0.00 | container list/create operations, a few KB of transfer |
+| hr | 0.00 | same |
+| operations | 0.00 | same |
+| engineering | 0.00 | same |
+
+The honest reading: storage accounts that are empty cost nothing, so "cost per department" is only informative once a department owns something that bills (a VM, a disk, a database). The mechanism (one resource group of accounts per department, tag `department`, query by tag) is proven; the numbers are not.
+
+Subscription total for 1 to 22 Oct: 0.2423 USD gross (see `docs/credit-log.md`). Mistake to remember: `powershell -File script.ps1 -Domains a,b,c` passes the list as one string, so the first run queried one tag value `a,b,c` and returned no rows. Call the script directly instead.
+
+## Teardown, 22 Oct 2026 09:34 local
+
+`scripts/cloud36-teardown.ps1` (dry run first: 4 storage accounts, 4 groups, 2 app registrations; then `-Execute`). After: 0 storage accounts, 0 groups, 0 app registrations, 0 resources of any kind in `rg-cloud-lab`, and the local login folders of the two test identities removed. Nothing billable left from CLOUD-36.
