@@ -1,0 +1,70 @@
+# Azure containers session: Container Apps and AKS (hand-built)
+
+Date: 22 Oct 2026. Jira: CLOUD-44, Azure phase 3 (3A Container Apps, 3B AKS).
+Region: eastus2. Everything was created by hand with the Azure CLI and removed the same morning.
+Resource group `rg-cloud-lab` was verified empty at the end (0 resources, 0 `MC_*` node resource groups).
+
+## Run table
+
+| Step | Result | Seconds |
+|---|---|---|
+| Container Apps environment create (consumption, no Log Analytics) | Succeeded | 939 |
+| Container App create (sample hello-world image) | Succeeded | 19 |
+| Warm requests (3 samples) | 0.46 / 0.23 / 0.18 | n/a |
+| Cold start from zero replicas | 24.2 s to first response | 24.2 |
+| Container App delete | Succeeded | 18 |
+| Container Apps environment delete | ScheduledForDelete, then gone | about 1740 (estimate, 10:23 to 10:52 local) |
+| AKS create (Free tier, 1 node D2als_v7, k8s 1.36) | Succeeded | 359 |
+| Deployment, 2 replicas, same sample image | Ready | 2 |
+| Delete one pod, wait for a healthy replacement | Replaced | 2.8 |
+| Public endpoint (Service type LoadBalancer) | HTTP 200, first request 1.17 s | n/a |
+| AKS delete | Succeeded, node resource group removed | 278 |
+
+Not captured: time for the public IP to be assigned (the line scrolled out of the console),
+and the time Container Apps takes to scale back to zero.
+
+## Cost
+
+Prices read from the public Azure retail price API (eastus2):
+
+| Item | Price |
+|---|---|
+| D2als_v7 node | 0.0804 USD/h |
+| Standard load balancer, included rules | 0.025 USD/h |
+| Standard load balancer, data processed | 0.005 USD/GB |
+| Standard IPv4 static public IP | 0.005 USD/h |
+| AKS Free tier control plane | 0 |
+
+- AKS expected cost while it existed: about 0.12 USD/h plus about 0.005 USD/h while the public service existed.
+  The cluster lived about 22 minutes, so roughly 0.05 USD. Estimate only; the real figure comes from Cost Management
+  after the billing lag and is not recorded here yet.
+- Container Apps stayed inside the monthly free grant (180,000 vCPU-s, 360,000 GiB-s, 2M requests).
+  `--logs-destination none` avoided any Log Analytics charge.
+
+## Findings
+
+1. AKS creates its load balancer and an outbound public IP by default. They are billed even if you never publish a service.
+2. Container Apps environment creation was slow (939 s) and deletion was slower still. Plan for about 45 minutes round trip.
+   The environment shows `ScheduledForDelete` for a long time; that is normal, do not repeat the delete.
+3. Scale from zero costs real latency: 24.2 s cold versus 0.18 s warm. A Kubernetes pod replacement on a warm node took 2.8 s.
+4. AKS needs a node (cost per hour while it exists); Container Apps costs nothing while idle inside the free grant.
+5. The AKS "ready" in the 2 s deployment test means the container started. The sample has no readiness probe.
+6. After deleting the cluster, one resource briefly remained in the resource group and disappeared a few minutes later.
+   Always re-count before declaring the teardown clean.
+
+## Caveats
+
+- Single run each, one node, one region. These are first-run numbers, not benchmarks.
+- The 2 s deployment time depends on the image being small and the node pulling it quickly.
+- kubectl and kubelogin were installed in `%USERPROFILE%\.azure-kubectl` for this session only.
+  The kubeconfig was written to a temp file and deleted.
+
+## Mistakes
+
+- My estimate for the Container Apps environment create was 2 to 4 minutes; it took 939 s.
+- My first load balancer price queries returned nothing because the meters are published with region `Global`.
+
+## Next
+
+- Terraform twin for AKS (CLOUD-44). It will recreate a cluster briefly; cost is shown before running.
+- Read the real cost of this session in Cost Management once the billing data has landed.
