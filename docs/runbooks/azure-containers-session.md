@@ -64,7 +64,25 @@ Prices read from the public Azure retail price API (eastus2):
 - My estimate for the Container Apps environment create was 2 to 4 minutes; it took 939 s.
 - My first load balancer price queries returned nothing because the meters are published with region `Global`.
 
+## Terraform twin of AKS (`azure/aks`)
+
+Same shape as the hand-built cluster: Free tier, one D2als_v7 node, system-assigned identity,
+Azure CNI overlay, standard load balancer, nothing else enabled. Own state key, cluster name `aks-cloud-lab-tf`.
+
+| Step | Result | Seconds |
+|---|---|---|
+| `terraform validate` | valid on the first try | n/a |
+| `terraform plan` | 1 to add | n/a |
+| `terraform apply` | 1 added, node Ready, 0 system pods failing | 224 |
+| `terraform destroy` | 1 destroyed, resource group empty, 0 node resource groups | 395 |
+
+- Hand-built create took 359 s and delete 278 s; the twin took 224 s to create and 395 s to destroy.
+  One run each, so these differences are not conclusions.
+- Terraform removes the whole cluster in one command and the resource count returned to 0 immediately
+  (the hand-built delete briefly left one resource behind).
+- Cost: the cluster existed about 10 minutes, roughly 0.02 USD by the price table above. Real figure pending Cost Management.
+
 ## Next
 
-- Terraform twin for AKS (CLOUD-44). It will recreate a cluster briefly; cost is shown before running.
+- CLOUD-44: Container Apps Terraform twin is optional; the environment takes about 15 min to create and 30 min to delete.
 - Read the real cost of this session in Cost Management once the billing data has landed.
