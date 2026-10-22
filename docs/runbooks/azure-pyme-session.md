@@ -29,7 +29,7 @@ Evidence: `evidence/azure-pyme-denial-*`, `azure-pyme-mover-leaver-*` (stale ses
 3. A fresh login did not help alice either. After leaving and rejoining a group she did not regain access within 10 minutes.
 4. An identity that joins a group before its first token gets access fast (bob, 17 s).
 5. Moving a principal between groups was not reflected within 8 minutes. For bob, removal from operations was still not effective 16 minutes later.
-6. Not known: how long the old access lasts. A probe of bob is pending. Human users were not tested (a new user would be asked to register MFA at first sign-in); the result so far is about service principals.
+6. The old access did expire: a probe of bob at 03:38 UTC on 22 Oct (5 h 29 min after the change) showed operations and finance both denied. It was still allowed 16 minutes after the change, so the expiry is somewhere between 16 minutes and 5.5 hours; the exact point was not measured. Human users were not tested (a new user would be asked to register MFA at first sign-in); the result so far is about service principals.
 
 Practical reading for a program manager: removing someone from a group is not an instant revoke. Plan for a window after a leaver, and use a direct revoke (disable the account or remove the role assignment) when it must be immediate.
 
@@ -48,6 +48,6 @@ Practical reading for a program manager: removing someone from a group is not an
 ## Still open
 
 - Cost by department from Cost analysis (22 Oct), compared with the CLI report.
-- Bob expiry probe: when does the old access end.
+- Narrow the expiry window for bob (optional: probe at 1 h and 2 h on a fresh identity).
 - Human-user mover and leaver (needs a test user and the MFA question).
 - Clean-up of the hand-built layer: 4 storage accounts, 4 `grp-` groups, `sp-lab-alice`, `sp-lab-bob`, and the local login folders `azalice` and `azbob` in the temp folder. Verify empty afterwards.
