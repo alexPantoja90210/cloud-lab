@@ -53,4 +53,4 @@ tests it, and one denial seen from the inside. Details of each build are in
 
 Cost of both builds read in the portals (Azure Cost analysis, AWS Cost Explorer, filter
 `domain = networking`) and compared with the CLI report, next day, with its date. Terraform twin of the
-AWS build. The Azure twin (`azure/layer1/networking.tf`) is written and not yet planned or applied.
+AWS build. The Azure twin (`azure/layer1/networking.tf`) was applied and destroyed on 16 Oct 2026; the AWS twin is `aws/layer1/networking.tf`, applied and destroyed on 22 Oct 2026 (24 resources applied with targets, 25 destroyed; see `docs/runbooks/networking-session.md`).
