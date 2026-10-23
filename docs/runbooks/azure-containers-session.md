@@ -136,6 +136,40 @@ resource appears in the node resource group; and the load balancer rules were no
 retail price list shows 0.025 USD/h. No Container Apps meter appeared at all, so "inside the free grant" is not
 confirmed by this reading. To re-read after the billing lag. The portal reading by Alex is still to be recorded.
 
+## Deliberate failure on AKS, 23 Oct 2026 (CLOUD-50)
+
+AKS from the Terraform twin (`azure/aks`), one session of about 20 minutes. A deployment of the sample image with a
+tag that does not exist, then the tag fixed.
+
+| Step | Result | Seconds |
+|---|---|---|
+| `terraform apply` (1 resource), node Ready, 2 CPU | Succeeded | 274 |
+| Deploy `containerapps-helloworld:no-such-tag` | pod waiting reason `ContainerCreating` at the first poll (3 s) | 3 |
+| Reasons seen over about 60 s | `ErrImagePull`, then `ImagePullBackOff` | n/a |
+| Ready replicas | none, 0 of 1 | n/a |
+| Event | `Failed to pull image ... code = NotFound ... failed to pull and unpack image` (message cut at 220 characters) | n/a |
+| Fix the tag with `kubectl set image` and wait for the rollout | recovered | 2 |
+| `terraform destroy` (1 resource) | node resource group removed | 377 |
+
+What it shows: Kubernetes does not hide the failure. The pod never becomes ready, the status alternates between
+`ErrImagePull` and `ImagePullBackOff`, and the event names the exact image and says it was not found. Nothing
+was retried by hand.
+
+Mistakes and limits:
+
+- My "seconds until the failure shows" measured the first non-empty waiting reason, which was `ContainerCreating`
+  (3 s), not the failure. The time to the first `ErrImagePull` was not measured.
+- Recovery took 2 s. A probable reason, not tested: changing the image creates a new pod through a new ReplicaSet,
+  so it does not wait for the back-off timer of the failed pod, and the good image pulls fast (a first deployment of
+  it took 2 s on 22 Oct).
+- A failing readiness probe was not run.
+- After the destroy, `az resource list` still showed 1 resource in `rg-cloud-lab` right away and 0 node
+  resource groups, the same lingering residual seen on 22 Oct. To be re-counted after about 5 minutes.
+
+What bills while the failed pod sits idle: not answered in the session. The node, its disk and the outbound IP
+bill for as long as the cluster exists, whatever the pod is doing; the pod itself has no meter. To confirm from the
+cost read of 24 Oct (node hours against the cluster's lifetime).
+
 ## Next
 
 - CLOUD-44: Container Apps Terraform twin is optional; the environment takes about 15 min to create and 30 min to delete.
