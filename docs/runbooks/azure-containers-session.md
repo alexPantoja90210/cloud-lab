@@ -119,6 +119,23 @@ Observations:
 6. AKS cost for this run: the cluster existed roughly 35 minutes, about 0.08 USD by the price table. Estimate;
    the real figure comes from Cost Management.
 
+## Measured cost, 22 Oct 2026 (read by CLI on 23 Oct)
+
+Total 0.12289 USD for the day against an estimate of about 0.15.
+
+| Meter | Estimate | Measured |
+|---|---|---|
+| D2als v7 node | 0.0804 USD/h | 0.07102 USD for 0.883 h (matches the rate) |
+| OS disk (P10 LRS, 128 GiB default) | about 0.01 | **0.03690**, the second largest line |
+| Standard public IPv4, static | 0.005 USD/h | 0.01493 for 2.99 h (hours not explained) |
+| Load balancer rules | 0.025 USD/h | **0.0**, billed under a "Free" meter for 2.26 h |
+| Data transfer and operations | about 0 | 0 |
+
+Corrections to the findings above: the AKS node disk does bill, as its own meter, even though no disk
+resource appears in the node resource group; and the load balancer rules were not charged, although the
+retail price list shows 0.025 USD/h. No Container Apps meter appeared at all, so "inside the free grant" is not
+confirmed by this reading. To re-read after the billing lag. The portal reading by Alex is still to be recorded.
+
 ## Next
 
 - CLOUD-44: Container Apps Terraform twin is optional; the environment takes about 15 min to create and 30 min to delete.
