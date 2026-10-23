@@ -188,3 +188,22 @@ endpoint, security group and code unchanged. This reproduces the console finding
 Nothing here bills by the hour (no NAT gateway). The Lambda ran for about 5 s and 15 s. Expected cost is a
 fraction of a cent; the real figure is still to be read in Cost Explorer (filter `domain = networking`) and by CLI.
 
+### Public path to the private bucket, tested 23 Oct 2026
+
+The twin's bucket (`aws_s3_bucket.net`, public access block on, ACLs off with `BucketOwnerEnforced`) was created alone with
+`-target=aws_s3_bucket_public_access_block.net` (4 resources: suffix, bucket, ownership controls, public access block)
+and one small object was uploaded.
+
+| Attempt | Result |
+|---|---|
+| Anonymous read over HTTPS from outside | **HTTP 403** |
+| Authenticated read with the operator's credentials | worked (45 bytes, the object text came back) |
+| Make the object public with an ACL (`put-object-acl --acl public-read`) | **`AccessDenied`** |
+
+My prediction for the third row was `AccessControlListNotSupported` (ACLs are off). The error was `AccessDenied` instead.
+The cause is not known; one untested hypothesis is that the public access block rejects the ACL before the
+"ACLs not supported" check is made.
+
+Destroy: 4 destroyed in 40 s; `head-bucket` afterwards returned an error (bucket gone).
+Cost: one upload and a few reads, a fraction of a cent.
+
