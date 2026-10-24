@@ -167,8 +167,16 @@ Mistakes and limits:
   resource groups, the same lingering residual seen on 22 Oct. To be re-counted after about 5 minutes.
 
 What bills while the failed pod sits idle: not answered in the session. The node, its disk and the outbound IP
-bill for as long as the cluster exists, whatever the pod is doing; the pod itself has no meter. To confirm from the
-cost read of 24 Oct (node hours against the cluster's lifetime).
+bill for as long as the cluster exists, whatever the pod is doing; the pod itself has no meter.
+
+Cost read of 24 Oct 2026 (23 Oct only, all meters): total about 0.009 USD. Meters: D2als v7 0.00536 (0.0667 h),
+Standard IPv4 Static Public IP 0.00196 (0.392 h), P10 LRS Disk 0.00168, All Other Operations 0.00001; LB rules
+meter at 0 ("Free", 0.392 h); data transfer and storage meters at 0. Findings: (1) only infrastructure meters
+appear, the failed pod has none, as expected; (2) my estimate of 0.04 to 0.06 USD was about 5 times too high;
+(3) node hours (0.0667 h, 4 min) look short against the cluster's lifetime (apply 274 s plus the session plus
+destroy 377 s), so this reading may still be incomplete because of the billing lag, not confirmed; (4) public IP
+hours exceed node hours again (0.392 h against 0.0667 h), still unexplained. To re-read the same day later on
+24 Oct; if the node hours rise, it was lag.
 
 ## Next
 
