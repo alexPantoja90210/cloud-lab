@@ -174,9 +174,11 @@ Standard IPv4 Static Public IP 0.00196 (0.392 h), P10 LRS Disk 0.00168, All Othe
 meter at 0 ("Free", 0.392 h); data transfer and storage meters at 0. Findings: (1) only infrastructure meters
 appear, the failed pod has none, as expected; (2) my estimate of 0.04 to 0.06 USD was about 5 times too high;
 (3) node hours (0.0667 h, 4 min) look short against the cluster's lifetime (apply 274 s plus the session plus
-destroy 377 s), so this reading may still be incomplete because of the billing lag, not confirmed; (4) public IP
-hours exceed node hours again (0.392 h against 0.0667 h), still unexplained. To re-read the same day later on
-24 Oct; if the node hours rise, it was lag.
+destroy 377 s), so this was suspected to be incomplete because of the billing lag (the second read, below, did not change it); (4) public IP
+hours exceed node hours again (0.392 h against 0.0667 h), still unexplained.
+Second read, 24 Oct 2026 about 18:17: node, IP, disk and total identical to the first read; only "Hot LRS Data
+Stored" changed (0.00008 to 0.00012), so the data had been refreshed. The short node hours are therefore probably not
+billing lag. Not explained: why 4 billed minutes against a cluster that existed for much longer.
 
 ## Next
 
